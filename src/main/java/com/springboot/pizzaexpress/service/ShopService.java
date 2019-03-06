@@ -7,4 +7,5 @@ import com.springboot.pizzaexpress.bean.Shop;
 
 import java.util.List;
 public interface ShopService {
+    Shop adminLogin(String adminAccount, String admingPassword);
 }

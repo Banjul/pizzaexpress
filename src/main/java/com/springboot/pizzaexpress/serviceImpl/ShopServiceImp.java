@@ -14,4 +14,8 @@ public class ShopServiceImp implements ShopService{
     @Autowired
     private ShopDao shopDao;
 
+    @Override
+    public Shop adminLogin(String adminAccount, String admingPassword) {
+        return shopDao.getAdminByAccountAndPassword(adminAccount,admingPassword);
+    }
 }

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.Map;
+
 @RestController
 @RequestMapping("/warehouse")
 @Api("工厂api")
@@ -23,4 +24,5 @@ public class WareHouseController {
 
     @Autowired
     private WarehouseService warehouseService;
+
 }
