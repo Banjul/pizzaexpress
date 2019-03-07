@@ -74,4 +74,14 @@ public class Deliver {
     @Column(name = "shop_id")
     private int shop_id;
 
+    @Column(name = "status")
+    private String status;
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 }

@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 import java.util.Map;
 @RestController
-@RequestMapping("/item")
+@RequestMapping(value ="/item")
 @Api("披萨种类api")
 public class ItemController {
 

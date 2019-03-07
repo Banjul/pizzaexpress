@@ -17,9 +17,9 @@ public interface ShopDao extends JpaRepository<Shop,String> {
     /**
      * 查询实时数据基表
      * @param adminAccount
-     * @param admingPassword
+     * @param adminPassword
      * @return
      */
-    @Query(value = "select * from shop where account =?1 and password =?2")
-    Shop getAdminByAccountAndPassword(String adminAccount,String admingPassword);
+    @Query(value = "select * from shop where account =?1 and password =?2",nativeQuery = true)
+    Shop getAdminByAccountAndPassword(String adminAccount,String adminPassword);
 }

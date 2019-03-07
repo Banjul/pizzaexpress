@@ -7,9 +7,15 @@ import com.springboot.pizzaexpress.bean.PizzaOrder;
 import java.util.List;
 
 public interface OrderService {
-    public List<PizzaOrder> getLastTwentyOrders(int shop_id);
+    public String getLastTwentyOrders(int shop_id);
 
-    public List<PizzaOrder> queryOrderByTimeAndShop(String start_time, String end_time, int shop_id);
+    public String queryOrderByTimeAndShop(String start_time, String end_time, int shop_id);
 
-//    public List<PizzaOrder> getOrderByDeliver(int shop_id, int deliver_id);
+    public String queryOrderByOrderId(int orderID,int shopId);
+
+    public String queryOrderByOrderIdAndTime(int orderID,int shopId,String startTime,String endTime);
+
+    public String queryOrderByDeliverAndTime(int deliverId,int shopId,String startTime, String entTime);
+
+    public String getOrderByDeliver(int shop_id, int deliver_id);
 }

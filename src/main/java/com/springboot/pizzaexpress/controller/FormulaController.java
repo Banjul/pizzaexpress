@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 import java.util.Map;
 @RestController
-@RequestMapping("/formula")
+@RequestMapping(value ="/formula")
 @Api("配方api")
 public class FormulaController {
 

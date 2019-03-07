@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/order")
+@RequestMapping(value ="/order")
 @Api("订单api")
 public class OrderController {
 
@@ -27,22 +27,50 @@ public class OrderController {
     private OrderService orderService;
 
     @ApiOperation(value="查询最新20条订单")
-    @RequestMapping(value = "/getlasttwentyorders",method = RequestMethod.GET)
-    public List getLastTwentyOrders(HttpSession session){
-        Shop shop=(Shop) session.getAttribute("shopAdmin");
-        int shopId = shop.getShop_id();
+    @ApiImplicitParam(name = "params", value = "包含开始时间，结束时间,shopId,deliverID,order_id的json", dataType = "JSON")
+    @RequestMapping(value = "/getlasttwentyorders",method = RequestMethod.POST)
+    public String getLastTwentyOrders(@RequestBody Map<String, Object> params){
+        String shopID = params.get("shopID").toString();
+        int shopId = Integer.parseInt(shopID);
         return orderService.getLastTwentyOrders(shopId);
     }
 
     @ApiOperation(value = "根据时间查询订单", notes = "需要，开始时间，结束时间")
-    @ApiImplicitParam(name = "params", value = "包含开始时间，结束时间的json", dataType = "JSON")
-    @RequestMapping(value = "/queryorderbytime", method = RequestMethod.POST)
-    public List getOrdersByDeliver(HttpSession session, @RequestBody Map<String, Object> params){
-        Shop shop=(Shop) session.getAttribute("shopAdmin");
-        int shopId = shop.getShop_id();
-        String start_time = params.get("requestStartTime").toString();
-        String end_time = params.get("requestEndTime").toString();
-        return orderService.queryOrderByTimeAndShop(start_time,end_time,shopId);
+    @ApiImplicitParam(name = "params", value = "包含开始时间，结束时间,shopId,deliverID,order_id的json", dataType = "JSON")
+    @RequestMapping(value = "/getorderbyselect", method = RequestMethod.POST)
+    public String getOrdersByDeliver( @RequestBody Map<String, Object> params){
+        String shopid = params.get("shopID").toString();
+        int shopId = Integer.parseInt(shopid);
+        String deliverId = params.get("deliverid").toString();
+        String orderId=params.get("orderid").toString();
+        String start_time = params.get("startTime").toString();
+        String end_time = params.get("endTime").toString();
+        System.err.println(deliverId);
+        if (deliverId.equals("-1") ){
+            if(orderId.equals("-1")){
+                return orderService.queryOrderByTimeAndShop(start_time,end_time,shopId);
+            }
+            int orderID = Integer.parseInt(orderId);
+            System.err.println(orderId);
+            if (start_time == null) {
+                return orderService.queryOrderByOrderId(orderID,shopId);
+            }
+            System.err.println(orderId);
+            System.err.println(start_time);
+            return orderService.queryOrderByOrderIdAndTime(orderID,shopId,start_time,end_time);
+        }
+        else{
+            int deliverID = Integer.parseInt(deliverId);
+            if (start_time==null) {
+                return orderService.getOrderByDeliver(shopId,deliverID);
+            }
+            else
+                return orderService.queryOrderByDeliverAndTime(deliverID,shopId,start_time,end_time);
+        }
+
     }
+
+
+//    public Map<String,Object>
 
 }

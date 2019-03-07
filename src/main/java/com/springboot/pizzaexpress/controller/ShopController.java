@@ -18,7 +18,7 @@ import java.util.Map;
 import javax.servlet.http.HttpSession;
 
 @RestController
-@RequestMapping("/shop")
+@RequestMapping(value ="/shop")
 @Api("商店api")
 public class ShopController {
 
@@ -35,14 +35,17 @@ public class ShopController {
     @RequestMapping(value="/login",method=RequestMethod.GET)
     @ResponseBody
     public Map<String,Object> login(String account, String password, HttpSession session) {
+        System.out.println(account);
+        System.out.print(password);
         Map<String, Object> resultMap = new LinkedHashMap<String, Object>();
         Shop shopAdmin = shopService.adminLogin(account,password);
         if ( shopAdmin!=null ) {
                 session.setAttribute("shopAdmin",shopAdmin);
+                System.out.println(session);
                 resultMap.put("status", 200);
                 resultMap.put("message", "登录成功");
                 resultMap.put("account", shopAdmin.getAccount());
-                resultMap.put("password",shopAdmin.getPassword());
+                resultMap.put("shopID",shopAdmin.getShop_id());
         }
         else {
             resultMap.put("status", 500);

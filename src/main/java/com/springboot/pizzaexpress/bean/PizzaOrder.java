@@ -63,6 +63,17 @@ public class PizzaOrder {
     @Column(name = "to_pos_string")
     private String to_pos_string;
 
+    @Column(name = "deliver_id")
+    private int deliver_id;
+
+    public int getDeliver_id() {
+        return deliver_id;
+    }
+
+    public void setDeliver_id(int deliver_id) {
+        this.deliver_id = deliver_id;
+    }
+
     public int getOrder_id() {
         return order_id;
     }

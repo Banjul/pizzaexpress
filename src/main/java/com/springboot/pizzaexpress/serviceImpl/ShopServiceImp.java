@@ -11,11 +11,12 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class ShopServiceImp implements ShopService{
+
     @Autowired
     private ShopDao shopDao;
 
     @Override
-    public Shop adminLogin(String adminAccount, String admingPassword) {
-        return shopDao.getAdminByAccountAndPassword(adminAccount,admingPassword);
+    public Shop adminLogin(String adminAccount, String adminPassword) {
+        return shopDao.getAdminByAccountAndPassword(adminAccount,adminPassword);
     }
 }

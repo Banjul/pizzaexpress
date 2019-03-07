@@ -17,5 +17,27 @@ import java.util.List;
 @Component
 @Repository
 public interface DeliverDao extends JpaRepository<Deliver,String>{
+    /**
+     * 查询实时数据基表
+     * @param shopId
+     * @return
+     */
+    @Query(value = "select * from deliver where shop_id = ?1",nativeQuery = true)
+    List<Deliver> queryAllDeliversByShop(int shopId);
 
+    /**
+     * 查询实时数据基表
+     * @param shopId
+     * @return
+     */
+    @Query(value = "select * from deliver where shop_id = ?2 and deliver_id = ?1",nativeQuery = true)
+    List<Deliver> queryDeliverById(int deliverID,int shopId);
+
+    /**
+     * 查询实时数据基表
+     * @param shopId
+     * @return
+     */
+    @Query(value = "select * from deliver where shop_id = ?2 and name = ?1",nativeQuery = true)
+    List<Deliver> queryDeliverByName(String deliverName,int shopId);
 }

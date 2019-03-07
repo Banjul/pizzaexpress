@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 import java.util.Map;
 @RestController
-@RequestMapping("/menu")
+@RequestMapping(value ="/menu")
 @Api("菜单api")
 public class MenuController {
 

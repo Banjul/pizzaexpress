@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/warehouse")
+@RequestMapping(value ="/warehouse")
 @Api("工厂api")
 public class WareHouseController {
 
