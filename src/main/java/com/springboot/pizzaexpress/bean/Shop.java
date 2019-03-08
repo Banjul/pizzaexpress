@@ -19,22 +19,22 @@ public class Shop {
 
     @Id
     @Column(name = "shop_id")
-    private int shop_id;
+    private int shopId;
 
     @Column(name = "shop_name")
-    private String shop_name;
+    private String shopName;
 
     @Column(name = "pos_x")
-    private String pos_x;
+    private String posX;
 
     @Column(name = "pos_y")
-    private String pos_y;
+    private String posY;
 
     @Column(name = "pos_string")
-    private String pos_string;
+    private String posString;
 
     @Column(name = "pic_url")
-    private String pic_url;
+    private String picUrl;
 
     @Column(name = "account")
     private String account;
@@ -43,51 +43,51 @@ public class Shop {
     private String password;
 
     public int getShop_id() {
-        return shop_id;
+        return shopId;
     }
 
     public void setShop_id(int shop_id) {
-        this.shop_id = shop_id;
+        this.shopId = shop_id;
     }
 
     public String getShop_name() {
-        return shop_name;
+        return shopName;
     }
 
     public void setShop_name(String shop_name) {
-        this.shop_name = shop_name;
+        this.shopName = shop_name;
     }
 
     public String getPos_x() {
-        return pos_x;
+        return posX;
     }
 
     public void setPos_x(String pos_x) {
-        this.pos_x = pos_x;
+        this.posX = pos_x;
     }
 
     public String getPos_y() {
-        return pos_y;
+        return posY;
     }
 
     public void setPos_y(String pos_y) {
-        this.pos_y = pos_y;
+        this.posY = pos_y;
     }
 
     public String getPos_string() {
-        return pos_string;
+        return posString;
     }
 
     public void setPos_string(String pos_string) {
-        this.pos_string = pos_string;
+        this.posString = pos_string;
     }
 
     public String getPic_url() {
-        return pic_url;
+        return picUrl;
     }
 
     public void setPic_url(String pic_url) {
-        this.pic_url = pic_url;
+        this.picUrl = pic_url;
     }
 
     public String getAccount() {

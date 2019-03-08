@@ -61,8 +61,4 @@ public class Cart {
     public void setShop_id(int shop_id) {
         this.shop_id = shop_id;
     }
-
-
-
-
 }
