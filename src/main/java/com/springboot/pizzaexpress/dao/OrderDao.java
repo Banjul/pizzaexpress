@@ -6,9 +6,12 @@ package com.springboot.pizzaexpress.dao;
 
 import com.springboot.pizzaexpress.bean.PizzaOrder;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 
 @Component
@@ -36,11 +39,10 @@ public interface OrderDao extends JpaRepository<PizzaOrder,String> {
     /**
      * 查询实时数据基表
      * @param orderID
-     * @param shopId
      * @return
      */
-    @Query(value = "select * from pizza_order where shop_id = ?2 and order_id = ?1",nativeQuery = true)
-    List<PizzaOrder> queryOrderByOrderId(int orderID,int shopId);
+    @Query(value = "select * from pizza_order where  order_id = ?1",nativeQuery = true)
+    PizzaOrder queryOrderByOrderId(int orderID);
 
 
     /**
@@ -77,6 +79,15 @@ public interface OrderDao extends JpaRepository<PizzaOrder,String> {
     @Query(value = "select * from pizza_order where shop_id = ?1 and deliver_id = ?2",nativeQuery = true)
     List<PizzaOrder> queryOrderByDeliver(int shop_id, int deliver_id);
 
+
+    /**
+     * 根据站点对内信息删除站点
+     * @param orderId
+     */
+    @Transactional
+    @Modifying
+    @Query(value = "delete from pizza_order where order_id = ?1 ", nativeQuery = true)
+    void deleteOrderByOrderId(int orderId);
 
 
 }

@@ -4,6 +4,8 @@ package com.springboot.pizzaexpress.service;
  * Created by sts on 2019/3/2.
  */
 import com.springboot.pizzaexpress.bean.PizzaOrder;
+
+import javax.persistence.criteria.Order;
 import java.util.List;
 
 public interface OrderService {
@@ -11,11 +13,13 @@ public interface OrderService {
 
     public String queryOrderByTimeAndShop(String start_time, String end_time, int shop_id);
 
-    public String queryOrderByOrderId(int orderID,int shopId);
+    public PizzaOrder queryOrderByOrderId(int orderID);
 
     public String queryOrderByOrderIdAndTime(int orderID,int shopId,String startTime,String endTime);
 
     public String queryOrderByDeliverAndTime(int deliverId,int shopId,String startTime, String entTime);
 
     public String getOrderByDeliver(int shop_id, int deliver_id);
+
+    public String deleteOrderByOrderId(int orderId);
 }

@@ -6,10 +6,13 @@ package com.springboot.pizzaexpress.bean;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
+import org.checkerframework.checker.units.qual.C;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.util.Date;
 
 @Data
 @Entity
@@ -33,6 +36,38 @@ public class User {
     @Column(name = "email")
     private String email;
 
+    @Column(name = "money")
+    private double money;
+
+    @Column(name = "last_login_time")
+    private Date lastLoginTime;
+
+    @Column(name = "status")
+    private String status;
+
+    public Date getLastLoginTime() {
+        return lastLoginTime;
+    }
+
+    public void setLastLoginTime(Date lastLoginTime) {
+        this.lastLoginTime = lastLoginTime;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public double getMoney() {
+        return money;
+    }
+
+    public void setMoney(double money) {
+        this.money = money;
+    }
 
     public int getUser_id() {
         return user_id;

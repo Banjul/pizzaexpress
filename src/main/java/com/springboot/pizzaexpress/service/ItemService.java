@@ -7,4 +7,5 @@ import com.springboot.pizzaexpress.bean.Item;
 
 import java.util.List;
 public interface ItemService {
+    public String getAllItems();
 }

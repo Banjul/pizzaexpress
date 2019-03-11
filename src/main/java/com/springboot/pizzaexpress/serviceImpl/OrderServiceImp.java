@@ -11,6 +11,7 @@ import com.springboot.pizzaexpress.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.criteria.Order;
 import java.util.List;
 
 @Service
@@ -87,35 +88,10 @@ public class OrderServiceImp implements OrderService{
     }
 
     @Override
-    public String queryOrderByOrderId(int orderID, int shopId) {
-        JSONArray orderArray = new JSONArray();
-        JSONObject orderData = new JSONObject();
-        JSONObject dataJson = new JSONObject();
+    public PizzaOrder queryOrderByOrderId(int orderID) {
 
-        List<PizzaOrder> pizzaOrders = orderDao.queryOrderByOrderId(orderID,shopId);
-        if (pizzaOrders.size() >0) {
-            for (PizzaOrder pizzaOrder : pizzaOrders) {
-                JSONObject pizzaOrderJSON = new JSONObject();
-                pizzaOrderJSON.put("orderid",pizzaOrder.getOrder_id());
-                pizzaOrderJSON.put("date",pizzaOrder.getStart_time());
-                pizzaOrderJSON.put("user",pizzaOrder.getUser_id());
-                pizzaOrderJSON.put("orderInfo",pizzaOrder.getItems());
-                pizzaOrderJSON.put("orderStatus",pizzaOrder.getState());
-                pizzaOrderJSON.put("orderAmount",pizzaOrder.getPrice());
+        return  orderDao.queryOrderByOrderId(orderID);
 
-                orderArray.add(pizzaOrderJSON);
-            }
-            orderData.put("count",pizzaOrders.size());
-            orderData.put("data",orderArray);
-            dataJson.put("orderData",orderData);
-            return dataJson.toJSONString();
-        }
-        else {
-            orderData.put("count",pizzaOrders.size());
-            orderData.put("data",orderArray);
-            dataJson.put("orderData",orderData);
-            return dataJson.toJSONString();
-        }
     }
 
     @Override
@@ -214,6 +190,12 @@ public class OrderServiceImp implements OrderService{
             dataJson.put("orderData",orderData);
             return dataJson.toJSONString();
         }
+    }
+
+    @Override
+    public String deleteOrderByOrderId(int orderId) {
+        orderDao.deleteOrderByOrderId(orderId);
+        return "删除成功";
     }
 
 }

@@ -23,4 +23,10 @@ public class ItemController {
 
     @Autowired
     private ItemService itemService;
+
+    @ApiOperation(value="查询所有pizza种类")
+    @RequestMapping(value = "/getallitems",method = RequestMethod.POST)
+    public String getLastTwentyOrders(){
+        return itemService.getAllItems();
+    }
 }

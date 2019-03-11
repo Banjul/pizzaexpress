@@ -10,6 +10,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.util.Date;
 
 @Data
 @Entity
@@ -37,10 +38,10 @@ public class PizzaOrder {
     private double price;
 
     @Column(name = "start_time")
-    private String start_time;
+    private Date start_time;
 
     @Column(name = "end_time")
-    private String end_time;
+    private Date end_time;
 
     @Column(name = "state")
     private String state;
@@ -122,19 +123,19 @@ public class PizzaOrder {
         this.price = price;
     }
 
-    public String getStart_time() {
+    public Date getStart_time() {
         return start_time;
     }
 
-    public void setStart_time(String start_time) {
+    public void setStart_time(Date start_time) {
         this.start_time = start_time;
     }
 
-    public String getEnd_time() {
+    public Date getEnd_time() {
         return end_time;
     }
 
-    public void setEnd_time(String end_time) {
+    public void setEnd_time(Date end_time) {
         this.end_time = end_time;
     }
 

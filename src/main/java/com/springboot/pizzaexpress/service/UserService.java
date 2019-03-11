@@ -9,4 +9,12 @@ import java.util.List;
 
 public interface UserService {
 
+    public User queryUserByUserId(int userId);
+
+    public void updateUserMoney(int userId, double userMoney);
+
+    public User sysAdminLogin(int account,String password);
+
+    public String getUserInfo();
+
 }

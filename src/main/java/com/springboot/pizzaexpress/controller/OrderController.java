@@ -3,8 +3,12 @@ package com.springboot.pizzaexpress.controller;
 /**
  * Created by sts on 2019/3/2.
  */
+import com.springboot.pizzaexpress.bean.PizzaOrder;
 import com.springboot.pizzaexpress.bean.Shop;
+import com.springboot.pizzaexpress.bean.User;
+import com.springboot.pizzaexpress.dao.UserDao;
 import com.springboot.pizzaexpress.service.OrderService;
+import com.springboot.pizzaexpress.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
@@ -14,7 +18,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import javax.persistence.criteria.Order;
 import javax.servlet.http.HttpSession;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -25,6 +34,10 @@ public class OrderController {
 
     @Autowired
     private OrderService orderService;
+
+    @Autowired
+    private UserService userService;
+
 
     @ApiOperation(value="查询最新20条订单")
     @ApiImplicitParam(name = "params", value = "包含开始时间，结束时间,shopId,deliverID,order_id的json", dataType = "JSON")
@@ -51,12 +64,6 @@ public class OrderController {
                 return orderService.queryOrderByTimeAndShop(start_time,end_time,shopId);
             }
             int orderID = Integer.parseInt(orderId);
-            System.err.println(orderId);
-            if (start_time == null) {
-                return orderService.queryOrderByOrderId(orderID,shopId);
-            }
-            System.err.println(orderId);
-            System.err.println(start_time);
             return orderService.queryOrderByOrderIdAndTime(orderID,shopId,start_time,end_time);
         }
         else{
@@ -68,6 +75,35 @@ public class OrderController {
                 return orderService.queryOrderByDeliverAndTime(deliverID,shopId,start_time,end_time);
         }
 
+    }
+
+
+    @ApiOperation(value="查询最新20条订单")
+    @ApiImplicitParam(name = "params", value = "包含开始时间，结束时间,shopId,deliverID,order_id的json", dataType = "JSON")
+    @RequestMapping(value = "/getcancelorder",method = RequestMethod.POST)
+    public String get(@RequestBody Map<String, Object> params){
+        String orderID = params.get("orderId").toString();
+        int orderId = Integer.parseInt(orderID);
+        PizzaOrder cancelOrder = orderService.queryOrderByOrderId(orderId);
+//        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//        DateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date orderStartTime = cancelOrder.getStart_time();
+
+        long diff = new Date().getTime() - orderStartTime.getTime();
+        long time = 10*60*1000;
+
+        if (diff > time) {
+            return "超时无法修改";
+        }
+        else {
+            double price = cancelOrder.getPrice();
+            int userId = cancelOrder.getUser_id();
+            User user = userService.queryUserByUserId(userId);
+            double userOldMoney = user.getMoney();
+            double userMoney = userOldMoney + price;
+            userService.updateUserMoney(userId,userMoney);
+            return orderService.deleteOrderByOrderId(orderId);
+        }
     }
 
 

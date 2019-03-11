@@ -54,5 +54,15 @@ public class ShopController {
         return resultMap;
     }
 
+    @ApiOperation(value = "根据时间查询订单", notes = "需要，开始时间，结束时间")
+    @ApiImplicitParam(name = "params", value = "包含shopId,formula的json", dataType = "JSON")
+    @RequestMapping(value = "/getformulacount", method = RequestMethod.POST)
+    public int getFormulaCount(@RequestBody Map<String, Object> params) {
+        String shopid = params.get("shopID").toString();
+        int shopId = Integer.parseInt(shopid);
+        String formula = params.get("Formula").toString();
+        return shopService.getFormulaCount(shopId,formula);
+    }
+
 
 }

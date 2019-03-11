@@ -6,6 +6,7 @@ package com.springboot.pizzaexpress.dao;
 
 import com.springboot.pizzaexpress.bean.Formula;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
@@ -13,5 +14,11 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface FormulaDao extends JpaRepository<Formula,String> {
 
-
+    /**
+     * 查询pizza配方
+     * @param formulaId
+     * @return
+     */
+    @Query(value = "select * from formula where  formula_id = ?1",nativeQuery = true)
+    Formula queryFormulaById(int formulaId);
 }
