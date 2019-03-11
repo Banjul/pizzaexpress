@@ -10,4 +10,28 @@ public class MenuModel {
     private ShopModel shop;
 
     private List<ItemWrapModel> items = new ArrayList<>();
+
+    public int getMenuId() {
+        return menuId;
+    }
+
+    public List<ItemWrapModel> getItems() {
+        return items;
+    }
+
+    public ShopModel getShop() {
+        return shop;
+    }
+
+    public void setItems(List<ItemWrapModel> items) {
+        this.items = items;
+    }
+
+    public void setMenuId(int menuId) {
+        this.menuId = menuId;
+    }
+
+    public void setShop(ShopModel shop) {
+        this.shop = shop;
+    }
 }

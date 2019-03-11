@@ -9,7 +9,7 @@ public class OrderModel {
 
     private int orderId;
 
-    private UserModel user;
+    //private UserModel user;
 
     private ShopModel shop;
 

@@ -18,5 +18,17 @@ import java.util.List;
 @Repository
 public interface CartDao extends JpaRepository<Cart,String> {
 
+    @Modifying
+    @Transactional
+    @Query(value = "insert into cart(user_id,shop_id,items) values(?1,?2,?3)",nativeQuery = true)
+    int insertToCart(int userId,int shopId,String items);
+
+    @Query(value = "select * from cart where shop_id=?1 and user_id=?2",nativeQuery = true)
+    Cart findCartItems(int shopId,int userId);
+
+    @Modifying
+    @Transactional
+    @Query(value = "update cart set items =?3 where user_id=?1 and shop_id =?2",nativeQuery = true)
+    int modifyCart(int userId,int shopId,String items);
 
 }

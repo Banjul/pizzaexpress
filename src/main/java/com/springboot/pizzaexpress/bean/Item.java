@@ -19,19 +19,19 @@ public class Item {
 
     @Id
     @Column(name = "item_id")
-    private int item_id;
+    private int itemId;
 
     @Column(name = "item_name")
-    private String item_name;
+    private String itemName;
 
     @Column(name = "formula_id")
-    private int formula_id;
+    private int formulaId;
 
     @Column(name = "price")
     private double price;
 
     @Column(name = "pic_url")
-    private String pic_url;
+    private String picUrl;
 
     @Column(name = "size")
     private int size;
@@ -42,28 +42,28 @@ public class Item {
     @Column(name = "state")
     private String state;
 
-    public int getItem_id() {
-        return item_id;
+    public int getItemId() {
+        return itemId;
     }
 
-    public void setItem_id(int item_id) {
-        this.item_id = item_id;
+    public void setItemId(int itemId) {
+        this.itemId = itemId;
     }
 
-    public String getItem_name() {
-        return item_name;
+    public String getItemName() {
+        return itemName;
     }
 
-    public void setItem_name(String item_name) {
-        this.item_name = item_name;
+    public void setItemName(String itemName) {
+        this.itemName = itemName;
     }
 
-    public int getFormula_id() {
-        return formula_id;
+    public int getFormulaId() {
+        return formulaId;
     }
 
-    public void setFormula_id(int formula_id) {
-        this.formula_id = formula_id;
+    public void setFormulaId(int formulaId) {
+        this.formulaId = formulaId;
     }
 
     public double getPrice() {
@@ -74,12 +74,12 @@ public class Item {
         this.price = price;
     }
 
-    public String getPic_url() {
-        return pic_url;
+    public String getPicUrl() {
+        return picUrl;
     }
 
-    public void setPic_url(String pic_url) {
-        this.pic_url = pic_url;
+    public void setPicUrl(String picUrl) {
+        this.picUrl = picUrl;
     }
 
     public int getSize() {
