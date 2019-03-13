@@ -14,4 +14,8 @@ public class ShopServiceImp implements ShopService{
     @Autowired
     private ShopDao shopDao;
 
+    @Override
+    public Shop findByShopId(int shopId) {
+        return shopDao.findByShopId(shopId);
+    }
 }

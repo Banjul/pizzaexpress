@@ -18,32 +18,32 @@ public class Cart {
 
     @Id
     @Column(name = "cart_id")
-    private int cart_id;
+    private int cartId;
 
     @Column(name = "user_id")
-    private int user_id;
+    private int userId;
 
 
     @Column(name = "items")
     private String items;
 
     @Column(name = "shop_id")
-    private int shop_id;
+    private int shopId;
 
-    public int getCart_id() {
-        return cart_id;
+    public int getCartId() {
+        return cartId;
     }
 
-    public void setCart_id(int cart_id) {
-        this.cart_id = cart_id;
+    public void setCartId(int cartId) {
+        this.cartId = cartId;
     }
 
-    public int getUser_id() {
-        return user_id;
+    public int getUserId() {
+        return userId;
     }
 
-    public void setUser_id(int user_id) {
-        this.user_id = user_id;
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     public String getItems() {
@@ -54,15 +54,11 @@ public class Cart {
         this.items = items;
     }
 
-    public int getShop_id() {
-        return shop_id;
+    public int getShopId() {
+        return shopId;
     }
 
-    public void setShop_id(int shop_id) {
-        this.shop_id = shop_id;
+    public void setShopId(int shopId) {
+        this.shopId = shopId;
     }
-
-
-
-
 }

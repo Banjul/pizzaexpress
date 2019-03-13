@@ -19,16 +19,16 @@ public class PizzaOrder {
 
     @Id
     @Column(name = "order_id")
-    private int order_id;
+    private int orderId;
 
     @Column(name = "user_id")
-    private int user_id;
+    private int userId;
 
     @Column(name = "shop_id")
-    private int shop_id;
+    private int shopId;
 
     @Column(name = "express_id")
-    private int express_id;
+    private int expressId;
 
     @Column(name = "items")
     private String items;
@@ -37,62 +37,62 @@ public class PizzaOrder {
     private double price;
 
     @Column(name = "start_time")
-    private String start_time;
+    private String startTime;
 
     @Column(name = "end_time")
-    private String end_time;
+    private String endTime;
 
     @Column(name = "state")
     private String state;
 
     @Column(name = "from_pos_x")
-    private String from_pos_x;
+    private String fromPosX;
 
     @Column(name = "from_pos_y")
-    private String from_pos_y;
+    private String fromPosY;
 
     @Column(name = "to_pos_y")
-    private String to_pos_y;
+    private String toPosY;
 
     @Column(name = "to_pos_x")
-    private String to_pos_x;
+    private String toPosX;
 
     @Column(name = "from_pos_string")
-    private String from_pos_string;
+    private String fromPosString;
 
     @Column(name = "to_pos_string")
-    private String to_pos_string;
+    private String toPosString;
 
-    public int getOrder_id() {
-        return order_id;
+    public int getOrderId() {
+        return orderId;
     }
 
-    public void setOrder_id(int order_id) {
-        this.order_id = order_id;
+    public void setOrderId(int orderId) {
+        this.orderId = orderId;
     }
 
-    public int getUser_id() {
-        return user_id;
+    public int getUserId() {
+        return userId;
     }
 
-    public void setUser_id(int user_id) {
-        this.user_id = user_id;
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
-    public int getShop_id() {
-        return shop_id;
+    public int getShopId() {
+        return shopId;
     }
 
-    public void setShop_id(int shop_id) {
-        this.shop_id = shop_id;
+    public void setShopId(int shopId) {
+        this.shopId = shopId;
     }
 
-    public int getExpress_id() {
-        return express_id;
+    public int getExpressId() {
+        return expressId;
     }
 
-    public void setExpress_id(int express_id) {
-        this.express_id = express_id;
+    public void setExpressId(int expressId) {
+        this.expressId = expressId;
     }
 
     public String getItems() {
@@ -111,20 +111,20 @@ public class PizzaOrder {
         this.price = price;
     }
 
-    public String getStart_time() {
-        return start_time;
+    public String getStartTime() {
+        return startTime;
     }
 
-    public void setStart_time(String start_time) {
-        this.start_time = start_time;
+    public void setStartTime(String startTime) {
+        this.startTime = startTime;
     }
 
-    public String getEnd_time() {
-        return end_time;
+    public String getEndTime() {
+        return endTime;
     }
 
-    public void setEnd_time(String end_time) {
-        this.end_time = end_time;
+    public void setEndTime(String endTime) {
+        this.endTime = endTime;
     }
 
     public String getState() {
@@ -135,51 +135,51 @@ public class PizzaOrder {
         this.state = state;
     }
 
-    public String getFrom_pos_x() {
-        return from_pos_x;
+    public String getFromPosX() {
+        return fromPosX;
     }
 
-    public void setFrom_pos_x(String from_pos_x) {
-        this.from_pos_x = from_pos_x;
+    public void setFromPosX(String fromPosX) {
+        this.fromPosX = fromPosX;
     }
 
-    public String getFrom_pos_y() {
-        return from_pos_y;
+    public String getFromPosY() {
+        return fromPosY;
     }
 
-    public void setFrom_pos_y(String from_pos_y) {
-        this.from_pos_y = from_pos_y;
+    public void setFromPosY(String fromPosY) {
+        this.fromPosY = fromPosY;
     }
 
-    public String getTo_pos_y() {
-        return to_pos_y;
+    public String getToPosY() {
+        return toPosY;
     }
 
-    public void setTo_pos_y(String to_pos_y) {
-        this.to_pos_y = to_pos_y;
+    public void setToPosY(String toPosY) {
+        this.toPosY = toPosY;
     }
 
-    public String getTo_pos_x() {
-        return to_pos_x;
+    public String getToPosX() {
+        return toPosX;
     }
 
-    public void setTo_pos_x(String to_pos_x) {
-        this.to_pos_x = to_pos_x;
+    public void setToPosX(String toPosX) {
+        this.toPosX = toPosX;
     }
 
-    public String getFrom_pos_string() {
-        return from_pos_string;
+    public String getFromPosString() {
+        return fromPosString;
     }
 
-    public void setFrom_pos_string(String from_pos_string) {
-        this.from_pos_string = from_pos_string;
+    public void setFromPosString(String fromPosString) {
+        this.fromPosString = fromPosString;
     }
 
-    public String getTo_pos_string() {
-        return to_pos_string;
+    public String getToPosString() {
+        return toPosString;
     }
 
-    public void setTo_pos_string(String to_pos_string) {
-        this.to_pos_string = to_pos_string;
+    public void setToPosString(String toPosString) {
+        this.toPosString = toPosString;
     }
 }

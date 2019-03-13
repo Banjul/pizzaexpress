@@ -14,4 +14,8 @@ public class ItemServiceImp implements ItemService{
     @Autowired
     private ItemDao itemDao;
 
+    @Override
+    public Item findByItemId(int itemId) {
+        return itemDao.findByItemId(itemId);
+    }
 }

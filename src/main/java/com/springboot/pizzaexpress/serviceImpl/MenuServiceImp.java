@@ -14,4 +14,9 @@ public class MenuServiceImp implements MenuService{
     @Autowired
     private MenuDao menuDao;
 
+    @Override
+    public Menu findByShopId(int shopId){
+        return menuDao.findByShopId(shopId);
+    }
+
 }
