@@ -68,43 +68,39 @@ public class OrderController {
         }
         else{
             int deliverID = Integer.parseInt(deliverId);
-            if (start_time==null) {
-                return orderService.getOrderByDeliver(shopId,deliverID);
-            }
-            else
-                return orderService.queryOrderByDeliverAndTime(deliverID,shopId,start_time,end_time);
+            return orderService.queryOrderByDeliverAndTime(deliverID,shopId,start_time,end_time);
         }
 
     }
 
 
-    @ApiOperation(value="查询最新20条订单")
-    @ApiImplicitParam(name = "params", value = "包含开始时间，结束时间,shopId,deliverID,order_id的json", dataType = "JSON")
-    @RequestMapping(value = "/getcancelorder",method = RequestMethod.POST)
-    public String get(@RequestBody Map<String, Object> params){
-        String orderID = params.get("orderId").toString();
-        int orderId = Integer.parseInt(orderID);
-        PizzaOrder cancelOrder = orderService.queryOrderByOrderId(orderId);
-//        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-//        DateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        Date orderStartTime = cancelOrder.getStart_time();
-
-        long diff = new Date().getTime() - orderStartTime.getTime();
-        long time = 10*60*1000;
-
-        if (diff > time) {
-            return "超时无法修改";
-        }
-        else {
-            double price = cancelOrder.getPrice();
-            int userId = cancelOrder.getUser_id();
-            User user = userService.queryUserByUserId(userId);
-            double userOldMoney = user.getMoney();
-            double userMoney = userOldMoney + price;
-            userService.updateUserMoney(userId,userMoney);
-            return orderService.deleteOrderByOrderId(orderId);
-        }
-    }
+//    @ApiOperation(value="查询最新20条订单")
+//    @ApiImplicitParam(name = "params", value = "包含开始时间，结束时间,shopId,deliverID,order_id的json", dataType = "JSON")
+//    @RequestMapping(value = "/getcancelorder",method = RequestMethod.POST)
+//    public String get(@RequestBody Map<String, Object> params){
+//        String orderID = params.get("orderId").toString();
+//        int orderId = Integer.parseInt(orderID);
+//        PizzaOrder cancelOrder = orderService.queryOrderByOrderId(orderId);
+////        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+////        DateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//        Date orderStartTime = cancelOrder.getStartTime();
+//
+//        long diff = new Date().getTime() - orderStartTime.getTime();
+//        long time = 10*60*1000;
+//
+//        if (diff > time) {
+//            return "超时无法修改";
+//        }
+//        else {
+//            double price = cancelOrder.getPrice();
+//            int userId = cancelOrder.getUserId();
+//            User user = userService.queryUserByUserId(userId);
+//            double userOldMoney = user.getMoney();
+//            double userMoney = userOldMoney + price;
+//            userService.updateUserMoney(userId,userMoney);
+//            return orderService.deleteOrderByOrderId(orderId);
+//        }
+//    }
 
 
 //    public Map<String,Object>

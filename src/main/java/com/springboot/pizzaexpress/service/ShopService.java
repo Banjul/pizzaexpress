@@ -13,5 +13,7 @@ public interface ShopService {
 
     public void updateFormulaCount(int shopId,String formulaName, int purchaseCount);
 
-    public void queryFormulaCountTimely(int shopId);
+//    public void queryFormulaCountTimely(int shopId);
+
+    public String getAllShops();
 }

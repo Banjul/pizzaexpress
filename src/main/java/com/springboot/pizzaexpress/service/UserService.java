@@ -17,4 +17,5 @@ public interface UserService {
 
     public String getUserInfo();
 
+    public String getUserById(int userId);
 }

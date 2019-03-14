@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Map;
 @RestController
 @RequestMapping(value ="/menu")
-@Api("菜单api")
+@Api("菜单管理api")
 public class MenuController {
 
     @Autowired
@@ -26,6 +26,13 @@ public class MenuController {
 
 
 
-
+    @ApiOperation(value = "根据时间查询订单", notes = "需要，开始时间，结束时间")
+    @ApiImplicitParam(name = "params", value = "包含开始时间，结束时间,shopId,deliverID,order_id的json", dataType = "JSON")
+    @RequestMapping(value = "/getmenubyshopid", method = RequestMethod.POST)
+    public String getMenuByShopId(@RequestBody Map<String, Object> params) {
+        String shopid = params.get("shopID").toString();
+        int shopId = Integer.parseInt(shopid);
+        return menuService.getMenuByShopId(shopId);
+    }
 
 }

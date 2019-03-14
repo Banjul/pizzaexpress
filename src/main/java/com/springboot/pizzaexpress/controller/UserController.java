@@ -42,7 +42,7 @@ public class UserController {
             session.setAttribute("sysAdmin",sysAdmin);
             resultMap.put("status", 200);
             resultMap.put("message", "登录成功");
-            resultMap.put("account", sysAdmin.getUser_id());
+            resultMap.put("account", sysAdmin.getUserId());
         }
         else {
             resultMap.put("status", 500);
@@ -52,9 +52,19 @@ public class UserController {
     }
 
 
-    @ApiOperation(value="购买原料")
+    @ApiOperation(value="用户管理")
     @RequestMapping(value = "/getuserinfo",method = RequestMethod.POST)
     public String getUserInfo() {
         return userService.getUserInfo();
+    }
+
+    @ApiOperation(value="根据ID查找用户")
+    @ApiImplicitParam(name = "params", value = " ", dataType = "JSON")
+    @RequestMapping(value = "/getuserbyid",method = RequestMethod.POST)
+    public String getUserById(@RequestBody Map<String, Object> params) {
+        String userID = params.get("userID").toString();
+        int userId = Integer.parseInt(userID);
+
+        return userService.getUserById(userId);
     }
 }

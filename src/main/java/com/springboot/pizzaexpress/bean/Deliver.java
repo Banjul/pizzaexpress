@@ -20,7 +20,7 @@ public class Deliver {
 
     @Id
     @Column(name = "deliver_id")
-    private int deliver_id;
+    private int deliverId;
 
     @Column(name = "name")
     private String name;
@@ -31,12 +31,23 @@ public class Deliver {
     @Column(name = "password")
     private String password;
 
-    public int getDeliver_id() {
-        return deliver_id;
+    @Column(name = "deliver_num")
+    private int deliverNum;
+
+    public int getDeliverNum() {
+        return deliverNum;
     }
 
-    public void setDeliver_id(int deliver_id) {
-        this.deliver_id = deliver_id;
+    public void setDeliverNum(int deliverNum) {
+        this.deliverNum = deliverNum;
+    }
+
+    public int getDeliverId() {
+        return deliverId;
+    }
+
+    public void setDeliverId(int deliverId) {
+        this.deliverId = deliverId;
     }
 
     public String getName() {
@@ -63,16 +74,16 @@ public class Deliver {
         this.password = password;
     }
 
-    public int getShop_id() {
-        return shop_id;
+    public int getShopId() {
+        return shopId;
     }
 
-    public void setShop_id(int shop_id) {
-        this.shop_id = shop_id;
+    public void setShopId(int shopId) {
+        this.shopId = shopId;
     }
 
     @Column(name = "shop_id")
-    private int shop_id;
+    private int shopId;
 
     @Column(name = "status")
     private String status;

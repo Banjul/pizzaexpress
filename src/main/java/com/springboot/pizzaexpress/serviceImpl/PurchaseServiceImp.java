@@ -31,9 +31,10 @@ public class PurchaseServiceImp implements PurchaseService {
         if (purchases.size() >0) {
             for (Purchase purchase : purchases) {
                 JSONObject purchaseJSON = new JSONObject();
-                purchaseJSON.put("purchaseFormula", purchase.getPurchase_formula());
-                purchaseJSON.put("purchaseTime", purchase.getPurchase_formula());
-                purchaseJSON.put("purchaseCount", purchase.getPurchase_count());
+                purchaseJSON.put("purchaseFormula", purchase.getPurchaseFormula());
+                purchaseJSON.put("purchaseTime", purchase.getPurchaseTime());
+                purchaseJSON.put("purchaseCount", purchase.getPurchaseCount());
+                purchaseJSON.put("purchaseManufacture",purchase.getPurchaseManufacture());
 
                 purchaseArray.add(purchaseJSON);
             }

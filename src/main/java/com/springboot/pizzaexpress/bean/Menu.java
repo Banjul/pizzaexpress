@@ -17,10 +17,10 @@ public class Menu {
 
     @Id
     @Column(name = "menu_id")
-    private int menu_id;
+    private int menuId;
 
     @Column(name = "shop_id")
-    private int shop_id;
+    private int shopId;
 
     @Column(name = "items")
     private String items;
@@ -31,20 +31,20 @@ public class Menu {
     @Column(name = "password")
     private String password;
 
-    public int getMenu_id() {
-        return menu_id;
+    public int getMenuId() {
+        return menuId;
     }
 
-    public void setMenu_id(int menu_id) {
-        this.menu_id = menu_id;
+    public void setMenuId(int menuId) {
+        this.menuId = menuId;
     }
 
-    public int getShop_id() {
-        return shop_id;
+    public int getShopId() {
+        return shopId;
     }
 
-    public void setShop_id(int shop_id) {
-        this.shop_id = shop_id;
+    public void setShopId(int shopId) {
+        this.shopId = shopId;
     }
 
     public String getItems() {

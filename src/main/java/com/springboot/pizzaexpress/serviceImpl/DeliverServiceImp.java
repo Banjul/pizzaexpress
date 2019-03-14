@@ -29,10 +29,11 @@ public class DeliverServiceImp implements DeliverService{
         if (delivers.size() >0) {
             for (Deliver deliver : delivers) {
                 JSONObject deliverJSON = new JSONObject();
-                deliverJSON.put("deliverID",deliver.getDeliver_id());
+                deliverJSON.put("deliverID",deliver.getDeliverId());
                 deliverJSON.put("deliverName",deliver.getName());
                 deliverJSON.put("phone",deliver.getPhone());
                 deliverJSON.put("deliverStatus",deliver.getStatus());
+                deliverJSON.put("deliverNum",deliver.getDeliverNum());
 
                 deliverArray.add(deliverJSON);
             }
@@ -60,10 +61,11 @@ public class DeliverServiceImp implements DeliverService{
         if (delivers.size() >0) {
             for (Deliver deliver : delivers) {
                 JSONObject deliverJSON = new JSONObject();
-                deliverJSON.put("deliverID", deliver.getDeliver_id());
+                deliverJSON.put("deliverID", deliver.getDeliverId());
                 deliverJSON.put("deliverName", deliver.getName());
                 deliverJSON.put("phone", deliver.getPhone());
                 deliverJSON.put("deliverStatus", deliver.getStatus());
+                deliverJSON.put("deliverNum",deliver.getDeliverNum());
 
                 deliverArray.add(deliverJSON);
             }
@@ -85,10 +87,11 @@ public class DeliverServiceImp implements DeliverService{
         if (delivers.size() >0) {
             for (Deliver deliver : delivers) {
                 JSONObject deliverJSON = new JSONObject();
-                deliverJSON.put("deliverID", deliver.getDeliver_id());
+                deliverJSON.put("deliverID", deliver.getDeliverId());
                 deliverJSON.put("deliverName", deliver.getName());
                 deliverJSON.put("phone", deliver.getPhone());
                 deliverJSON.put("deliverStatus", deliver.getStatus());
+                deliverJSON.put("deliverNum",deliver.getDeliverNum());
 
                 deliverArray.add(deliverJSON);
             }
@@ -98,4 +101,5 @@ public class DeliverServiceImp implements DeliverService{
         dataJson.put("deliverData",deliverData);
         return dataJson.toJSONString();
     }
+
 }

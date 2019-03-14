@@ -22,13 +22,13 @@ public class User {
 
     @Id
     @Column(name = "user_id")
-    private int user_id;
+    private int userId;
 
     @Column(name = "nick_name")
-    private String nick_name;
+    private String nickName;
 
     @Column(name = "phone_number")
-    private int phone_number;
+    private int phoneNumber;
 
     @Column(name = "password")
     private String password;
@@ -45,52 +45,39 @@ public class User {
     @Column(name = "status")
     private String status;
 
-    public Date getLastLoginTime() {
-        return lastLoginTime;
+    @Column(name = "address")
+    private String address;
+
+    public String getAddress() {
+        return address;
     }
 
-    public void setLastLoginTime(Date lastLoginTime) {
-        this.lastLoginTime = lastLoginTime;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
-    public String getStatus() {
-        return status;
+    public int getUserId() {
+        return userId;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
-    public double getMoney() {
-        return money;
+    public String getNickName() {
+        return nickName;
     }
 
-    public void setMoney(double money) {
-        this.money = money;
+    public void setNickName(String nickName) {
+        this.nickName = nickName;
     }
 
-    public int getUser_id() {
-        return user_id;
+    public int getPhoneNumber() {
+        return phoneNumber;
     }
 
-    public void setUser_id(int user_id) {
-        this.user_id = user_id;
-    }
-
-    public String getNick_name() {
-        return nick_name;
-    }
-
-    public void setNick_name(String nick_name) {
-        this.nick_name = nick_name;
-    }
-
-    public int getPhone_number() {
-        return phone_number;
-    }
-
-    public void setPhone_number(int phone_number) {
-        this.phone_number = phone_number;
+    public void setPhoneNumber(int phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
     public String getPassword() {
@@ -107,5 +94,29 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public double getMoney() {
+        return money;
+    }
+
+    public void setMoney(double money) {
+        this.money = money;
+    }
+
+    public Date getLastLoginTime() {
+        return lastLoginTime;
+    }
+
+    public void setLastLoginTime(Date lastLoginTime) {
+        this.lastLoginTime = lastLoginTime;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

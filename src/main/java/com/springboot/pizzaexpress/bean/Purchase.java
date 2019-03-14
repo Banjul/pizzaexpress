@@ -21,17 +21,20 @@ public class Purchase {
     @GeneratedValue
     private int id;
 
-    @Column(name = "shop_id")
-    private int shop_id;
+    @Column(name = "shopId")
+    private int shopId;
 
     @Column(name = "purchase_formula")
-    private String purchase_formula;
+    private String purchaseFormula;
 
     @Column(name = "purchase_time")
-    private Date purchase_time;
+    private Date purchaseTime;
 
     @Column(name = "purchase_count")
-    private int purchase_count;
+    private int purchaseCount;
+
+    @Column(name = "purchase_manufacture")
+    private String purchaseManufacture;
 
     public int getId() {
         return id;
@@ -41,35 +44,43 @@ public class Purchase {
         this.id = id;
     }
 
-    public int getShop_id() {
-        return shop_id;
+    public int getShopId() {
+        return shopId;
     }
 
-    public void setShop_id(int shop_id) {
-        this.shop_id = shop_id;
+    public void setShopId(int shopId) {
+        this.shopId = shopId;
     }
 
-    public String getPurchase_formula() {
-        return purchase_formula;
+    public String getPurchaseFormula() {
+        return purchaseFormula;
     }
 
-    public void setPurchase_formula(String purchase_formula) {
-        this.purchase_formula = purchase_formula;
+    public void setPurchaseFormula(String purchaseFormula) {
+        this.purchaseFormula = purchaseFormula;
     }
 
-    public Date getPurchase_time() {
-        return purchase_time;
+    public Date getPurchaseTime() {
+        return purchaseTime;
     }
 
-    public void setPurchase_time(Date purchase_time) {
-        this.purchase_time = purchase_time;
+    public void setPurchaseTime(Date purchaseTime) {
+        this.purchaseTime = purchaseTime;
     }
 
-    public int getPurchase_count() {
-        return purchase_count;
+    public int getPurchaseCount() {
+        return purchaseCount;
     }
 
-    public void setPurchase_count(int purchase_count) {
-        this.purchase_count = purchase_count;
+    public void setPurchaseCount(int purchaseCount) {
+        this.purchaseCount = purchaseCount;
+    }
+
+    public String getPurchaseManufacture() {
+        return purchaseManufacture;
+    }
+
+    public void setPurchaseManufacture(String purchaseManufacture) {
+        this.purchaseManufacture = purchaseManufacture;
     }
 }

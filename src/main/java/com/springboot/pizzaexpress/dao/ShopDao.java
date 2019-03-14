@@ -92,4 +92,14 @@ public interface ShopDao extends JpaRepository<Shop,String> {
 
     @Query(value = "select * from shop",nativeQuery = true)
     List<Shop> queryAllShop();
+
+    @Transactional
+    @Modifying
+    @Query(value = "insert into shop (shop_name, pos_x, pos_y, pos_string, account, password, flour_quantity, egg_quantity, cheese_quantity,vegetable_quantity, meat_quantity,sales_volume, phone, start_time,end_time) values (?1,?2,?3,?4,?5,?6 '500', '500', '500', '500', '500', '500','0',?13,?14,?15)",nativeQuery = true)
+    int insertShop (String shopName,String posX,String posY,String posString,String picUrl, String account,String password,String phone,String startTime, String endTime);
+
+//    @Transactional
+//    @Modifying
+//    @Query(value = "delete from shop where shop_id = ?1")
+//    int deleteShop(int shopId);
 }

@@ -6,10 +6,8 @@ package com.springboot.pizzaexpress.bean;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+
+import javax.persistence.*;
 
 @Data
 @Entity
@@ -19,69 +17,70 @@ public class Formula {
 
     @Id
     @Column(name = "formula_id")
-    private int formula_id;
+    @GeneratedValue
+    private int formulaId;
 
     @Column(name = "flour_quantity")
-    private int flour_quantity;
+    private int flourQuantity;
 
     @Column(name = "egg_quantity")
-    private int egg_quantity;
-
-    public int getFormula_id() {
-        return formula_id;
-    }
-
-    public void setFormula_id(int formula_id) {
-        this.formula_id = formula_id;
-    }
-
-    public int getFlour_quantity() {
-        return flour_quantity;
-    }
-
-    public void setFlour_quantity(int flour_quantity) {
-        this.flour_quantity = flour_quantity;
-    }
-
-    public int getEgg_quantity() {
-        return egg_quantity;
-    }
-
-    public void setEgg_quantity(int egg_quantity) {
-        this.egg_quantity = egg_quantity;
-    }
-
-    public int getCheese_quantity() {
-        return cheese_quantity;
-    }
-
-    public void setCheese_quantity(int cheese_quantity) {
-        this.cheese_quantity = cheese_quantity;
-    }
-
-    public int getVegetable_quantity() {
-        return vegetable_quantity;
-    }
-
-    public void setVegetable_quantity(int vegetable_quantity) {
-        this.vegetable_quantity = vegetable_quantity;
-    }
-
-    public int getMeat_quantity() {
-        return meat_quantity;
-    }
-
-    public void setMeat_quantity(int meat_quantity) {
-        this.meat_quantity = meat_quantity;
-    }
+    private int eggQuantity;
 
     @Column(name = "cheese_quantity")
-    private int cheese_quantity;
+    private int cheeseQuantity;
 
     @Column(name = "vegetable_quantity")
-    private int vegetable_quantity;
+    private int vegetableQuantity;
 
     @Column(name = "meat_quantity")
-    private int meat_quantity;
+    private int meatQuantity;
 
+
+    public int getFormulaId() {
+        return formulaId;
+    }
+
+    public void setFormulaId(int formulaId) {
+        this.formulaId = formulaId;
+    }
+
+    public int getFlourQuantity() {
+        return flourQuantity;
+    }
+
+    public void setFlourQuantity(int flourQuantity) {
+        this.flourQuantity = flourQuantity;
+    }
+
+    public int getEggQuantity() {
+        return eggQuantity;
+    }
+
+    public void setEggQuantity(int eggQuantity) {
+        this.eggQuantity = eggQuantity;
+    }
+
+    public int getCheeseQuantity() {
+        return cheeseQuantity;
+    }
+
+    public void setCheeseQuantity(int cheeseQuantity) {
+        this.cheeseQuantity = cheeseQuantity;
+    }
+
+    public int getVegetableQuantity() {
+        return vegetableQuantity;
+    }
+
+    public void setVegetableQuantity(int vegetableQuantity) {
+        this.vegetableQuantity = vegetableQuantity;
+    }
+
+    public int getMeatQuantity() {
+        return meatQuantity;
+    }
+
+    public void setMeatQuantity(int meatQuantity) {
+        this.meatQuantity = meatQuantity;
+    }
 }
