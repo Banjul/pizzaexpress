@@ -29,7 +29,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping(value ="/Purchase")
+@RequestMapping(value ="/purchase")
 @Api("进货api")
 public class PurchaseController {
 
@@ -42,18 +42,18 @@ public class PurchaseController {
     @Autowired
     private ShopService shopService;
 
-    @ApiOperation(value="查询最新20条订单")
-    @ApiImplicitParam(name = "params", value = "包含formula名称,shopId的json", dataType = "JSON")
-    @RequestMapping(value = "/getpurchasebyformula",method = RequestMethod.POST)
-    public String getLastTwentyOrders(@RequestBody Map<String, Object> params) {
-        String shopid = params.get("shopID").toString();
-        int shopId = Integer.parseInt(shopid);
-        String formula = params.get("Formula").toString();
-        return purchaseService.getPurchaseByFormula(shopId,formula);
-    }
+//    @ApiOperation(value="查询最新20条订单")
+//    @ApiImplicitParam(name = "params", value = "包含formula名称,shopId的json", dataType = "JSON")
+//    @RequestMapping(value = "/getpurchasebyformula",method = RequestMethod.POST)
+//    public String getLastTwentyOrders(@RequestBody Map<String, Object> params) {
+//        String shopid = params.get("shopID").toString();
+//        int shopId = Integer.parseInt(shopid);
+//        String formula = params.get("Formula").toString();
+//        return purchaseService.getPurchaseByFormula(shopId,formula);
+//    }
 
     @ApiOperation(value="购买原料")
-    @ApiImplicitParam(name = "params", value = "包含formula,shopId,purchaseTime,purchaseCount的json", dataType = "JSON")
+    @ApiImplicitParam(name = "params", value = "", dataType = "JSON")
     @RequestMapping(value = "/addpurchaseformula",method = RequestMethod.POST)
     public void addPurchaseFormula(@RequestBody Map<String, Object> params) {
         String shopid = params.get("shopID").toString();
@@ -62,13 +62,23 @@ public class PurchaseController {
         String purchaseTime = params.get("purchaseTime").toString();
         String purchaseCountString = params.get("purchaseCount").toString();
         int purchaseCount = Integer.parseInt(purchaseCountString);
+        String purchaseManufacture  = params.get("purchaseManufacture").toString();
 
-        int result = purchaseDao.insertPurchase(shopId,formulaName,purchaseTime,purchaseCount);
+        int result = purchaseDao.insertPurchase(shopId,formulaName,purchaseTime,purchaseCount,purchaseManufacture);
         if (result == 1)
             shopService.updateFormulaCount(shopId,formulaName,purchaseCount);
-
     }
 
+    @ApiOperation(value="原料追溯")
+    @ApiImplicitParam(name = "params", value = "", dataType = "JSON")
+    @RequestMapping(value = "/getpurchasebyformula",method = RequestMethod.POST)
+    public String getPurchaseByFormula(@RequestBody Map<String, Object> params) {
+        String shopid = params.get("shopID").toString();
+        int shopId = Integer.parseInt(shopid);
+        String formulaName = params.get("formulaName").toString();
+
+        return purchaseService.getPurchaseByFormula(shopId,formulaName);
+    }
 
 
 }

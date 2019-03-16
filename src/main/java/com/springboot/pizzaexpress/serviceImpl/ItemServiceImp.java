@@ -56,6 +56,11 @@ public class ItemServiceImp implements ItemService{
                     if (formula.getMeatQuantity()>0)
                         formulaString +="肉; ";
                     itemJSON.put("formula",formulaString);
+                    itemJSON.put("flour",formula.getFlourQuantity());
+                    itemJSON.put("egg",formula.getEggQuantity());
+                    itemJSON.put("cheese",formula.getCheeseQuantity());
+                    itemJSON.put("vegetable",formula.getVegetableQuantity());
+                    itemJSON.put("meat",formula.getMeatQuantity());
                     itemJSON.put("price9",item.getPrice());
 
                     itemArray.add(itemJSON);

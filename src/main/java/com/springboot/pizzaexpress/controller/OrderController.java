@@ -54,8 +54,8 @@ public class OrderController {
     public String getOrdersByDeliver( @RequestBody Map<String, Object> params){
         String shopid = params.get("shopID").toString();
         int shopId = Integer.parseInt(shopid);
-        String deliverId = params.get("deliverid").toString();
-        String orderId=params.get("orderid").toString();
+        String deliverId = params.get("deliverID").toString();
+        String orderId=params.get("orderID").toString();
         String start_time = params.get("startTime").toString();
         String end_time = params.get("endTime").toString();
         System.err.println(deliverId);
@@ -63,11 +63,18 @@ public class OrderController {
             if(orderId.equals("-1")){
                 return orderService.queryOrderByTimeAndShop(start_time,end_time,shopId);
             }
+
             int orderID = Integer.parseInt(orderId);
+            if (start_time.equals("-1")) {
+                return orderService.queryOrderByOrderId(orderID);
+            }
             return orderService.queryOrderByOrderIdAndTime(orderID,shopId,start_time,end_time);
         }
         else{
             int deliverID = Integer.parseInt(deliverId);
+            if (start_time.equals("-1")) {
+                return orderService.getOrderByDeliver(shopId,deliverID);
+            }
             return orderService.queryOrderByDeliverAndTime(deliverID,shopId,start_time,end_time);
         }
 
@@ -103,6 +110,5 @@ public class OrderController {
 //    }
 
 
-//    public Map<String,Object>
 
 }

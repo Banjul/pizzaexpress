@@ -137,14 +137,60 @@ public class OrderServiceImp implements OrderService {
         return dataJson.toString();
     }
 
-//
-//    @Override
-//    public PizzaOrder queryOrderByOrderId(int orderID) {
-//
-//        return  orderDao.queryOrderByOrderId(orderID);
-//
-//    }
-//
+
+    @Override
+    public String queryOrderByOrderId(int orderID) {
+        JSONArray orderArray = new JSONArray();
+        JSONObject orderData = new JSONObject();
+        JSONObject dataJson = new JSONObject();
+
+        PizzaOrder pizzaOrder = orderDao.queryOrderByOrderId(orderID);
+
+        if (pizzaOrder != null) {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+            JSONObject pizzaOrderJSON = new JSONObject();
+            pizzaOrderJSON.put("orderID", pizzaOrder.getOrderId());
+            Date dateTime = pizzaOrder.getStartTime();
+            String startDateSdf = sdf.format(dateTime);
+            pizzaOrderJSON.put("startDate", startDateSdf);
+
+            Date enddateTime = pizzaOrder.getEndTime();
+            if (enddateTime == null) {
+                pizzaOrderJSON.put("finishDate", "-");
+            } else {
+                String endDateSdf = sdf.format(enddateTime);
+                pizzaOrderJSON.put("finishDate", endDateSdf);
+            }
+            pizzaOrderJSON.put("user", pizzaOrder.getUserId());
+            pizzaOrderJSON.put("deliver", pizzaOrder.getDeliverId());
+
+            String pizzaOrderItems = "";
+            String orderItems = pizzaOrder.getItems();
+            JSONArray orderOldArray = JSONArray.fromObject(orderItems);
+            for (int i = 0; i < orderOldArray.size(); i++) {
+                JSONObject itemJson = orderOldArray.getJSONObject(i);
+                String itemIdString = itemJson.get("itemId").toString();
+                String itemCountString = itemJson.get("count").toString();
+                int itemId = Integer.parseInt(itemIdString);
+
+                Item oneItem = itemDao.queryItemByItemId(itemId);
+                pizzaOrderItems = pizzaOrderItems + oneItem.getItemName() + ": " + itemCountString + ";" + "\n";
+            }
+            pizzaOrderJSON.put("orderInfo", pizzaOrderItems);
+
+            pizzaOrderJSON.put("orderStatus", pizzaOrder.getState());
+            pizzaOrderJSON.put("orderAmount", pizzaOrder.getPrice());
+            pizzaOrderJSON.put("orderAddress", pizzaOrder.getToPosString());
+
+            orderArray.add(pizzaOrderJSON);
+        }
+        orderData.put("data",orderArray);
+        dataJson.put("orderData",orderData);
+        return dataJson.toString();
+
+    }
+
     @Override
     public String queryOrderByOrderIdAndTime(int orderID, int shopId, String startTime, String endTime) {
         JSONArray orderArray = new JSONArray();
@@ -253,38 +299,62 @@ public class OrderServiceImp implements OrderService {
             dataJson.put("orderData",orderData);
             return dataJson.toString();
     }
-//
-//    @Override
-//    public String getOrderByDeliver(int shop_id, int deliver_id) {
-//        JSONArray orderArray = new JSONArray();
-//        JSONObject orderData = new JSONObject();
-//        JSONObject dataJson = new JSONObject();
-//
-//        List<PizzaOrder> pizzaOrders = orderDao.queryOrderByDeliver(shop_id,deliver_id);
-//        if (pizzaOrders.size() >0) {
-//            for (PizzaOrder pizzaOrder : pizzaOrders) {
-//                JSONObject pizzaOrderJSON = new JSONObject();
-//                pizzaOrderJSON.put("orderid",pizzaOrder.getOrderId());
-//                pizzaOrderJSON.put("date",pizzaOrder.getStartTime());
-//                pizzaOrderJSON.put("user",pizzaOrder.getUserId());
-//                pizzaOrderJSON.put("orderInfo",pizzaOrder.getItems());
-//                pizzaOrderJSON.put("orderStatus",pizzaOrder.getState());
-//                pizzaOrderJSON.put("orderAmount",pizzaOrder.getPrice());
-//
-//                orderArray.add(pizzaOrderJSON);
-//            }
-//            orderData.put("count",pizzaOrders.size());
-//            orderData.put("data",orderArray);
-//            dataJson.put("orderData",orderData);
-//            return dataJson.toJSONString();
-//        }
-//        else {
-//            orderData.put("count",pizzaOrders.size());
-//            orderData.put("data",orderArray);
-//            dataJson.put("orderData",orderData);
-//            return dataJson.toJSONString();
-//        }
-//    }
+
+
+    @Override
+    public String getOrderByDeliver(int shop_id, int deliver_id) {
+        JSONArray orderArray = new JSONArray();
+        JSONObject orderData = new JSONObject();
+        JSONObject dataJson = new JSONObject();
+
+        List<PizzaOrder> pizzaOrders = orderDao.queryOrderByDeliver(shop_id,deliver_id);
+        if (pizzaOrders.size() >0) {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+            for (PizzaOrder pizzaOrder : pizzaOrders) {
+                JSONObject pizzaOrderJSON = new JSONObject();
+                pizzaOrderJSON.put("orderID", pizzaOrder.getOrderId());
+                Date dateTime = pizzaOrder.getStartTime();
+                String startDateSdf = sdf.format(dateTime);
+                pizzaOrderJSON.put("startDate", startDateSdf);
+
+                Date enddateTime = pizzaOrder.getEndTime();
+                if (enddateTime == null) {
+                    pizzaOrderJSON.put("finishDate", "-");
+                } else {
+                    String endDateSdf = sdf.format(enddateTime);
+                    pizzaOrderJSON.put("finishDate", endDateSdf);
+                }
+                pizzaOrderJSON.put("user", pizzaOrder.getUserId());
+                pizzaOrderJSON.put("deliver", pizzaOrder.getDeliverId());
+
+                String pizzaOrderItems = "";
+                String orderItems = pizzaOrder.getItems();
+                JSONArray orderOldArray = JSONArray.fromObject(orderItems);
+                for (int i = 0; i < orderOldArray.size(); i++) {
+                    JSONObject itemJson = orderOldArray.getJSONObject(i);
+                    String itemIdString = itemJson.get("itemId").toString();
+                    String itemCountString = itemJson.get("count").toString();
+                    int itemId = Integer.parseInt(itemIdString);
+
+                    Item oneItem = itemDao.queryItemByItemId(itemId);
+                    pizzaOrderItems = pizzaOrderItems + oneItem.getItemName() + ": " + itemCountString + ";" + "\n";
+                }
+                pizzaOrderJSON.put("orderInfo", pizzaOrderItems);
+
+                pizzaOrderJSON.put("orderStatus", pizzaOrder.getState());
+                pizzaOrderJSON.put("orderAmount", pizzaOrder.getPrice());
+                pizzaOrderJSON.put("orderAddress", pizzaOrder.getToPosString());
+
+                orderArray.add(pizzaOrderJSON);
+        }
+    }
+        orderData.put("count",pizzaOrders.size());
+        orderData.put("data",orderArray);
+        dataJson.put("orderData",orderData);
+        return dataJson.toString();
+
+    }
 //
 //    @Override
 //    public String deleteOrderByOrderId(int orderId) {

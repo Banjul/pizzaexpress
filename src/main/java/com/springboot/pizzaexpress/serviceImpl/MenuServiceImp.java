@@ -5,11 +5,17 @@ package com.springboot.pizzaexpress.serviceImpl;
  */
 //import com.alibaba.fastjson.JSONArray;
 //import com.alibaba.fastjson.JSONObject;
+
 import com.springboot.pizzaexpress.bean.Item;
 import com.springboot.pizzaexpress.bean.Menu;
+import com.springboot.pizzaexpress.bean.Formula;
+import com.springboot.pizzaexpress.bean.Shop;
+import com.springboot.pizzaexpress.dao.FormulaDao;
 import com.springboot.pizzaexpress.dao.MenuDao;
 import com.springboot.pizzaexpress.dao.ItemDao;
+import com.springboot.pizzaexpress.dao.ShopDao;
 import com.springboot.pizzaexpress.service.MenuService;
+import io.swagger.models.auth.In;
 import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,12 +24,19 @@ import net.sf.json.JSONObject;
 
 
 @Service
-public class MenuServiceImp implements MenuService{
+public class MenuServiceImp implements MenuService {
     @Autowired
     private MenuDao menuDao;
 
     @Autowired
     private ItemDao itemDao;
+
+    @Autowired
+    private ShopDao shopDao;
+
+    @Autowired
+    private FormulaDao formulaDao;
+
     @Override
     public String getMenuByShopId(int shopId) {
         JSONArray menuArray = new JSONArray();
@@ -34,7 +47,7 @@ public class MenuServiceImp implements MenuService{
         if (menu != null) {
             String menuItems = menu.getItems();
             JSONArray menuOldArray = JSONArray.fromObject(menuItems);
-            for(int i =0; i < menuOldArray.size();i++) {
+            for (int i = 0; i < menuOldArray.size(); i++) {
                 JSONObject itemJson = menuOldArray.getJSONObject(i);
                 String itemIdString = itemJson.get("itemId").toString();
                 String itemCountString = itemJson.get("count").toString();
@@ -43,19 +56,80 @@ public class MenuServiceImp implements MenuService{
 
                 Item oneItem = itemDao.queryItemByItemId(itemId);
                 JSONObject menuItemJson = new JSONObject();
-                menuItemJson.put("itemName",oneItem.getItemName());
-                menuItemJson.put("price",oneItem.getPrice());
-                menuItemJson.put("picUrl",oneItem.getPicUrl());
-                menuItemJson.put("state",oneItem.getState());
-                menuItemJson.put("size",oneItem.getPizzaSize());
-                menuItemJson.put("description",oneItem.getDescription());
-                menuItemJson.put("count",itemCount);
+                menuItemJson.put("itemName", oneItem.getItemName());
+                menuItemJson.put("price", oneItem.getPrice());
+                menuItemJson.put("picUrl", oneItem.getPicUrl());
+                menuItemJson.put("state", oneItem.getState());
+                menuItemJson.put("size", oneItem.getPizzaSize());
+                menuItemJson.put("description", oneItem.getDescription());
+                menuItemJson.put("count", itemCount);
 
                 menuArray.add(menuItemJson);
             }
         }
-        menuData.put("data",menuArray);
-        dataJson.put("itemData",menuData);
+        menuData.put("data", menuArray);
+        dataJson.put("itemData", menuData);
         return dataJson.toString();
+    }
+
+    @Override
+    public String updateMenuByShopId(int shopId, int itemId, int itemCount) {
+        JSONObject dataJSON = new JSONObject();
+        Menu menu = menuDao.queryMenuByShopId(shopId);
+        String menuItems = menu.getItems();
+        JSONArray menuOldArray = JSONArray.fromObject(menuItems);
+
+        //更改原料库存
+        Item item = itemDao.queryItemByItemId(itemId);
+        int formulaId = item.getFormulaId();
+        Formula formula = formulaDao.queryFormulaById(formulaId);
+        //所有原料消耗
+        int flourCost = formula.getFlourQuantity() * itemCount;
+        int eggCost = formula.getEggQuantity() * itemCount;
+        int cheeseCost = formula.getCheeseQuantity() * itemCount;
+        int vegetableCost = formula.getVegetableQuantity() * itemCount;
+        int meatCost = formula.getMeatQuantity() * itemCount;
+
+        //判断原料库存是否充足
+        Shop shop = shopDao.queryShop(shopId);
+        int restFlourCount = shop.getFlourQuantity() - flourCost;
+        int restEggCount = shop.getEggQuantity() - eggCost;
+        int restCheeseCount = shop.getCheeseQuantity() - cheeseCost;
+        int restVegetableCount = shop.getCheeseQuantity() - vegetableCost;
+        int restMeatCount = shop.getMeatQuantity() - meatCost;
+        if (restFlourCount < 0 || restEggCount < 0 || restCheeseCount < 0 || restVegetableCount < 0 ||restMeatCount < 0 ) {
+            dataJSON.put("status","原料不足");
+            return dataJSON.toString();
+        }
+
+        //更改shop数据库各原料库存
+        int changeFormulaResult = shopDao.updateAllFormulaCount(shopId,restFlourCount,restEggCount,restCheeseCount,restVegetableCount,restMeatCount);
+
+        //更改menu的item字段
+        for (int i = 0; i < menuOldArray.size(); i++) {
+            JSONObject itemJson = menuOldArray.getJSONObject(i);
+            String itemidstring = itemJson.get("itemId").toString();
+            int eachItemId = Integer.parseInt(itemidstring);
+            //找到更改的itemId
+            if (eachItemId == itemId) {
+                //更改count
+                String itemCountString = itemJson.get("count").toString();
+                int oldCount = Integer.parseInt(itemCountString);
+                int newCount = oldCount + itemCount;
+//                    String newcount = newCount +"";
+                itemJson.put("count", newCount + "");
+                JSONObject newItemJson = itemJson;
+                menuOldArray.remove(itemJson);
+                menuOldArray.add(newItemJson);
+                break;
+            }
+        }
+        //更改数据库menu的item字段
+        String newItems = menuOldArray.toString();
+        int changeMenuResult = menuDao.updateMenuByShopId(shopId, newItems);
+
+        if (changeFormulaResult == 1 && changeMenuResult == 1) dataJSON.put("status", 200);
+        else dataJSON.put("status", 500);
+        return dataJSON.toString();
     }
 }

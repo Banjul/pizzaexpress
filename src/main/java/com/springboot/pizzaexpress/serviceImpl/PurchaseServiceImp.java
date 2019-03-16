@@ -35,6 +35,7 @@ public class PurchaseServiceImp implements PurchaseService {
                 purchaseJSON.put("purchaseTime", purchase.getPurchaseTime());
                 purchaseJSON.put("purchaseCount", purchase.getPurchaseCount());
                 purchaseJSON.put("purchaseManufacture",purchase.getPurchaseManufacture());
+                purchaseJSON.put("purchaseID",purchase.getId());
 
                 purchaseArray.add(purchaseJSON);
             }

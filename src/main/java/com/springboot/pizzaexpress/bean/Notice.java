@@ -29,7 +29,7 @@ public class Notice {
     @Column(name = "status")
     private String status;
 
-    @Column(name = "time")
+    @Column(name = "notice_time")
     private Date time;
 
     @Column(name ="label")

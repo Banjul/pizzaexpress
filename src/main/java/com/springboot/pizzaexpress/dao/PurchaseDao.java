@@ -31,8 +31,8 @@ public interface PurchaseDao extends JpaRepository<Purchase,String> {
 
     @Transactional
     @Modifying
-    @Query(value = "insert into purchase(shop_id,purchase_formula,purchase_time,purchase_count) values(?1,?2,?3,?4)",nativeQuery = true)
-    int insertPurchase(int shopId,String formulaName,String purchaseTime,int purchaseCount);
+    @Query(value = "insert into purchase(shop_id,purchase_formula,purchase_time,purchase_count,purchase_manufacture) values(?1,?2,?3,?4,?5)",nativeQuery = true)
+    int insertPurchase(int shopId,String formulaName,String purchaseTime,int purchaseCount,String purchaseManufacture);
 
 
 }
