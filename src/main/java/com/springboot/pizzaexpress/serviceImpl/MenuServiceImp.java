@@ -56,6 +56,7 @@ public class MenuServiceImp implements MenuService {
 
                 Item oneItem = itemDao.queryItemByItemId(itemId);
                 JSONObject menuItemJson = new JSONObject();
+                menuItemJson.put("itemId",oneItem.getItemId());
                 menuItemJson.put("itemName", oneItem.getItemName());
                 menuItemJson.put("price", oneItem.getPrice());
                 menuItemJson.put("picUrl", oneItem.getPicUrl());
@@ -117,7 +118,7 @@ public class MenuServiceImp implements MenuService {
                 int oldCount = Integer.parseInt(itemCountString);
                 int newCount = oldCount + itemCount;
 //                    String newcount = newCount +"";
-                itemJson.put("count", newCount + "");
+                itemJson.put("count", oldCount);
                 JSONObject newItemJson = itemJson;
                 menuOldArray.remove(itemJson);
                 menuOldArray.add(newItemJson);

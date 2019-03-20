@@ -26,10 +26,10 @@ public class Shop {
     private String shopName;
 
     @Column(name = "pos_x")
-    private String posX;
+    private double posX;
 
     @Column(name = "pos_y")
-    private String posY;
+    private double posY;
 
     @Column(name = "pos_string")
     private String posString;
@@ -86,19 +86,19 @@ public class Shop {
         this.shopName = shopName;
     }
 
-    public String getPosX() {
+    public double getPosX() {
         return posX;
     }
 
-    public void setPosX(String posX) {
+    public void setPosX(double posX) {
         this.posX = posX;
     }
 
-    public String getPosY() {
+    public double getPosY() {
         return posY;
     }
 
-    public void setPosY(String posY) {
+    public void setPosY(double posY) {
         this.posY = posY;
     }
 

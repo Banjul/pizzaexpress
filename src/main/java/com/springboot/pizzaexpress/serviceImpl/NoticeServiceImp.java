@@ -8,6 +8,7 @@ import com.springboot.pizzaexpress.service.NoticeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 /**
@@ -59,14 +60,18 @@ public class NoticeServiceImp implements NoticeService {
 
         String status = "未读";
         List<Notice> unreadNotices = noticeDao.getAllUnreadNotices(shopId,status);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
         if (unreadNotices.size() >0) {
             for (Notice unreadNotice : unreadNotices) {
                 JSONObject unreadNoticeJSON = new JSONObject();
                 unreadNoticeJSON.put("title",unreadNotice.getNoticeTitle());
                 unreadNoticeJSON.put("content",unreadNotice.getContent());
-                unreadNoticeJSON.put("time",unreadNotice.getTime());
+                String noticeTime = sdf.format(unreadNotice.getTime());
+                unreadNoticeJSON.put("time",noticeTime);
                 unreadNoticeJSON.put("status",unreadNotice.getStatus());
                 unreadNoticeJSON.put("label",unreadNotice.getLabel());
+                unreadNoticeJSON.put("noticeID",unreadNotice.getNoticeId());
 
                 unreadNoticeArray.add(unreadNoticeJSON);
             }
@@ -87,12 +92,15 @@ public class NoticeServiceImp implements NoticeService {
 
         String status = "已读";
         List<Notice> unreadNotices = noticeDao.getAllUnreadNotices(shopId,status);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
         if (unreadNotices.size() >0) {
             for (Notice unreadNotice : unreadNotices) {
                 JSONObject unreadNoticeJSON = new JSONObject();
                 unreadNoticeJSON.put("title",unreadNotice.getNoticeTitle());
                 unreadNoticeJSON.put("content",unreadNotice.getContent());
-                unreadNoticeJSON.put("time",unreadNotice.getTime());
+                String noticeTime = sdf.format(unreadNotice.getTime());
+                unreadNoticeJSON.put("time",noticeTime);
                 unreadNoticeJSON.put("status",unreadNotice.getStatus());
                 unreadNoticeJSON.put("label",unreadNotice.getLabel());
 

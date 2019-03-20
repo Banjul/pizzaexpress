@@ -48,6 +48,17 @@ public class User {
     @Column(name = "address")
     private String address;
 
+    @Column(name = "user_location")
+    private String userLocation;
+
+    public String getUserLocation() {
+        return userLocation;
+    }
+
+    public void setUserLocation(String userLocation) {
+        this.userLocation = userLocation;
+    }
+
     public String getAddress() {
         return address;
     }

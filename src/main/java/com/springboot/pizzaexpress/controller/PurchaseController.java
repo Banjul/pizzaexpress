@@ -59,7 +59,9 @@ public class PurchaseController {
         String shopid = params.get("shopID").toString();
         int shopId = Integer.parseInt(shopid);
         String formulaName = params.get("formulaName").toString();
-        String purchaseTime = params.get("purchaseTime").toString();
+        System.err.println(formulaName);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String purchaseTime = sdf.format(new Date());
         String purchaseCountString = params.get("purchaseCount").toString();
         int purchaseCount = Integer.parseInt(purchaseCountString);
         String purchaseManufacture  = params.get("purchaseManufacture").toString();

@@ -19,11 +19,13 @@ public interface ShopService {
 
     public String deleteShop(int shopId);
 
-    public String insertShop(String shopName,String posX,String posY,String posString,String picUrl,String account,String password,String phone,String startTime,String  endTime);
+    public String insertShop(String shopName,String posString,String picUrl,String account,String password,String phone,String startTime,String  endTime);
 
     public String getFormulaByname(int shopId,String formulaName);
 
     public String getShopById(int shopId);
 
     public String getAllFormulaByShop(int shopId);
+
+    public String getAllShopsWithinDistance(int userId);
 }

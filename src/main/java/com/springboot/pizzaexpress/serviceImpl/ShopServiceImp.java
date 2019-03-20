@@ -6,11 +6,15 @@ package com.springboot.pizzaexpress.serviceImpl;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.springboot.pizzaexpress.bean.Shop;
+import com.springboot.pizzaexpress.bean.User;
 import com.springboot.pizzaexpress.dao.NoticeDao;
 import com.springboot.pizzaexpress.dao.ShopDao;
+import com.springboot.pizzaexpress.dao.UserDao;
 import com.springboot.pizzaexpress.service.ShopService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import com.springboot.pizzaexpress.util.LocationUtils;
+import com.springboot.pizzaexpress.util.HttpClientUtil;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -24,6 +28,9 @@ public class ShopServiceImp implements ShopService{
 
     @Autowired
     private NoticeDao noticeDao;
+
+    @Autowired
+    private UserDao userDao;
 
     @Override
     public Shop adminLogin(String adminAccount, String adminPassword) {
@@ -51,22 +58,22 @@ public class ShopServiceImp implements ShopService{
         Shop shop = shopDao.queryShop(shopId);
         int formulaOldCount;
         int formulaNewCount;
-        if (formulaName.equals("flour")){
+        if (formulaName.equals("面粉")){
             formulaOldCount = shop.getFlourQuantity();
             formulaNewCount = formulaOldCount + purchaseCount;
             shopDao.updateFlourFormulaCount(shopId,formulaNewCount);
         }
-        else if (formulaName.equals("cheese")) {
+        else if (formulaName.equals("芝士")) {
             formulaOldCount = shop.getCheeseQuantity();
             formulaNewCount = formulaOldCount + purchaseCount;
             shopDao.updateCheeseFormulaCount(shopId,formulaNewCount);
         }
-        else if (formulaName.equals("egg")) {
+        else if (formulaName.equals("鸡蛋")) {
             formulaOldCount = shop.getEggQuantity();
             formulaNewCount = formulaOldCount + purchaseCount;
             shopDao.updateEggFormulaCount(shopId,formulaNewCount);
         }
-        else if (formulaName.equals("vegetable")) {
+        else if (formulaName.equals("蔬菜")) {
             formulaOldCount = shop.getVegetableQuantity();
             formulaNewCount = formulaOldCount + purchaseCount;
             shopDao.updateVegetableFormulaCount(shopId,formulaNewCount);
@@ -90,14 +97,14 @@ public class ShopServiceImp implements ShopService{
        {
            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
            String noticeTime = sdf.format(new Date());
-           noticeDao.insertNotice("面粉库存少于100g请及时购进","Warning","面粉补货通知",shopId,"未读",noticeTime);
+           noticeDao.insertNotice("面粉库存少于100g请及时购进","Warning","面粉",shopId,"未读",noticeTime);
            System.err.println("新增通知");
        }
        if (eggCount <=  100)
        {
            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
            String noticeTime = sdf.format(new Date());
-           noticeDao.insertNotice("鸡蛋库存少于100g请及时购进","Warning","鸡蛋补货通知",shopId,"未读",noticeTime);
+           noticeDao.insertNotice("鸡蛋库存少于100g请及时购进","Warning","鸡蛋",shopId,"未读",noticeTime);
            System.err.println("新增通知");
 
        }
@@ -105,7 +112,7 @@ public class ShopServiceImp implements ShopService{
         {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             String noticeTime = sdf.format(new Date());
-            noticeDao.insertNotice("芝士库存少于100g请及时购进","Warning","芝士补货通知",shopId,"未读",noticeTime);
+            noticeDao.insertNotice("芝士库存少于100g请及时购进","Warning","芝士",shopId,"未读",noticeTime);
             System.err.println("新增通知");
 
         }
@@ -113,7 +120,7 @@ public class ShopServiceImp implements ShopService{
         {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             String noticeTime = sdf.format(new Date());
-            noticeDao.insertNotice("蔬菜库存少于100g请及时购进","Warning","蔬菜补货通知",shopId,"未读",noticeTime);
+            noticeDao.insertNotice("蔬菜库存少于100g请及时购进","Warning","蔬菜",shopId,"未读",noticeTime);
             System.err.println("新增通知");
 
         }
@@ -121,7 +128,7 @@ public class ShopServiceImp implements ShopService{
         {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             String noticeTime = sdf.format(new Date());
-            noticeDao.insertNotice("肉类库存少于100g请及时购进","Warning","肉类补货通知",shopId,"未读",noticeTime);
+            noticeDao.insertNotice("肉类库存少于100g请及时购进","Warning","肉类",shopId,"未读",noticeTime);
             System.err.println("新增通知");
 
         }
@@ -145,6 +152,8 @@ public class ShopServiceImp implements ShopService{
                 shopJSON.put("salesVolume",shop.getSalesVolume());
                 shopJSON.put("startTime",shop.getStartTime().toString());
                 shopJSON.put("endTime",shop.getEndTime().toString());
+
+                shopArray.add(shopJSON);
             }
         }
         shopData.put("count",shops.size());
@@ -163,8 +172,19 @@ public class ShopServiceImp implements ShopService{
     }
 
     @Override
-    public String insertShop(String shopName, String posX, String posY, String posString, String picUrl, String account, String password, String phone, String startTime, String endTime) {
+    public String insertShop(String shopName,String posString, String picUrl, String account, String password, String phone, String startTime, String endTime) {
         JSONObject dataJSON = new JSONObject();
+        String getUrl = "https://restapi.amap.com/v3/geocode/geo?address=" + posString + "&output=JSON&key=ee4084f8d57d35442a70a1a2f77d8de8";
+
+        net.sf.json.JSONObject addressResult = HttpClientUtil.doGetStr(getUrl);
+
+        net.sf.json.JSONArray jsonArray = net.sf.json.JSONArray.fromObject(addressResult.get("geocodes"));
+        net.sf.json.JSONObject jsonObject = jsonArray.getJSONObject(0);
+        String location = jsonObject.get("location").toString();
+
+        String[] locationXY = location.split(",");
+        double posX = Double.parseDouble(locationXY[0]);
+        double posY = Double.parseDouble(locationXY[1]);
 
         int result = shopDao.insertShop(shopName, posX, posY, posString, picUrl,  account, password, phone, startTime,  endTime);
         if (result == 1) dataJSON.put("status",200);
@@ -256,6 +276,52 @@ public class ShopServiceImp implements ShopService{
         shopData.put("data",shopArray);
         dataJson.put("shopData",shopData);
         return dataJson.toJSONString();
+    }
+
+    @Override
+    public String getAllShopsWithinDistance(int userId) {
+        JSONArray shopArray = new JSONArray();
+        JSONObject shopData = new JSONObject();
+        JSONObject dataJSON = new JSONObject();
+
+        //获取用户坐标
+        User user = userDao.queryUserByUserId(userId);
+        String userpos = user.getUserLocation();
+        String[] userPos = userpos.split(",");
+        double userX = Double.parseDouble(userPos[0]);
+        double userY = Double.parseDouble(userPos[1]);
+
+        List<Shop> shops = shopDao.queryAllShop();
+        if (shops.size()>0) {
+            double minDistance = 0;
+            for (Shop shop : shops) {
+                double shopX = shop.getPosX();
+                double shopY = shop.getPosY();
+                double distance = LocationUtils.getDistance(userX,userY,shopX,shopY);
+                if (distance <= 20000) {
+                    if (minDistance == 0) minDistance = distance;
+                    JSONObject shopJSON = new JSONObject();
+                    shopJSON.put("shopId",shop.getShopId());
+                    shopJSON.put("shopName",shop.getShopName());
+                    shopJSON.put("shopAddress",shop.getPosString());
+                    shopJSON.put("shopPhone",shop.getPhone());
+                    shopJSON.put("shopStartTime",shop.getStartTime());
+                    shopJSON.put("shopEndTime",shop.getEndTime());
+                    shopJSON.put("shopPicUrl",shop.getPicUrl());
+//                    shopJSON.put("shopMenu")
+                    if (distance <= minDistance) {
+                        JSONObject tempJSON = shopArray.getJSONObject(0);
+                        shopArray.remove(0);
+                        shopArray.add(0,shopJSON);
+                        shopArray.add(tempJSON);
+                    }
+                    else shopArray.add(shopJSON);
+                }
+            }
+        }
+        shopData.put("data",shopArray);
+        dataJSON.put("shopsWithinDistance",shopData);
+        return dataJSON.toJSONString();
     }
 
 

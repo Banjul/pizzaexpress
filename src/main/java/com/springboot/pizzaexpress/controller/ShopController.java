@@ -77,8 +77,6 @@ public class ShopController {
     @RequestMapping(value = "/insertnewshop", method = RequestMethod.POST)
     public String insertNewShop(@RequestBody Map<String, Object> params) {
         String shopName = params.get("shopName").toString();
-        String posX = params.get("posX").toString();
-        String posY = params.get("posY").toString();
         String posString = params.get("posString").toString();
         String picUrl = params.get("picUrl").toString();
         String account = params.get("account").toString();
@@ -87,7 +85,7 @@ public class ShopController {
         String startTime = params.get("startTime").toString();
         String endTime = params.get("endTime").toString();
 
-        return shopService.insertShop(shopName, posX, posY, posString, picUrl,  account, password, phone, startTime,  endTime);
+        return shopService.insertShop(shopName, posString, picUrl,  account, password, phone, startTime,  endTime);
     }
 
     @ApiOperation(value = "删除商家", notes = "")
@@ -121,12 +119,14 @@ public class ShopController {
         return shopService.getShopById(shopId);
     }
 
-//    @ApiOperation(value = "查看工厂信息", notes = "")
-//    @ApiImplicitParam(name = "params", value = "", dataType = "JSON")
-//    @RequestMapping(value = "/getshopbydistance", method = RequestMethod.POST)
-//    public String getShopByDistance (@RequestBody Map<String, Object> params) {
-//
-//    }
+    @ApiOperation(value = "查看工厂信息", notes = "")
+    @ApiImplicitParam(name = "params", value = "", dataType = "JSON")
+    @RequestMapping(value = "/getshopbydistance", method = RequestMethod.POST)
+    public String getShopByDistance (@RequestBody Map<String, Object> params) {
+        String userid = params.get("userId").toString();
+        int userId = Integer.parseInt(userid);
+        return shopService.getAllShopsWithinDistance(userId);
+    }
 
     @ApiOperation(value = "查看工厂所有原料", notes = "")
     @ApiImplicitParam(name = "params", value = "", dataType = "JSON")

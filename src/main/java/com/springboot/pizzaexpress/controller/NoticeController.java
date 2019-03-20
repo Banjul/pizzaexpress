@@ -16,7 +16,7 @@ import java.util.Map;
  * Created by sts on 2019/3/10.
  */
 @RestController
-@RequestMapping(value ="/Notice")
+@RequestMapping(value ="/notice")
 @Api("通知api")
 public class NoticeController {
 
@@ -29,7 +29,7 @@ public class NoticeController {
     public void updateNoticeStatus (@RequestBody Map<String, Object> params) {
         String noticeid = params.get("noticeId").toString();
         int noticeId = Integer.parseInt(noticeid);
-        String newStatus = params.get("status").toString();
+        String newStatus = "已读";
 
         noticeService.updateNoticeStatus(noticeId,newStatus);
     }
