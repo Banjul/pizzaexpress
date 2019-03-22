@@ -114,11 +114,11 @@ public class MenuServiceImp implements MenuService {
             //找到更改的itemId
             if (eachItemId == itemId) {
                 //更改count
-                String itemCountString = itemJson.get("count").toString();
-                int oldCount = Integer.parseInt(itemCountString);
-                int newCount = oldCount + itemCount;
+//                String itemCountString = itemJson.get("count").toString();
+//                int oldCount = Integer.parseInt(itemCountString);
+//                int newCount = oldCount + itemCount;
 //                    String newcount = newCount +"";
-                itemJson.put("count", oldCount);
+                itemJson.put("count", itemCount);
                 JSONObject newItemJson = itemJson;
                 menuOldArray.remove(itemJson);
                 menuOldArray.add(newItemJson);

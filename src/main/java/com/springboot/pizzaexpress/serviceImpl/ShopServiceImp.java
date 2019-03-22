@@ -201,26 +201,33 @@ public class ShopServiceImp implements ShopService{
 
         Shop shop = shopDao.queryShop(shopId);
         int formulaCount ;
+        int formulaId=0;
         switch (formulaName) {
             case "面粉":
+                formulaId = 1;
                 formulaCount = shop.getFlourQuantity();
                 break;
             case "鸡蛋":
+                formulaId = 2;
                 formulaCount = shop.getEggQuantity();
                 break;
             case "芝士":
+                formulaId = 3;
                 formulaCount = shop.getCheeseQuantity();
                 break;
             case "蔬菜":
+                formulaId = 4;
                 formulaCount = shop.getVegetableQuantity();
                 break;
             case "肉":
+                formulaId = 5;
                 formulaCount = shop.getMeatQuantity();
                 break;
             default:
                 formulaCount = 0;
         }
         JSONObject shopJSON = new JSONObject();
+        shopJSON.put("formulaId",formulaId);
         shopJSON.put("formulaName",formulaName);
         shopJSON.put("formulaCount",formulaCount);
 
@@ -266,7 +273,8 @@ public class ShopServiceImp implements ShopService{
         if (shop != null) {
             for (int i = 0; i< 5;i++) {
                 JSONObject shopJSON = new JSONObject();
-                shopJSON.put("formulaId",i);
+                int index = i+1;
+                shopJSON.put("formulaId",index);
                 shopJSON.put("formulaName",formula[i]);
                 shopJSON.put("formulaCount",count[i]);
 
