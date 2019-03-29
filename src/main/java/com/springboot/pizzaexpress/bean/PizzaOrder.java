@@ -13,9 +13,9 @@ import javax.persistence.Table;
 
 @Data
 @Entity
-@Table(name="order")
+@Table(name="pizza_order")
 @JsonIgnoreProperties(value={"hibernateLazyInitializer","handler","fieldHandler"})
-public class Order {
+public class PizzaOrder {
 
     @Id
     @Column(name = "order_id")
