@@ -7,10 +7,7 @@ package com.springboot.pizzaexpress.bean;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Data
 @Entity
@@ -19,6 +16,7 @@ import javax.persistence.Table;
 public class ExpressOrder {
     @Id
     @Column(name = "express_id")
+    @GeneratedValue
     private int expressId;
 
     @Column(name = "deliver_id")
@@ -27,6 +25,16 @@ public class ExpressOrder {
     @Column(name = "order_list")
     private String orderList;
 
+    @Column(name = "express_status")
+    private String expressStatus;
+
+    public String getExpressStatus() {
+        return expressStatus;
+    }
+
+    public void setExpressStatus(String expressStatus) {
+        this.expressStatus = expressStatus;
+    }
 
     public int getExpressId() {
         return expressId;

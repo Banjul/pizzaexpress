@@ -15,6 +15,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpSession;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -52,6 +56,66 @@ public class DeliverController {
 
 
 
+    }
+
+    @ApiOperation(value = "配送员登录", notes = "")
+    @ApiImplicitParam(name = "params", value = "", dataType = "JSON")
+    @RequestMapping(value = "/deliverlogin", method = RequestMethod.POST)
+    public Map<String,Object> deliverLogin(int account, String password, HttpSession session) {
+
+        Map<String, Object> resultMap = new LinkedHashMap<String, Object>();
+        Deliver deliver = deliverService.deliverLogin(account,password);
+        if ( deliver!=null ) {
+            session.setAttribute("deliver",deliver);
+            System.out.println(session);
+            resultMap.put("status", 200);
+            resultMap.put("message", "登录成功");
+            resultMap.put("account", deliver.getDeliverId());
+            resultMap.put("shopID",deliver.getShopId());
+        }
+        else {
+            resultMap.put("status", 500);
+            resultMap.put("message", "账号密码错误");
+        }
+        return resultMap;
+    }
+
+    @ApiOperation(value = "配送员出发", notes = "")
+    @ApiImplicitParam(name = "params", value = "", dataType = "JSON")
+    @RequestMapping(value = "/deliversetout", method = RequestMethod.POST)
+    public void deliverSetOut (@RequestBody Map<String, Object> params) {
+        String deliverID = params.get("deliverId").toString();
+        int deliverId = Integer.parseInt(deliverID);
+
+        String newStatus = "配送中";
+        deliverService.updateDeliverStatus(deliverId,newStatus);
+    }
+
+    @ApiOperation(value = "配送员全部送达", notes = "")
+    @ApiImplicitParam(name = "params", value = "", dataType = "JSON")
+    @RequestMapping(value = "/deliverfree", method = RequestMethod.POST)
+    public void deliverFree (@RequestBody Map<String, Object> params) {
+        String deliverID = params.get("deliverId").toString();
+        int deliverId = Integer.parseInt(deliverID);
+
+        String newStatus = "空闲";
+        deliverService.updateDeliverStatus(deliverId,newStatus);
+    }
+
+    @ApiOperation(value = "配送员某一订单送达", notes = "")
+    @ApiImplicitParam(name = "params", value = "", dataType = "JSON")
+    @RequestMapping(value = "/deliverfinishoneorder", method = RequestMethod.POST)
+    public void deliverFinishOneOrder (@RequestBody Map<String, Object> params) {
+//        String deliverID = params.get("deliverId").toString();
+//        int deliverId = Integer.parseInt(deliverID);
+        String orderID = params.get("pizzaOrderId").toString();
+        int orderId = Integer.parseInt(orderID);
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String finishTime = sdf.format(new Date());
+        String newStatus = "已送达";
+
+        deliverService.deliverFinishOneOrder(orderId,newStatus,finishTime);
     }
 
 }

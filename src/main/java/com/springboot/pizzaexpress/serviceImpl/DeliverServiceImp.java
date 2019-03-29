@@ -6,7 +6,11 @@ package com.springboot.pizzaexpress.serviceImpl;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.springboot.pizzaexpress.bean.Deliver;
+import com.springboot.pizzaexpress.bean.ExpressOrder;
+import com.springboot.pizzaexpress.bean.PizzaOrder;
 import com.springboot.pizzaexpress.dao.DeliverDao;
+import com.springboot.pizzaexpress.dao.OrderDao;
+import com.springboot.pizzaexpress.dao.ExpressOrderDao;
 import com.springboot.pizzaexpress.service.DeliverService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,6 +22,12 @@ public class DeliverServiceImp implements DeliverService{
 
     @Autowired
     private DeliverDao deliverDao;
+
+    @Autowired
+    private OrderDao orderDao;
+
+    @Autowired
+    private ExpressOrderDao expressOrderDao;
 
     @Override
     public String getAllDeliversByShop(int shopId) {
@@ -101,5 +111,42 @@ public class DeliverServiceImp implements DeliverService{
         dataJson.put("deliverData",deliverData);
         return dataJson.toJSONString();
     }
+
+    @Override
+    public Deliver deliverLogin(int account, String password) {
+        return deliverDao.getDeliverByAccountAndPassword(account,password);
+
+    }
+
+    @Override
+    public void updateDeliverStatus(int deliverId, String newStatus) {
+        deliverDao.updateDeliverStatus(deliverId,newStatus);
+    }
+
+    @Override
+    public void deliverFinishOneOrder( int orderId, String newStatus, String finishTime) {
+        orderDao.updateOrderStatus(orderId, newStatus, finishTime);
+    }
+
+//    @Override
+//    public String allocateOrderToDeliver(int shopId, int orderId) {
+//        String status = "空闲";
+//        Deliver deliver = deliverDao.getFreeDeliver(shopId,status);
+//        if (deliver != null) {
+//            int deliverId = deliver.getDeliverId();
+//            ExpressOrder expressOrder = expressOrderDao.queryExpressOrderByDeliverAndStatus(deliverId,"未满");
+//            if (expressOrder !=null) {
+//                int expressOrderId = expressOrder.getExpressId();
+//                String orderList = expressOrder.getOrderList();
+//                String newOrderList = orderList + ","+orderId;
+//                expressOrderDao.updateExpressOrderOrderList(expressOrderId,newOrderList);
+//            }
+//            else {
+//                String orderList = orderId +"";
+//                expressOrderDao.insertExpressOrderOrderList(deliverId,orderList);
+//            }
+//        }
+//        return null;
+//    }
 
 }

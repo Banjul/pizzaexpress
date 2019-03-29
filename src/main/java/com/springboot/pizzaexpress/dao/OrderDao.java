@@ -89,5 +89,9 @@ public interface OrderDao extends JpaRepository<PizzaOrder,String> {
     @Query(value = "delete from pizza_order where order_id = ?1 ", nativeQuery = true)
     void deleteOrderByOrderId(int orderId);
 
+    @Transactional
+    @Modifying
+    @Query(value = "update pizza_order set end_time = ?3, state = ?2 where order_id= ?1",nativeQuery = true)
+    void updateOrderStatus(int orderId,String newStatus, String finishTime);
 
 }

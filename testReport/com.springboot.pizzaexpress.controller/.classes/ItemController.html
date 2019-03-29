@@ -1,0 +1,179 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: ItemController</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">com.springboot.pizzaexpress.controller</a> ]
+</div>
+
+<h1>Coverage Summary for Class: ItemController (com.springboot.pizzaexpress.controller)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ItemController</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    20%
+  </span>
+  <span class="absValue">
+    (1/ 5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    2.5%
+  </span>
+  <span class="absValue">
+    (1/ 40)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package com.springboot.pizzaexpress.controller;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;/**
+<i>4</i>&nbsp; * Created by sts on 2019/3/2.
+<i>5</i>&nbsp; */
+<i>6</i>&nbsp;import com.springboot.pizzaexpress.bean.Item;
+<i>7</i>&nbsp;import com.springboot.pizzaexpress.service.ItemService;
+<i>8</i>&nbsp;import io.swagger.annotations.Api;
+<i>9</i>&nbsp;import io.swagger.annotations.ApiImplicitParam;
+<i>10</i>&nbsp;import io.swagger.annotations.ApiOperation;
+<i>11</i>&nbsp;import io.swagger.models.auth.In;
+<i>12</i>&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+<i>13</i>&nbsp;import org.springframework.web.bind.annotation.RequestBody;
+<i>14</i>&nbsp;import org.springframework.web.bind.annotation.RequestMapping;
+<i>15</i>&nbsp;import org.springframework.web.bind.annotation.RequestMethod;
+<i>16</i>&nbsp;import org.springframework.web.bind.annotation.RestController;
+<i>17</i>&nbsp;
+<i>18</i>&nbsp;import java.util.List;
+<i>19</i>&nbsp;import java.util.Map;
+<i>20</i>&nbsp;@RestController
+<i>21</i>&nbsp;@RequestMapping(value =&quot;/item&quot;)
+<i>22</i>&nbsp;@Api(&quot;披萨种类api&quot;)
+<b class="fc"><i>23</i>&nbsp;public class ItemController {</b>
+<i>24</i>&nbsp;
+<i>25</i>&nbsp;    @Autowired
+<i>26</i>&nbsp;    private ItemService itemService;
+<i>27</i>&nbsp;
+<i>28</i>&nbsp;    @ApiOperation(value=&quot;查询所有pizza种类&quot;)
+<i>29</i>&nbsp;    @RequestMapping(value = &quot;/getallitems&quot;,method = RequestMethod.POST)
+<i>30</i>&nbsp;    public String getLastTwentyOrders(){
+<b class="nc"><i>31</i>&nbsp;        return itemService.getAllItems();</b>
+<i>32</i>&nbsp;    }
+<i>33</i>&nbsp;
+<i>34</i>&nbsp;    @ApiOperation(value=&quot;更新pizza种类&quot;)
+<i>35</i>&nbsp;    @ApiImplicitParam(name = &quot;params&quot;, value = &quot;包含开始时间，结束时间,shopId,deliverID,order_id的json&quot;, dataType = &quot;JSON&quot;)
+<i>36</i>&nbsp;    @RequestMapping(value = &quot;/updateitems&quot;, method = RequestMethod.POST)
+<i>37</i>&nbsp;    public String updateItems (@RequestBody Map&lt;String, Object&gt; params) {
+<b class="nc"><i>38</i>&nbsp;        String pizzaid = params.get(&quot;pizzaID&quot;).toString();</b>
+<b class="nc"><i>39</i>&nbsp;        int pizzaId = Integer.parseInt(pizzaid);</b>
+<b class="nc"><i>40</i>&nbsp;        String pizzaName = params.get(&quot;pizzaName&quot;).toString();</b>
+<b class="nc"><i>41</i>&nbsp;        String description = params.get(&quot;description&quot;).toString();</b>
+<b class="nc"><i>42</i>&nbsp;        String pizzaStatus = params.get(&quot;pizzaStatus&quot;).toString();</b>
+<b class="nc"><i>43</i>&nbsp;        String price9s = params.get(&quot;price9&quot;).toString();</b>
+<i>44</i>&nbsp;
+<b class="nc"><i>45</i>&nbsp;        double price9 = Double.parseDouble(price9s);</b>
+<b class="nc"><i>46</i>&nbsp;        String price12s = params.get(&quot;price12&quot;).toString();</b>
+<b class="nc"><i>47</i>&nbsp;        double price12 = Double.parseDouble(price12s);</b>
+<b class="nc"><i>48</i>&nbsp;        String picURL = &quot;http://modernmixvancouver.com/wp-content/uploads/2016/11/Famoso-Korean-BBQ-PIzza--360x180.jpg&quot;;</b>
+<b class="nc"><i>49</i>&nbsp;        return itemService.updateItems(pizzaId,pizzaName,description,pizzaStatus,price9,price12,picURL);</b>
+<i>50</i>&nbsp;    }
+<i>51</i>&nbsp;
+<i>52</i>&nbsp;    @ApiOperation(value=&quot;添加pizza种类&quot;)
+<i>53</i>&nbsp;    @ApiImplicitParam(name = &quot;params&quot;, value = &quot;包含开始时间，结束时间,shopId,deliverID,order_id的json&quot;, dataType = &quot;JSON&quot;)
+<i>54</i>&nbsp;    @RequestMapping(value = &quot;/insertitems&quot;, method = RequestMethod.POST)
+<i>55</i>&nbsp;    public String insertItems (@RequestBody Map&lt;String, Object&gt; params) {
+<b class="nc"><i>56</i>&nbsp;        String pizzaName = params.get(&quot;pizzaName&quot;).toString();</b>
+<b class="nc"><i>57</i>&nbsp;        String description = params.get(&quot;description&quot;).toString();</b>
+<b class="nc"><i>58</i>&nbsp;        String flourS = params.get(&quot;flour&quot;).toString();</b>
+<b class="nc"><i>59</i>&nbsp;        double flour = Double.parseDouble(flourS);</b>
+<b class="nc"><i>60</i>&nbsp;        String eggS = params.get(&quot;egg&quot;).toString();</b>
+<b class="nc"><i>61</i>&nbsp;        double egg = Double.parseDouble(eggS);</b>
+<b class="nc"><i>62</i>&nbsp;        String cheeseS = params.get(&quot;cheese&quot;).toString();</b>
+<b class="nc"><i>63</i>&nbsp;        double cheese = Double.parseDouble(cheeseS);</b>
+<b class="nc"><i>64</i>&nbsp;        String vegetableS = params.get(&quot;vegetable&quot;).toString();</b>
+<b class="nc"><i>65</i>&nbsp;        double vegetable = Double.parseDouble(vegetableS);</b>
+<b class="nc"><i>66</i>&nbsp;        String meatS = params.get(&quot;meat&quot;).toString();</b>
+<b class="nc"><i>67</i>&nbsp;        double meat = Double.parseDouble(meatS);</b>
+<b class="nc"><i>68</i>&nbsp;        String pizzaStatus = &quot;上架&quot;;</b>
+<b class="nc"><i>69</i>&nbsp;        String picURL = &quot;https://tse4.mm.bing.net/th?id=OIP.gdbTlUtZuBW0tunKDj4BXgAAAA&amp;pid=Api&quot;;</b>
+<b class="nc"><i>70</i>&nbsp;        String price9S = params.get(&quot;price9&quot;).toString();</b>
+<b class="nc"><i>71</i>&nbsp;        double price9 = Double.parseDouble(price9S);</b>
+<b class="nc"><i>72</i>&nbsp;        String price12S = params.get(&quot;price12&quot;).toString();</b>
+<b class="nc"><i>73</i>&nbsp;        double price12 = Double.parseDouble(price12S);</b>
+<i>74</i>&nbsp;
+<b class="nc"><i>75</i>&nbsp;        return itemService.insertItemAndFormula(pizzaName,description,flour,egg,cheese,vegetable,meat,pizzaStatus,picURL,price9,price12);</b>
+<i>76</i>&nbsp;
+<i>77</i>&nbsp;    }
+<i>78</i>&nbsp;
+<i>79</i>&nbsp;    @ApiOperation(value=&quot;根据id和name选择pizza种类&quot;)
+<i>80</i>&nbsp;    @ApiImplicitParam(name = &quot;params&quot;, value = &quot;json&quot;, dataType = &quot;JSON&quot;)
+<i>81</i>&nbsp;    @RequestMapping(value = &quot;/getitembyidorname&quot;, method = RequestMethod.POST)
+<i>82</i>&nbsp;    public String getItemByIdOrName (@RequestBody Map&lt;String, Object&gt; params) {
+<b class="nc"><i>83</i>&nbsp;        String itemID = params.get(&quot;pizzaID&quot;).toString();</b>
+<b class="nc"><i>84</i>&nbsp;        String itemName = params.get(&quot;pizzaName&quot;).toString();</b>
+<b class="nc"><i>85</i>&nbsp;        System.err.println(itemID);</b>
+<b class="nc"><i>86</i>&nbsp;        System.err.println(itemName);</b>
+<i>87</i>&nbsp;
+<b class="nc"><i>88</i>&nbsp;        if (itemID.equals(&quot;-1&quot;))</b>
+<b class="nc"><i>89</i>&nbsp;            return itemService.getItemByName(itemName);</b>
+<i>90</i>&nbsp;        else {
+<b class="nc"><i>91</i>&nbsp;            int itemId = Integer.parseInt(itemID);</b>
+<b class="nc"><i>92</i>&nbsp;            return itemService.getItemById(itemId);</b>
+<i>93</i>&nbsp;        }
+<i>94</i>&nbsp;    }
+<i>95</i>&nbsp;
+<i>96</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2019-03-29 09:18</div>
+</div>
+</body>
+</html>

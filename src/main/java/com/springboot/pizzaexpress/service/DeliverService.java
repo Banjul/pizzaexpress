@@ -14,4 +14,11 @@ public interface DeliverService {
 
     public String queryDeliverById(int deliverID,int shopId);
 
+    public Deliver deliverLogin(int account,String password);
+
+    public void updateDeliverStatus(int deliverId,String newStatus);
+
+    public void deliverFinishOneOrder(int orderId,String newStatus,String finishTime);
+
+//    public String allocateOrderToDeliver(int shopId,int orderId);
 }

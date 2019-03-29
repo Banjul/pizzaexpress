@@ -3,15 +3,18 @@ package com.springboot.pizzaexpress.controller;
 /**
  * Created by sts on 2019/3/2.
  */
+import com.springboot.pizzaexpress.bean.Deliver;
 import com.springboot.pizzaexpress.bean.PizzaOrder;
 import com.springboot.pizzaexpress.bean.Shop;
 import com.springboot.pizzaexpress.bean.User;
 import com.springboot.pizzaexpress.dao.UserDao;
+import com.springboot.pizzaexpress.service.DeliverService;
 import com.springboot.pizzaexpress.service.OrderService;
 import com.springboot.pizzaexpress.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,7 +39,8 @@ public class OrderController {
     private OrderService orderService;
 
     @Autowired
-    private UserService userService;
+    private DeliverService deliverService;
+
 
 
     @ApiOperation(value="查询最新20条订单")
@@ -80,7 +84,18 @@ public class OrderController {
 
     }
 
-
+//    @ApiOperation(value = "分配订单给配送员", notes = "需要，开始时间，结束时间")
+//    @ApiImplicitParam(name = "params", value = "包含，deliverName,shopId,deliverID的Json", dataType = "JSON")
+//    @RequestMapping(value = "/allocateordertodeliver", method = RequestMethod.POST)
+//    public String allocateOrderToDeliver( @RequestBody Map<String, Object> params){
+//        String shopid = params.get("shopID").toString();
+//        int shopId = Integer.parseInt(shopid);
+//        String orderID = params.get("orderID").toString();
+//        int orderId = Integer.parseInt(orderID);
+//
+//        deliverService.allocateOrderToDeliver(shopId,orderId);
+//        return null;
+//    }
 //    @ApiOperation(value="查询最新20条订单")
 //    @ApiImplicitParam(name = "params", value = "包含开始时间，结束时间,shopId,deliverID,order_id的json", dataType = "JSON")
 //    @RequestMapping(value = "/getcancelorder",method = RequestMethod.POST)
