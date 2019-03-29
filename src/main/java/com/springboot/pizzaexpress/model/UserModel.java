@@ -23,4 +23,20 @@ public class UserModel {
     public HttpSession getHttpSession() {
         return httpSession;
     }
+
+    public void setHttpSession(HttpSession httpSession) {
+        this.httpSession = httpSession;
+    }
+
+    public void setNickName(String nickName) {
+        this.nickName = nickName;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setTelephone(String telephone) {
+        this.telephone = telephone;
+    }
 }
