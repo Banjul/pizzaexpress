@@ -38,7 +38,7 @@ public class CartController {
         User u = (User)session.getAttribute("userInfo");
         if(u==null){
             responseModel.setStatus("500");
-            responseModel.setMessage("用户未登录！");
+            responseModel.setMessage("用户未登录!");
 
         }
         else{
@@ -69,7 +69,7 @@ public class CartController {
         ItemWrapModel itemWrapModel;
         if(u==null){
             responseModel.setStatus("500");
-            responseModel.setMessage("用户未登录！");
+            responseModel.setMessage("用户未登录!");
 
         }
         else {

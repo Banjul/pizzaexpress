@@ -4,7 +4,6 @@ package com.springboot.pizzaexpress.controller;
  * Created by sts on 2019/3/2.
  */
 import com.springboot.pizzaexpress.bean.User;
-import com.springboot.pizzaexpress.dto.LoginResponse;
 import com.springboot.pizzaexpress.model.ResponseModel;
 import com.springboot.pizzaexpress.model.UserModel;
 import com.springboot.pizzaexpress.service.UserService;
@@ -47,7 +46,7 @@ public class UserController {
         }
         else{
             int u = userService.setUser(name,password);
-            System.err.println(u);
+            //System.err.println(u);
             if(u!=0){
                 response.setStatus("200");
                 response.setMessage("注册成功");
