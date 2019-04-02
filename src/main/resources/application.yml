@@ -19,11 +19,11 @@ spring:
        restart:
          enabled: false
     datasource:
-      driver-class-name: com.mysql.jdbc.Driver
-      url: jdbc:mysql://139.196.200.37:3306/?characterEncoding=utf-8
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://127.0.0.1:3306/pizzaExpress?characterEncoding=utf-8
       hikari:
-        username: environment
-        password: Nelson1006.
+        username: root
+        password: 463799
     jpa:
         hibernate:
           ddl-auto: update
