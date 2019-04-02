@@ -85,4 +85,28 @@ public class UserController {
 
         return response;
     }
+
+    @ApiOperation(value = "用户修改个人信息",httpMethod = "POST",notes = "")
+    @RequestMapping(value = "/modifyPersonalInfo")
+    public ResponseModel modifyPersonalInfo(HttpSession session,@RequestBody UserModel userModel){
+        ResponseModel responseModel = new ResponseModel();
+        User u = (User) session.getAttribute("userInfo");
+        if(u==null){
+            responseModel.setStatus("500");
+            responseModel.setMessage("用户未登录!");
+
+        }
+        else {
+            int userId = u.getUserId();
+            String nickName = u.getNickName();
+
+            int result = userService.modifyName(nickName,userId);
+            if(result>0) {
+                responseModel.setStatus("200");
+                responseModel.setMessage("修改信息成功！");
+                responseModel.setModel(userModel);
+            }
+        }
+        return responseModel;
+    }
 }

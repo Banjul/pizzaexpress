@@ -101,6 +101,14 @@ public class PizzaOrderModel {
         this.price = price;
     }
 
+    public void setToPosX(String toPosX) {
+        this.toPosX = toPosX;
+    }
+
+    public void setToPosY(String toPosY) {
+        this.toPosY = toPosY;
+    }
+
     //    private ExpressModel express;
 //
 //    private double price;

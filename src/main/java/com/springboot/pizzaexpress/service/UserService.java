@@ -11,6 +11,5 @@ import java.util.List;
 public interface UserService {
     public User findByUserName(String name);
     public int setUser(String name,String password);
-
-
+    public int modifyName(String name,int userId);
 }

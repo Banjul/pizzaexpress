@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class PizzaOrderServiceImp implements PizzaOrderService {
@@ -23,4 +24,19 @@ public class PizzaOrderServiceImp implements PizzaOrderService {
     return pizzaOrderDao.insertToPizzaOrder(userId, shopId, items,startTime,state,fromPosX,fromPosY,toPosX,toPosY,price);
     }
 
+    @Override
+    public Date findStartTime(int orderId) {
+        return pizzaOrderDao.findStartTime(orderId);
+    }
+
+    @Override
+    public void modifyStatus(int orderId) {
+        pizzaOrderDao.modifyStatus(orderId);
+    }
+
+    @Override
+    public List<PizzaOrder> queryOrderByUserId(int userId) {
+        return pizzaOrderDao.queryOrderByUserId(userId);
+
+    }
 }

@@ -1,12 +1,13 @@
 package com.springboot.pizzaexpress.model;
 
 import javax.servlet.http.HttpSession;
+import java.util.Map;
 
 public class UserModel {
     private String nickName;
     private String password;
     private String telephone;
-    private HttpSession httpSession;
+    private Map<String,String> address;
 
     public String getNickName() {
         return nickName;
@@ -20,14 +21,6 @@ public class UserModel {
         return password;
     }
 
-    public HttpSession getHttpSession() {
-        return httpSession;
-    }
-
-    public void setHttpSession(HttpSession httpSession) {
-        this.httpSession = httpSession;
-    }
-
     public void setNickName(String nickName) {
         this.nickName = nickName;
     }
@@ -38,5 +31,13 @@ public class UserModel {
 
     public void setTelephone(String telephone) {
         this.telephone = telephone;
+    }
+
+    public Map<String, String> getAddress() {
+        return address;
+    }
+
+    public void setAddress(Map<String, String> address) {
+        this.address = address;
     }
 }

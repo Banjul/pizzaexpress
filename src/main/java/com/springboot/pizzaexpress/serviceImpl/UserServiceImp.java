@@ -30,5 +30,8 @@ public class UserServiceImp implements UserService{
         return userId;
     }
 
-
+    @Override
+    public int modifyName(String name,int userId) {
+        return userDao.modifyName(name,userId);
+    }
 }

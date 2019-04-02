@@ -42,51 +42,51 @@ public class Shop {
     @Column(name = "password")
     private String password;
 
-    public int getShop_id() {
+    public int getShopId() {
         return shopId;
     }
 
-    public void setShop_id(int shop_id) {
+    public void setShopId(int shop_id) {
         this.shopId = shop_id;
     }
 
-    public String getShop_name() {
+    public String getShopName() {
         return shopName;
     }
 
-    public void setShop_name(String shop_name) {
+    public void setShopName(String shop_name) {
         this.shopName = shop_name;
     }
 
-    public String getPos_x() {
+    public String getPosX() {
         return posX;
     }
 
-    public void setPos_x(String pos_x) {
+    public void setPosX(String pos_x) {
         this.posX = pos_x;
     }
 
-    public String getPos_y() {
+    public String getPosY() {
         return posY;
     }
 
-    public void setPos_y(String pos_y) {
+    public void setPosY(String pos_y) {
         this.posY = pos_y;
     }
 
-    public String getPos_string() {
+    public String getPosString() {
         return posString;
     }
 
-    public void setPos_string(String pos_string) {
+    public void setPosString(String pos_string) {
         this.posString = pos_string;
     }
 
-    public String getPic_url() {
+    public String getPicUrl() {
         return picUrl;
     }
 
-    public void setPic_url(String pic_url) {
+    public void setPicUrl(String pic_url) {
         this.picUrl = pic_url;
     }
 
