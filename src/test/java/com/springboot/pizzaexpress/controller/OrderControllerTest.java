@@ -1,44 +1,21 @@
 package com.springboot.pizzaexpress.controller;
 
 
-import com.springboot.pizzaexpress.bean.Item;
-import com.springboot.pizzaexpress.bean.Shop;
-import com.springboot.pizzaexpress.bean.User;
-import com.springboot.pizzaexpress.model.ItemWrapModel;
-import com.springboot.pizzaexpress.model.PizzaOrderModel;
-import com.springboot.pizzaexpress.model.ResponseModel;
-import net.sf.json.JSONArray;
-import net.sf.json.JSONArray;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.mock.web.MockHttpServletRequest;
-import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.mock.web.MockHttpSession;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import com.springboot.pizzaexpress.controller.PizzaOrderController;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.context.WebApplicationContext;
 
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
 
 import static net.sf.json.JSONArray.fromObject;
 import static org.junit.Assert.*;
@@ -51,7 +28,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebAppConfiguration
 @AutoConfigureMockMvc
 @Transactional
-public class PizzaOrderControllerTest {
+public class OrderControllerTest {
     @Autowired
     protected MockMvc mockMvc;
 

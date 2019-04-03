@@ -4,7 +4,7 @@ package com.springboot.pizzaexpress.dao;
  * Created by sts on 2019/3/1.
  */
 
-import com.springboot.pizzaexpress.bean.PizzaOrder;
+import com.springboot.pizzaexpress.bean.Order;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -17,7 +17,7 @@ import java.util.List;
 
 @Component
 @Repository
-public interface PizzaOrderDao extends JpaRepository<PizzaOrder,String> {
+public interface OrderDao extends JpaRepository<Order,String> {
 
     @Modifying
     @Transactional
@@ -35,6 +35,6 @@ public interface PizzaOrderDao extends JpaRepository<PizzaOrder,String> {
 
 
     @Query(value = "select * from pizza_order where user_id = ?1",nativeQuery = true)
-    List<PizzaOrder> queryOrderByUserId(int userId);
+    List<Order> queryOrderByUserId(int userId);
 
 }

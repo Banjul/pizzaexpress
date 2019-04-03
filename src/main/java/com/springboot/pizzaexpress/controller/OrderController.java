@@ -6,12 +6,12 @@ package com.springboot.pizzaexpress.controller;
 import com.springboot.pizzaexpress.bean.Item;
 import com.springboot.pizzaexpress.bean.Shop;
 import com.springboot.pizzaexpress.bean.User;
-import com.springboot.pizzaexpress.bean.PizzaOrder;
+import com.springboot.pizzaexpress.bean.Order;
 import com.springboot.pizzaexpress.model.ItemWrapModel;
 import com.springboot.pizzaexpress.model.PizzaOrderModel;
 import com.springboot.pizzaexpress.model.ResponseModel;
 import com.springboot.pizzaexpress.model.ShopModel;
-import com.springboot.pizzaexpress.service.PizzaOrderService;
+import com.springboot.pizzaexpress.service.OrderService;
 import com.springboot.pizzaexpress.service.ShopService;
 import com.springboot.pizzaexpress.service.UserService;
 import io.swagger.annotations.Api;
@@ -22,15 +22,14 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.util.*;
-import java.text.SimpleDateFormat;
 
 @RestController
 @RequestMapping("/order")
 @Api("订单api")
-public class PizzaOrderController {
+public class OrderController {
 
     @Autowired
-    private PizzaOrderService pizzaOrderService;
+    private OrderService orderService;
     @Autowired
     private ShopService shopService;
     @Autowired
@@ -71,7 +70,7 @@ public class PizzaOrderController {
 
             }else {
 
-                pizzaOrderService.insertToPizzaOrder(userId, shopId, items, startTime, state, fromPosX, fromPosY, toPosX, toPosY, price);
+                orderService.insertToPizzaOrder(userId, shopId, items, startTime, state, fromPosX, fromPosY, toPosX, toPosY, price);
 
                 responseModel.setStatus("200");
                 responseModel.setMessage("下单成功！");
@@ -94,7 +93,7 @@ public class PizzaOrderController {
             int orderId = pizzaOrderModel.getPizzaOrderId();
             Date time = new Date();
             System.out.println(time);
-            Date startTime = pizzaOrderService.findStartTime(orderId);
+            Date startTime = orderService.findStartTime(orderId);
             long start = time.getTime();
             long end = startTime.getTime();
             int msec = (int) (start - end);
@@ -103,7 +102,7 @@ public class PizzaOrderController {
                 responseModel.setStatus("500");
                 responseModel.setMessage("超时，取消失败！");
             } else {
-                pizzaOrderService.modifyStatus(orderId);
+                orderService.modifyStatus(orderId);
                 responseModel.setStatus("200");
                 responseModel.setMessage("取消成功！");
             }
@@ -121,8 +120,8 @@ public class PizzaOrderController {
             responseModel.setMessage("用户未登录!");
         } else {
             int userId = u.getUserId();
-            List<PizzaOrder> list = pizzaOrderService.queryOrderByUserId(userId);
-            for (PizzaOrder pizzaOrder : list) {
+            List<Order> list = orderService.queryOrderByUserId(userId);
+            for (Order pizzaOrder : list) {
                 int shopId = pizzaOrder.getShopId();
                 Shop shop = shopService.findByShopId(shopId);
                 ShopModel shopModel = new ShopModel();
