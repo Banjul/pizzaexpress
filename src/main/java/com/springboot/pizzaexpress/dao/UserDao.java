@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
+import java.util.Date;
 
 @Component
 @Repository
@@ -24,13 +25,41 @@ public interface UserDao extends JpaRepository<User,String> {
 
     @Modifying
     @Transactional
-    @Query(value = "insert into user(nick_name,password,money) values(?1,?2,'0.00')",nativeQuery = true)
-    int addUser(String name,String password);
+    @Query(value = "insert into user(nick_name,password,money,status,last_login) values(?1,?2,'0.00','online',?3)",nativeQuery = true)
+    int addUser(String name,String password,Date time);
 
     @Modifying(clearAutomatically = true)
     @Transactional
     @Query(value = "update user set nick_name = ?1 where user_id = ?2",nativeQuery = true)
     int modifyName(String name,int userId);
 
+    @Query(value = "select * from user where user_id = ?1",nativeQuery = true)
+    User findByUserId(int userId);
+
+    @Modifying(clearAutomatically = true)
+    @Transactional
+    @Query(value = "update user set address = ?1 where user_id =?2",nativeQuery = true)
+    int modifyAddress(String address,int userId);
+
+    @Modifying(clearAutomatically = true)
+    @Transactional
+    @Query(value ="update user set status = 'online' , last_login=?1 where user_id=?2",nativeQuery = true)
+    int modifyState(Date time,int userId);
+
+    @Query(value = "select money from user where user_id=?1",nativeQuery = true)
+    double findBalance(int userId);
+
+    @Modifying(clearAutomatically = true)
+    @Transactional
+    @Query(value ="update user set money=?1 where user_id =?2",nativeQuery = true)
+    int modifyBalance(double balance,int userId);
+
+    @Query(value = "select * from user where phone_number=?1",nativeQuery = true)
+    User findByTelephone(String telephone);
+
+    @Modifying
+    @Transactional
+    @Query(value = "insert into user(nick_name,phone_number,money,status,last_login) VALUES (?1,?2,'99.00','online',?3)",nativeQuery = true)
+    int addUser2(String nickName, String telephone, Date time);
 
 }

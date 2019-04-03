@@ -13,6 +13,7 @@ import com.springboot.pizzaexpress.model.ResponseModel;
 import com.springboot.pizzaexpress.model.ShopModel;
 import com.springboot.pizzaexpress.service.PizzaOrderService;
 import com.springboot.pizzaexpress.service.ShopService;
+import com.springboot.pizzaexpress.service.UserService;
 import io.swagger.annotations.Api;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -32,6 +33,8 @@ public class PizzaOrderController {
     private PizzaOrderService pizzaOrderService;
     @Autowired
     private ShopService shopService;
+    @Autowired
+    private UserService userService;
 
     @RequestMapping(value = "/addOrder", method = RequestMethod.POST)
     public ResponseModel addOrder(@RequestBody PizzaOrderModel pizzaOrderModel, HttpSession session) {
@@ -60,11 +63,22 @@ public class PizzaOrderController {
             String toPosY = pizzaOrderModel.getToPosY();
             double price = pizzaOrderModel.getPrice();
 
-            pizzaOrderService.insertToPizzaOrder(userId, shopId, items, startTime, state, fromPosX, fromPosY, toPosX, toPosY, price);
+            //获取用户账户余额
+            double balance = userService.findBalance(userId);
+            if(balance<price){
+                responseModel.setStatus("500");
+                responseModel.setMessage("余额不足！下单失败");
 
-            responseModel.setStatus("200");
-            responseModel.setMessage("下单成功！");
-            responseModel.setModel(pizzaOrderModel);
+            }else {
+
+                pizzaOrderService.insertToPizzaOrder(userId, shopId, items, startTime, state, fromPosX, fromPosY, toPosX, toPosY, price);
+
+                responseModel.setStatus("200");
+                responseModel.setMessage("下单成功！");
+                responseModel.setModel(pizzaOrderModel);
+                balance = balance -price;
+                userService.modifyBalance(balance,userId);
+            }
         }
         return responseModel;
     }

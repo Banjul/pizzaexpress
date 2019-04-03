@@ -8,6 +8,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Data
 @Entity
@@ -36,6 +37,12 @@ public class User {
 
     @Column(name="money")
     private double money;
+
+    @Column(name="status")
+    private String state;
+
+    @Column(name="last_login")
+    private Date lastLoginTime;
 
     public int getUserId() {
         return userId;
@@ -91,5 +98,21 @@ public class User {
 
     public void setMoney(double money) {
         this.money = money;
+    }
+
+    public Date getLastLoginTime() {
+        return lastLoginTime;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setLastLoginTime(Date lastLoginTime) {
+        this.lastLoginTime = lastLoginTime;
+    }
+
+    public void setState(String state) {
+        this.state = state;
     }
 }
