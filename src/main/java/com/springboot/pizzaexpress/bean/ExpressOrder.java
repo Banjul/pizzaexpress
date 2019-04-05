@@ -7,10 +7,7 @@ package com.springboot.pizzaexpress.bean;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Data
 @Entity
@@ -19,37 +16,48 @@ import javax.persistence.Table;
 public class ExpressOrder {
     @Id
     @Column(name = "express_id")
-    private int express_id;
+    @GeneratedValue
+    private int expressId;
 
     @Column(name = "deliver_id")
-    private int deliver_id;
+    private int deliverId;
 
     @Column(name = "order_list")
-    private String order_list;
+    private String orderList;
 
+    @Column(name = "express_status")
+    private String expressStatus;
 
-    public int getExpress_id() {
-        return express_id;
+    public String getExpressStatus() {
+        return expressStatus;
     }
 
-    public void setExpress_id(int express_id) {
-        this.express_id = express_id;
+    public void setExpressStatus(String expressStatus) {
+        this.expressStatus = expressStatus;
     }
 
-    public int getDeliver_id() {
-        return deliver_id;
+    public int getExpressId() {
+        return expressId;
     }
 
-    public void setDeliver_id(int deliver_id) {
-        this.deliver_id = deliver_id;
+    public void setExpressId(int expressId) {
+        this.expressId = expressId;
     }
 
-    public String getOrder_list() {
-        return order_list;
+    public int getDeliverId() {
+        return deliverId;
     }
 
-    public void setOrder_list(String order_list) {
-        this.order_list = order_list;
+    public void setDeliverId(int deliverId) {
+        this.deliverId = deliverId;
+    }
+
+    public String getOrderList() {
+        return orderList;
+    }
+
+    public void setOrderList(String orderList) {
+        this.orderList = orderList;
     }
 
 

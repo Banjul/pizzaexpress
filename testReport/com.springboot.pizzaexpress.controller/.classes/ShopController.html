@@ -1,0 +1,226 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: ShopController</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">com.springboot.pizzaexpress.controller</a> ]
+</div>
+
+<h1>Coverage Summary for Class: ShopController (com.springboot.pizzaexpress.controller)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ShopController</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    22.2%
+  </span>
+  <span class="absValue">
+    (2/ 9)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    22%
+  </span>
+  <span class="absValue">
+    (9/ 41)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package com.springboot.pizzaexpress.controller;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;/**
+<i>4</i>&nbsp; * Created by sts on 2019/3/2.
+<i>5</i>&nbsp; */
+<i>6</i>&nbsp;import com.springboot.pizzaexpress.bean.Shop;
+<i>7</i>&nbsp;import com.springboot.pizzaexpress.service.ShopService;
+<i>8</i>&nbsp;import io.swagger.annotations.Api;
+<i>9</i>&nbsp;import io.swagger.annotations.ApiImplicitParam;
+<i>10</i>&nbsp;import io.swagger.annotations.ApiImplicitParams;
+<i>11</i>&nbsp;import io.swagger.annotations.ApiOperation;
+<i>12</i>&nbsp;import org.springframework.beans.factory.annotation.Autowired;
+<i>13</i>&nbsp;import org.springframework.web.bind.annotation.*;
+<i>14</i>&nbsp;
+<i>15</i>&nbsp;import java.util.LinkedHashMap;
+<i>16</i>&nbsp;import java.util.List;
+<i>17</i>&nbsp;import java.util.Map;
+<i>18</i>&nbsp;import java.util.jar.JarEntry;
+<i>19</i>&nbsp;import javax.servlet.http.HttpSession;
+<i>20</i>&nbsp;
+<i>21</i>&nbsp;@RestController
+<i>22</i>&nbsp;@RequestMapping(value =&quot;/shop&quot;)
+<i>23</i>&nbsp;@Api(&quot;商店api&quot;)
+<b class="fc"><i>24</i>&nbsp;public class ShopController {</b>
+<i>25</i>&nbsp;
+<i>26</i>&nbsp;    @Autowired
+<i>27</i>&nbsp;    private ShopService shopService;
+<i>28</i>&nbsp;
+<i>29</i>&nbsp;
+<i>30</i>&nbsp;    @ApiOperation(value=&quot;登录&quot;,notes = &quot;需要参数：用户id，用户密码,session&quot;)
+<i>31</i>&nbsp;    @ApiImplicitParams({
+<i>32</i>&nbsp;            @ApiImplicitParam(name = &quot;account&quot;,value=&quot;管理员id（指定）&quot;,dataType = &quot;String&quot;),
+<i>33</i>&nbsp;            @ApiImplicitParam(name=&quot;password&quot;,value = &quot;用户密码&quot;,dataType = &quot;String&quot;),
+<i>34</i>&nbsp;            @ApiImplicitParam(name=&quot;session&quot;,value = &quot;session&quot;,dataType = &quot;HttpSession&quot;)
+<i>35</i>&nbsp;    }
+<i>36</i>&nbsp;    )
+<i>37</i>&nbsp;    @RequestMapping(value=&quot;/login&quot;,method=RequestMethod.GET)
+<i>38</i>&nbsp;    @ResponseBody
+<i>39</i>&nbsp;    public Map&lt;String,Object&gt; login(String account, String password, HttpSession session) {
+<b class="fc"><i>40</i>&nbsp;        System.out.println(account);</b>
+<b class="fc"><i>41</i>&nbsp;        System.out.print(password);</b>
+<b class="fc"><i>42</i>&nbsp;        Map&lt;String, Object&gt; resultMap = new LinkedHashMap&lt;String, Object&gt;();</b>
+<b class="fc"><i>43</i>&nbsp;        Shop shopAdmin = shopService.adminLogin(account,password);</b>
+<b class="fc"><i>44</i>&nbsp;        if ( shopAdmin!=null ) {</b>
+<b class="nc"><i>45</i>&nbsp;                session.setAttribute(&quot;shopAdmin&quot;,shopAdmin);</b>
+<b class="nc"><i>46</i>&nbsp;                System.out.println(session);</b>
+<b class="nc"><i>47</i>&nbsp;                resultMap.put(&quot;status&quot;, 200);</b>
+<b class="nc"><i>48</i>&nbsp;                resultMap.put(&quot;message&quot;, &quot;登录成功&quot;);</b>
+<b class="nc"><i>49</i>&nbsp;                resultMap.put(&quot;account&quot;, shopAdmin.getAccount());</b>
+<b class="nc"><i>50</i>&nbsp;                resultMap.put(&quot;shopID&quot;,shopAdmin.getShopId());</b>
+<i>51</i>&nbsp;        }
+<i>52</i>&nbsp;        else {
+<b class="fc"><i>53</i>&nbsp;            resultMap.put(&quot;status&quot;, 500);</b>
+<b class="fc"><i>54</i>&nbsp;            resultMap.put(&quot;message&quot;, &quot;账号密码错误&quot;);</b>
+<i>55</i>&nbsp;        }
+<b class="fc"><i>56</i>&nbsp;        return resultMap;</b>
+<i>57</i>&nbsp;    }
+<i>58</i>&nbsp;
+<i>59</i>&nbsp;//    @ApiOperation(value = &quot;根据时间查询订单&quot;, notes = &quot;需要，开始时间，结束时间&quot;)
+<i>60</i>&nbsp;//    @ApiImplicitParam(name = &quot;params&quot;, value = &quot;包含shopId,formula的json&quot;, dataType = &quot;JSON&quot;)
+<i>61</i>&nbsp;//    @RequestMapping(value = &quot;/getformulacount&quot;, method = RequestMethod.POST)
+<i>62</i>&nbsp;//    public int getFormulaCount(@RequestBody Map&lt;String, Object&gt; params) {
+<i>63</i>&nbsp;//        String shopid = params.get(&quot;shopID&quot;).toString();
+<i>64</i>&nbsp;//        int shopId = Integer.parseInt(shopid);
+<i>65</i>&nbsp;//        String formula = params.get(&quot;Formula&quot;).toString();
+<i>66</i>&nbsp;//        return shopService.getFormulaCount(shopId,formula);
+<i>67</i>&nbsp;//    }
+<i>68</i>&nbsp;
+<i>69</i>&nbsp;    @ApiOperation(value = &quot;查询所有工厂&quot;, notes = &quot;需要，开始时间，结束时间&quot;)
+<i>70</i>&nbsp;    @RequestMapping(value = &quot;/getallshops&quot;, method = RequestMethod.POST)
+<i>71</i>&nbsp;    public String getAllShops() {
+<b class="nc"><i>72</i>&nbsp;        return shopService.getAllShops();</b>
+<i>73</i>&nbsp;    }
+<i>74</i>&nbsp;
+<i>75</i>&nbsp;    @ApiOperation(value = &quot;添加商家&quot;, notes = &quot;&quot;)
+<i>76</i>&nbsp;    @ApiImplicitParam(name = &quot;params&quot;, value = &quot;&quot;, dataType = &quot;JSON&quot;)
+<i>77</i>&nbsp;    @RequestMapping(value = &quot;/insertnewshop&quot;, method = RequestMethod.POST)
+<i>78</i>&nbsp;    public String insertNewShop(@RequestBody Map&lt;String, Object&gt; params) {
+<b class="nc"><i>79</i>&nbsp;        String shopName = params.get(&quot;shopName&quot;).toString();</b>
+<b class="nc"><i>80</i>&nbsp;        String posString = params.get(&quot;posString&quot;).toString();</b>
+<b class="nc"><i>81</i>&nbsp;        String picUrl = params.get(&quot;picUrl&quot;).toString();</b>
+<b class="nc"><i>82</i>&nbsp;        String account = params.get(&quot;account&quot;).toString();</b>
+<b class="nc"><i>83</i>&nbsp;        String password = params.get(&quot;password&quot;).toString();</b>
+<b class="nc"><i>84</i>&nbsp;        String phone = params.get(&quot;phone&quot;).toString();</b>
+<b class="nc"><i>85</i>&nbsp;        String startTime = params.get(&quot;startTime&quot;).toString();</b>
+<b class="nc"><i>86</i>&nbsp;        String endTime = params.get(&quot;endTime&quot;).toString();</b>
+<i>87</i>&nbsp;
+<b class="nc"><i>88</i>&nbsp;        return shopService.insertShop(shopName, posString, picUrl,  account, password, phone, startTime,  endTime);</b>
+<i>89</i>&nbsp;    }
+<i>90</i>&nbsp;
+<i>91</i>&nbsp;    @ApiOperation(value = &quot;删除商家&quot;, notes = &quot;&quot;)
+<i>92</i>&nbsp;    @ApiImplicitParam(name = &quot;params&quot;, value = &quot;&quot;, dataType = &quot;JSON&quot;)
+<i>93</i>&nbsp;    @RequestMapping(value = &quot;/deleteshop&quot;, method = RequestMethod.POST)
+<i>94</i>&nbsp;    public String deleteShop(@RequestBody Map&lt;String, Object&gt; params) {
+<b class="nc"><i>95</i>&nbsp;        String shopid = params.get(&quot;shopID&quot;).toString();</b>
+<b class="nc"><i>96</i>&nbsp;        int shopId = Integer.parseInt(shopid);</b>
+<i>97</i>&nbsp;
+<b class="nc"><i>98</i>&nbsp;        return shopService.deleteShop(shopId);</b>
+<i>99</i>&nbsp;    }
+<i>100</i>&nbsp;
+<i>101</i>&nbsp;    @ApiOperation(value = &quot;查询原料&quot;, notes = &quot;&quot;)
+<i>102</i>&nbsp;    @ApiImplicitParam(name = &quot;params&quot;, value = &quot;&quot;, dataType = &quot;JSON&quot;)
+<i>103</i>&nbsp;    @RequestMapping(value = &quot;/getformulbyname&quot;, method = RequestMethod.POST)
+<i>104</i>&nbsp;    public String getFormulaByname(@RequestBody Map&lt;String, Object&gt; params) {
+<b class="nc"><i>105</i>&nbsp;        String shopid = params.get(&quot;shopID&quot;).toString();</b>
+<b class="nc"><i>106</i>&nbsp;        int shopId = Integer.parseInt(shopid);</b>
+<i>107</i>&nbsp;
+<b class="nc"><i>108</i>&nbsp;        String formulaName = params.get(&quot;formulaName&quot;).toString();</b>
+<b class="nc"><i>109</i>&nbsp;        return shopService.getFormulaByname(shopId,formulaName);</b>
+<i>110</i>&nbsp;    }
+<i>111</i>&nbsp;
+<i>112</i>&nbsp;    @ApiOperation(value = &quot;查看工厂信息&quot;, notes = &quot;&quot;)
+<i>113</i>&nbsp;    @ApiImplicitParam(name = &quot;params&quot;, value = &quot;&quot;, dataType = &quot;JSON&quot;)
+<i>114</i>&nbsp;    @RequestMapping(value = &quot;/getshopbyid&quot;, method = RequestMethod.POST)
+<i>115</i>&nbsp;    public String getShopById (@RequestBody Map&lt;String, Object&gt; params) {
+<b class="nc"><i>116</i>&nbsp;        String shopid = params.get(&quot;shopID&quot;).toString();</b>
+<b class="nc"><i>117</i>&nbsp;        int shopId = Integer.parseInt(shopid);</b>
+<i>118</i>&nbsp;
+<b class="nc"><i>119</i>&nbsp;        return shopService.getShopById(shopId);</b>
+<i>120</i>&nbsp;    }
+<i>121</i>&nbsp;
+<i>122</i>&nbsp;    @ApiOperation(value = &quot;查看工厂信息&quot;, notes = &quot;&quot;)
+<i>123</i>&nbsp;    @ApiImplicitParam(name = &quot;params&quot;, value = &quot;&quot;, dataType = &quot;JSON&quot;)
+<i>124</i>&nbsp;    @RequestMapping(value = &quot;/getshopbydistance&quot;, method = RequestMethod.POST)
+<i>125</i>&nbsp;    public String getShopByDistance (@RequestBody Map&lt;String, Object&gt; params) {
+<b class="nc"><i>126</i>&nbsp;        String userid = params.get(&quot;userId&quot;).toString();</b>
+<b class="nc"><i>127</i>&nbsp;        int userId = Integer.parseInt(userid);</b>
+<b class="nc"><i>128</i>&nbsp;        return shopService.getAllShopsWithinDistance(userId);</b>
+<i>129</i>&nbsp;    }
+<i>130</i>&nbsp;
+<i>131</i>&nbsp;    @ApiOperation(value = &quot;查看工厂所有原料&quot;, notes = &quot;&quot;)
+<i>132</i>&nbsp;    @ApiImplicitParam(name = &quot;params&quot;, value = &quot;&quot;, dataType = &quot;JSON&quot;)
+<i>133</i>&nbsp;    @RequestMapping(value = &quot;/getallformulabyshop&quot;, method = RequestMethod.POST)
+<i>134</i>&nbsp;    public String getAllFormulaByShop (@RequestBody Map&lt;String, Object&gt; params) {
+<b class="nc"><i>135</i>&nbsp;        String shopid = params.get(&quot;shopID&quot;).toString();</b>
+<b class="nc"><i>136</i>&nbsp;        int shopId = Integer.parseInt(shopid);</b>
+<i>137</i>&nbsp;
+<b class="nc"><i>138</i>&nbsp;        return shopService.getAllFormulaByShop(shopId);</b>
+<i>139</i>&nbsp;    }
+<i>140</i>&nbsp;
+<i>141</i>&nbsp;
+<i>142</i>&nbsp;
+<i>143</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2019-03-29 09:18</div>
+</div>
+</body>
+</html>

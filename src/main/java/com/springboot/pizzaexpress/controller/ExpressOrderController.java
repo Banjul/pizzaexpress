@@ -17,10 +17,12 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 import java.util.Map;
 @RestController
-@RequestMapping("/expressorder")
+@RequestMapping(value ="/expressorder")
 @Api("配送单api")
 public class ExpressOrderController {
 
     @Autowired
     private ExpressOrderService expressOrderService;
+
+
 }
