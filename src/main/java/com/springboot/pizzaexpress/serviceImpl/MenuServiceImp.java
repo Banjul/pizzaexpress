@@ -22,6 +22,8 @@ import org.springframework.stereotype.Service;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
+import java.util.List;
+
 
 @Service
 public class MenuServiceImp implements MenuService {
@@ -132,5 +134,51 @@ public class MenuServiceImp implements MenuService {
         if (changeFormulaResult == 1 && changeMenuResult == 1) dataJSON.put("status", 200);
         else dataJSON.put("status", 500);
         return dataJSON.toString();
+    }
+
+    @Override
+    public String getMenuByItemName(int shopId, String itemName) {
+        JSONArray menuArray = new JSONArray();
+        JSONObject menuData = new JSONObject();
+        JSONObject dataJson = new JSONObject();
+        Menu menu = menuDao.queryMenuByShopId(shopId);
+        List<Item> item = itemDao.queryItemByName(itemName);
+        if ((menu != null) && (item.size() > 0)) {
+            Item item9 = item.get(0);
+            Item item12 = item.get(1);
+            String menuItems = menu.getItems();
+            JSONArray menuOldArray = JSONArray.fromObject(menuItems);
+            for (int i = 0; i < menuOldArray.size(); i++) {
+                JSONObject itemJson = menuOldArray.getJSONObject(i);
+                String itemIdString = itemJson.get("itemId").toString();
+                String itemCountString = itemJson.get("count").toString();
+                int itemCount = Integer.parseInt(itemCountString);
+                int itemId = Integer.parseInt(itemIdString);
+                JSONObject menuItemJson = new JSONObject();
+                Item oneItem = new Item();
+                if(itemId == item9.getItemId()){
+                    oneItem = item9;
+                }
+                else if(itemId == item12.getItemId()){
+                    oneItem = item12;
+                }
+                else{
+                    continue;
+                }
+                menuItemJson.put("itemId",oneItem.getItemId());
+                menuItemJson.put("itemName", oneItem.getItemName());
+                menuItemJson.put("price", oneItem.getPrice());
+                menuItemJson.put("picUrl", oneItem.getPicUrl());
+                menuItemJson.put("state", oneItem.getState());
+                menuItemJson.put("size", oneItem.getPizzaSize());
+                menuItemJson.put("description", oneItem.getDescription());
+                menuItemJson.put("count", itemCount);
+
+                menuArray.add(menuItemJson);
+            }
+        }
+        menuData.put("data", menuArray);
+        dataJson.put("itemData", menuData);
+        return dataJson.toString();
     }
 }

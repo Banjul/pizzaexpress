@@ -48,4 +48,15 @@ public class MenuController {
 
         return menuService.updateMenuByShopId(shopId,itemId,itemCount);
     }
+
+
+    @ApiOperation(value = "根据名字搜索成品", notes = "需要，商店id，披萨名字")
+    @ApiImplicitParam(name = "params", value = "包含shopId,itemName", dataType = "JSON")
+    @RequestMapping(value = "/getmenubyitemname", method = RequestMethod.POST)
+    public String getMenuByItemName(@RequestBody Map<String, Object> params) {
+        String shopid = params.get("shopID").toString();
+        int shopId = Integer.parseInt(shopid);
+        String itemName = params.get("pizzaName").toString();
+        return menuService.getMenuByItemName(shopId, itemName);
+    }
 }

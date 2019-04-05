@@ -28,10 +28,9 @@ public interface NoticeDao extends JpaRepository<Notice,String> {
     @Query(value = "update notice set status = ?1 where notice_id= ?2",nativeQuery = true)
     void updateNotice(String status, int noticeId);
 
-    @Query(value = "select * from notice where shop_id = ?1 and status = ?2",nativeQuery = true)
+    @Query(value = "select * from notice where shop_id = ?1 and status = ?2 ORDER BY notice_time ASC",nativeQuery = true)
     List<Notice> getAllUnreadNotices(int shopId, String status);
 
     @Query(value = "select * from notice where shop_id = ?1",nativeQuery = true)
     List<Notice> queryAllNotice(int shopId);
-
 }

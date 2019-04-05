@@ -200,7 +200,7 @@ public class ShopServiceImp implements ShopService{
         JSONObject dataJson = new JSONObject();
 
         Shop shop = shopDao.queryShop(shopId);
-        int formulaCount ;
+        int formulaCount=0;
         int formulaId=0;
         switch (formulaName) {
             case "面粉":
@@ -224,7 +224,9 @@ public class ShopServiceImp implements ShopService{
                 formulaCount = shop.getMeatQuantity();
                 break;
             default:
-                formulaCount = 0;
+                formulaData.put("data",formulaArray);
+                dataJson.put("purchaseData",formulaData);
+                return dataJson.toJSONString();
         }
         JSONObject shopJSON = new JSONObject();
         shopJSON.put("formulaId",formulaId);
