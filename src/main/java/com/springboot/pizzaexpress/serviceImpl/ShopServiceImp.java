@@ -5,6 +5,7 @@ package com.springboot.pizzaexpress.serviceImpl;
  */
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.springboot.pizzaexpress.bean.Notice;
 import com.springboot.pizzaexpress.bean.Shop;
 import com.springboot.pizzaexpress.bean.User;
 import com.springboot.pizzaexpress.dao.NoticeDao;
@@ -17,6 +18,7 @@ import com.springboot.pizzaexpress.util.LocationUtils;
 import com.springboot.pizzaexpress.util.HttpClientUtil;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -58,30 +60,31 @@ public class ShopServiceImp implements ShopService{
         Shop shop = shopDao.queryShop(shopId);
         int formulaOldCount;
         int formulaNewCount;
-        if (formulaName.equals("面粉")){
-            formulaOldCount = shop.getFlourQuantity();
-            formulaNewCount = formulaOldCount + purchaseCount;
-            shopDao.updateFlourFormulaCount(shopId,formulaNewCount);
-        }
-        else if (formulaName.equals("芝士")) {
-            formulaOldCount = shop.getCheeseQuantity();
-            formulaNewCount = formulaOldCount + purchaseCount;
-            shopDao.updateCheeseFormulaCount(shopId,formulaNewCount);
-        }
-        else if (formulaName.equals("鸡蛋")) {
-            formulaOldCount = shop.getEggQuantity();
-            formulaNewCount = formulaOldCount + purchaseCount;
-            shopDao.updateEggFormulaCount(shopId,formulaNewCount);
-        }
-        else if (formulaName.equals("蔬菜")) {
-            formulaOldCount = shop.getVegetableQuantity();
-            formulaNewCount = formulaOldCount + purchaseCount;
-            shopDao.updateVegetableFormulaCount(shopId,formulaNewCount);
-        }
-        else {
-            formulaOldCount = shop.getMeatQuantity();
-            formulaNewCount = formulaOldCount + purchaseCount;
-            shopDao.updateMeatFormulaCount(shopId,formulaNewCount);
+        switch (formulaName){
+            case "面粉":
+                formulaOldCount = shop.getFlourQuantity();
+                formulaNewCount = formulaOldCount + purchaseCount;
+                shopDao.updateFlourFormulaCount(shopId,formulaNewCount);
+                break;
+            case "芝士":
+                formulaOldCount = shop.getCheeseQuantity();
+                formulaNewCount = formulaOldCount + purchaseCount;
+                shopDao.updateCheeseFormulaCount(shopId,formulaNewCount);
+                break;
+            case "鸡蛋":
+                formulaOldCount = shop.getEggQuantity();
+                formulaNewCount = formulaOldCount + purchaseCount;
+                shopDao.updateEggFormulaCount(shopId,formulaNewCount);
+                break;
+            case "蔬菜":
+                formulaOldCount = shop.getVegetableQuantity();
+                formulaNewCount = formulaOldCount + purchaseCount;
+                shopDao.updateVegetableFormulaCount(shopId,formulaNewCount);
+                break;
+            default:
+                formulaOldCount = shop.getMeatQuantity();
+                formulaNewCount = formulaOldCount + purchaseCount;
+                shopDao.updateMeatFormulaCount(shopId,formulaNewCount);
         }
     }
 
@@ -93,44 +96,50 @@ public class ShopServiceImp implements ShopService{
        int cheeseCount = shop.getCheeseQuantity();
        int vegetableCount = shop.getVegetableQuantity();
        int meatCount = shop.getMeatQuantity();
-       if (flourCount <= 100)
-       {
-           SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-           String noticeTime = sdf.format(new Date());
-           noticeDao.insertNotice("面粉库存少于100g请及时购进","Warning","面粉",shopId,"未读",noticeTime);
-           System.err.println("新增通知");
+       if (flourCount < 500) {
+           List<Notice> notice= noticeDao.getNoticeByStatusContent(shopId,"未读", "面粉");
+           if(notice.size() == 0){
+               SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+               String noticeTime = sdf.format(new Date());
+               noticeDao.insertNotice("面粉库存少于500g，请及时购进","Warning","面粉",shopId,"未读",noticeTime);
+               System.err.println("新增通知:面粉不足");
+           }
        }
-       if (eggCount <=  100)
-       {
-           SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-           String noticeTime = sdf.format(new Date());
-           noticeDao.insertNotice("鸡蛋库存少于100g请及时购进","Warning","鸡蛋",shopId,"未读",noticeTime);
-           System.err.println("新增通知");
-
+       if (eggCount <  200) {
+           List<Notice> notice= noticeDao.getNoticeByStatusContent(shopId,"未读", "鸡蛋");
+           if(notice.size() == 0){
+               SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+               String noticeTime = sdf.format(new Date());
+               noticeDao.insertNotice("鸡蛋库存少于200g，请及时购进","Warning","鸡蛋",shopId,"未读",noticeTime);
+               System.err.println("新增通知:鸡蛋不足");
+           }
        }
-        if (cheeseCount <=  100)
-        {
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            String noticeTime = sdf.format(new Date());
-            noticeDao.insertNotice("芝士库存少于100g请及时购进","Warning","芝士",shopId,"未读",noticeTime);
-            System.err.println("新增通知");
-
+        if (cheeseCount <  200) {
+            List<Notice> notice= noticeDao.getNoticeByStatusContent(shopId,"未读", "芝士");
+            if(notice.size() == 0){
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                String noticeTime = sdf.format(new Date());
+                noticeDao.insertNotice("芝士库存少于200g，请及时购进","Warning","芝士",shopId,"未读",noticeTime);
+                System.err.println("新增通知:芝士不足");
+            }
         }
-        if (vegetableCount <=  100)
-        {
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            String noticeTime = sdf.format(new Date());
-            noticeDao.insertNotice("蔬菜库存少于100g请及时购进","Warning","蔬菜",shopId,"未读",noticeTime);
-            System.err.println("新增通知");
-
+        if (vegetableCount <  200) {
+            List<Notice> notice= noticeDao.getNoticeByStatusContent(shopId,"未读", "蔬菜");
+            if(notice.size() == 0){
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                String noticeTime = sdf.format(new Date());
+                noticeDao.insertNotice("蔬菜库存少于200g，请及时购进","Warning","蔬菜",shopId,"未读",noticeTime);
+                System.err.println("新增通知:蔬菜不足");
+            }
         }
-        if (meatCount <=  100)
-        {
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            String noticeTime = sdf.format(new Date());
-            noticeDao.insertNotice("肉类库存少于100g请及时购进","Warning","肉类",shopId,"未读",noticeTime);
-            System.err.println("新增通知");
-
+        if (meatCount <  200) {
+            List<Notice> notice= noticeDao.getNoticeByStatusContent(shopId,"未读", "肉类");
+            if(notice.size() == 0){
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                String noticeTime = sdf.format(new Date());
+                noticeDao.insertNotice("肉类库存少于200g，请及时购进","Warning","肉类",shopId,"未读",noticeTime);
+                System.err.println("新增通知:肉类不足");
+            }
         }
     }
 
@@ -145,13 +154,13 @@ public class ShopServiceImp implements ShopService{
             for (Shop shop : shops) {
                 JSONObject shopJSON = new JSONObject();
                 shopJSON.put("shopName",shop.getShopName());
-                shopJSON.put("shopId",shop.getShopId());
-                shopJSON.put("address",shop.getPosString());
-                shopJSON.put("phone",shop.getPhone());
-                shopJSON.put("picUrl",shop.getPicUrl());
-                shopJSON.put("salesVolume",shop.getSalesVolume());
-                shopJSON.put("startTime",shop.getStartTime().toString());
-                shopJSON.put("endTime",shop.getEndTime().toString());
+                shopJSON.put("shopID",shop.getShopId());
+                shopJSON.put("shopAddress",shop.getPosString());
+                shopJSON.put("shopPhone",shop.getPhone());
+                shopJSON.put("shopPicUrl",shop.getPicUrl());
+                shopJSON.put("shopSalesVolume",shop.getSalesVolume());
+                shopJSON.put("shopStartTime",shop.getStartTime());
+                shopJSON.put("shopEndTime",shop.getEndTime());
 
                 shopArray.add(shopJSON);
             }
@@ -172,7 +181,8 @@ public class ShopServiceImp implements ShopService{
     }
 
     @Override
-    public String insertShop(String shopName,String posString, String picUrl, String account, String password, String phone, String startTime, String endTime) {
+    public String insertShop(String shopName,String posString, String picUrl, String account,
+                             String password, String phone, String startTime, String endTime) {
         JSONObject dataJSON = new JSONObject();
         String getUrl = "https://restapi.amap.com/v3/geocode/geo?address=" + posString + "&output=JSON&key=ee4084f8d57d35442a70a1a2f77d8de8";
 
@@ -194,14 +204,36 @@ public class ShopServiceImp implements ShopService{
     }
 
     @Override
+    public String updateShop(int shopID, String shopName, String shopAddress, String shopPhone,
+                              String shopStartTime, String shopEndTime){
+        JSONObject dataJSON = new JSONObject();
+        String getUrl = "https://restapi.amap.com/v3/geocode/geo?address=" + shopAddress + "&output=JSON&key=ee4084f8d57d35442a70a1a2f77d8de8";
+
+        net.sf.json.JSONObject addressResult = HttpClientUtil.doGetStr(getUrl);
+
+        net.sf.json.JSONArray jsonArray = net.sf.json.JSONArray.fromObject(addressResult.get("geocodes"));
+        net.sf.json.JSONObject jsonObject = jsonArray.getJSONObject(0);
+        String location = jsonObject.get("location").toString();
+        String[] locationXY = location.split(",");
+        double posX = Double.parseDouble(locationXY[0]);
+        double posY = Double.parseDouble(locationXY[1]);
+
+        String shopPicUrl = "https://events.orlandojobs.com/wp-content/uploads/2018/09/h.jpg";
+        int res = shopDao.updateShop(shopID, shopName, posX, posY, shopAddress, shopPicUrl, shopPhone, shopStartTime, shopEndTime);
+        if (res == 1) dataJSON.put("status", 200);
+        else dataJSON.put("status", 500);
+        return dataJSON.toJSONString();
+    }
+
+    @Override
     public String getFormulaByname(int shopId, String formulaName) {
         JSONArray formulaArray = new JSONArray();
         JSONObject formulaData = new JSONObject();
         JSONObject dataJson = new JSONObject();
 
         Shop shop = shopDao.queryShop(shopId);
-        int formulaCount=0;
-        int formulaId=0;
+        int formulaCount = 0;
+        int formulaId = 0;
         switch (formulaName) {
             case "面粉":
                 formulaId = 1;
@@ -248,14 +280,14 @@ public class ShopServiceImp implements ShopService{
         Shop shop = shopDao.queryShop(shopId);
         JSONObject shopJSON = new JSONObject();
 
-        shopJSON.put("factory_name",shop.getShopName());
-        shopJSON.put("factory_id",shop.getShopId());
-        shopJSON.put("factory_number",shop.getPhone());
-        shopJSON.put("factory_address",shop.getPosString());
-        shopJSON.put("factory_count",shop.getSalesVolume());
+        shopJSON.put("shopName",shop.getShopName());
+        shopJSON.put("shopID",shop.getShopId());
+        shopJSON.put("shopPhone",shop.getPhone());
+        shopJSON.put("shopAddress",shop.getPosString());
+        shopJSON.put("shopSalesVolume",shop.getSalesVolume());
 
-        shopJSON.put("start_time",shop.getStartTime());
-        shopJSON.put("end_time",shop.getEndTime());
+        shopJSON.put("shopStartTime",shop.getStartTime());
+        shopJSON.put("shopEndTime",shop.getEndTime());
         shopArray.add(shopJSON);
         shopData.put("data",shopArray);
         dataJson.put("shopData",shopData);
@@ -264,24 +296,55 @@ public class ShopServiceImp implements ShopService{
     }
 
     @Override
+    public String getShopByIDorName(int shopId, String shopName) {
+        JSONArray shopArray = new JSONArray();
+        JSONObject shopData = new JSONObject();
+        JSONObject dataJson = new JSONObject();
+        List<Shop> shops = new ArrayList<Shop>();
+        if(shopId != -1 && shopName.equals("-1")){
+            // 根据id查
+            return getShopById(shopId);
+        }
+        else{
+            // 根据名字查
+            shops = shopDao.queryShopByName(shopName);
+            if(shops.size() > 0){
+                for(Shop shop : shops){
+                    JSONObject shopJSON = new JSONObject();
+                    shopJSON.put("shopName",shop.getShopName());
+                    shopJSON.put("shopID",shop.getShopId());
+                    shopJSON.put("shopPhone",shop.getPhone());
+                    shopJSON.put("shopAddress",shop.getPosString());
+                    shopJSON.put("shopSalesVolume",shop.getSalesVolume());
+
+                    shopJSON.put("shopStartTime",shop.getStartTime());
+                    shopJSON.put("shopEndTime",shop.getEndTime());
+                    shopArray.add(shopJSON);
+                }
+            }
+            shopData.put("data",shopArray);
+            dataJson.put("shopData",shopData);
+            return dataJson.toJSONString();
+        }
+    }
+
+    @Override
     public String getAllFormulaByShop(int shopId) {
         JSONArray shopArray = new JSONArray();
         JSONObject shopData = new JSONObject();
         JSONObject dataJson = new JSONObject();
-
+        queryFormulaCountTimely(shopId);
         Shop shop = shopDao.queryShop(shopId);
         String[] formula = {"面粉","鸡蛋","芝士","蔬菜","肉类"};
         int[] count = {shop.getFlourQuantity(),shop.getEggQuantity(),shop.getCheeseQuantity(),shop.getVegetableQuantity(),shop.getMeatQuantity()};
-        if (shop != null) {
-            for (int i = 0; i< 5;i++) {
-                JSONObject shopJSON = new JSONObject();
-                int index = i+1;
-                shopJSON.put("formulaId",index);
-                shopJSON.put("formulaName",formula[i]);
-                shopJSON.put("formulaCount",count[i]);
+        for (int i = 0; i< 5;i++) {
+            JSONObject shopJSON = new JSONObject();
+            int index = i+1;
+            shopJSON.put("formulaId",index);
+            shopJSON.put("formulaName",formula[i]);
+            shopJSON.put("formulaCount",count[i]);
 
-                shopArray.add(shopJSON);
-            }
+            shopArray.add(shopJSON);
         }
         shopData.put("data",shopArray);
         dataJson.put("shopData",shopData);

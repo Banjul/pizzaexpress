@@ -80,7 +80,7 @@ public class MenuServiceImp implements MenuService {
         JSONObject dataJSON = new JSONObject();
         Menu menu = menuDao.queryMenuByShopId(shopId);
         String menuItems = menu.getItems();
-        JSONArray menuOldArray = JSONArray.fromObject(menuItems);
+        JSONArray menuOldArray = JSONArray.fromObject(menuItems);  // 这个商店所有的成品库存
 
         //更改原料库存
         Item item = itemDao.queryItemByItemId(itemId);
@@ -110,20 +110,23 @@ public class MenuServiceImp implements MenuService {
 
         //更改menu的item字段
         for (int i = 0; i < menuOldArray.size(); i++) {
-            JSONObject itemJson = menuOldArray.getJSONObject(i);
+            JSONObject itemJson = menuOldArray.getJSONObject(i); // 每个成品pizza
             String itemidstring = itemJson.get("itemId").toString();
-            int eachItemId = Integer.parseInt(itemidstring);
-            //找到更改的itemId
+            int eachItemId = Integer.parseInt(itemidstring);  // 其对应的id
+            int eachItemCount = Integer.parseInt(itemJson.get("count").toString());
+            //找到要更改的itemId
             if (eachItemId == itemId) {
                 //更改count
 //                String itemCountString = itemJson.get("count").toString();
 //                int oldCount = Integer.parseInt(itemCountString);
 //                int newCount = oldCount + itemCount;
 //                    String newcount = newCount +"";
-                itemJson.put("count", itemCount);
-                JSONObject newItemJson = itemJson;
-                menuOldArray.remove(itemJson);
-                menuOldArray.add(newItemJson);
+//                itemJson.put("count", itemCount); //更改count
+                menuOldArray.getJSONObject(i).put("count",eachItemCount + itemCount); // 新增
+//                itemJson.put("count", eachItemCount + itemCount);  // 新增
+//                JSONObject newItemJson = itemJson;
+//                menuOldArray.remove(itemJson);
+//                menuOldArray.add(newItemJson);
                 break;
             }
         }

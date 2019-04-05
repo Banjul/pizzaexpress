@@ -9,6 +9,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -98,6 +99,19 @@ public class ShopController {
         return shopService.deleteShop(shopId);
     }
 
+    @ApiOperation(value = "修改商家信息", notes = "")
+    @ApiImplicitParam(name = "params", value = "", dataType = "JSON")
+    @RequestMapping(value = "/updateShop", method = RequestMethod.POST)
+    public String updateShop(@RequestBody Map<String, Object> params) {
+        int shopID = Integer.parseInt(params.get("shopID").toString());
+        String shopName = params.get("shopName").toString();
+        String shopAddress = params.get("shopAddress").toString();
+        String shopPhone = params.get("shopPhone").toString();
+        String shopStartTime = params.get("shopStartTime").toString();
+        String shopEndTime = params.get("shopEndTime").toString();
+        return shopService.updateShop(shopID, shopName, shopAddress, shopPhone, shopStartTime, shopEndTime);
+    }
+
     @ApiOperation(value = "查询原料", notes = "")
     @ApiImplicitParam(name = "params", value = "", dataType = "JSON")
     @RequestMapping(value = "/getformulbyname", method = RequestMethod.POST)
@@ -117,6 +131,16 @@ public class ShopController {
         int shopId = Integer.parseInt(shopid);
 
         return shopService.getShopById(shopId);
+    }
+
+    @ApiOperation(value = "根据id或名字查看工厂信息", notes = "")
+    @ApiImplicitParam(name = "params", value = "", dataType = "JSON")
+    @RequestMapping(value = "/getShopByIDorName", method = RequestMethod.POST)
+    public String getShopByIDorName (@RequestBody Map<String, Object> params) {
+        String shopid = params.get("shopID").toString();
+        String shopName = params.get("shopName").toString();
+        int shopId = Integer.parseInt(shopid);
+        return shopService.getShopByIDorName(shopId, shopName);
     }
 
     @ApiOperation(value = "查看工厂信息", notes = "")

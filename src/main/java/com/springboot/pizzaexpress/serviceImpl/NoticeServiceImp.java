@@ -49,7 +49,6 @@ public class NoticeServiceImp implements NoticeService {
     @Override
     public void updateNoticeStatus(int noticeId, String newStatus) {
         noticeDao.updateNotice(newStatus,noticeId);
-
     }
 
     @Override
@@ -113,6 +112,5 @@ public class NoticeServiceImp implements NoticeService {
         dataJson.put("readNoticeData",unreadNoticeData);
         return dataJson.toJSONString();
     }
-
 
 }

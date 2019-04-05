@@ -16,7 +16,7 @@ import java.util.Map;
  * Created by sts on 2019/3/10.
  */
 @RestController
-@RequestMapping(value ="/notice")
+@RequestMapping(value = "/notice")
 @Api("通知api")
 public class NoticeController {
 
@@ -26,18 +26,18 @@ public class NoticeController {
     @ApiOperation(value = "更改消息状态", notes = "需要，开始时间，结束时间")
     @ApiImplicitParam(name = "params", value = "包含开始时间，结束时间,shopId,deliverID,order_id的json", dataType = "JSON")
     @RequestMapping(value = "/updatenoticestatus", method = RequestMethod.POST)
-    public void updateNoticeStatus (@RequestBody Map<String, Object> params) {
+    public void updateNoticeStatus(@RequestBody Map<String, Object> params) {
         String noticeid = params.get("noticeId").toString();
         int noticeId = Integer.parseInt(noticeid);
         String newStatus = "已读";
 
-        noticeService.updateNoticeStatus(noticeId,newStatus);
+        noticeService.updateNoticeStatus(noticeId, newStatus);
     }
 
     @ApiOperation(value = "查找所有未读信息", notes = "")
     @ApiImplicitParam(name = "params", value = "", dataType = "JSON")
     @RequestMapping(value = "/queryunreadnotices", method = RequestMethod.POST)
-    public String queryUnreadNotices (@RequestBody Map<String, Object> params) {
+    public String queryUnreadNotices(@RequestBody Map<String, Object> params) {
         String shopid = params.get("shopID").toString();
         int shopId = Integer.parseInt(shopid);
 
@@ -47,13 +47,14 @@ public class NoticeController {
     @ApiOperation(value = "查找所有已读信息", notes = "")
     @ApiImplicitParam(name = "params", value = "", dataType = "JSON")
     @RequestMapping(value = "/queryreadnotices", method = RequestMethod.POST)
-    public String queryReadNotices (@RequestBody Map<String, Object> params) {
+    public String queryReadNotices(@RequestBody Map<String, Object> params) {
         String shopid = params.get("shopID").toString();
         int shopId = Integer.parseInt(shopid);
 
         return noticeService.getAllReadNotices(shopId);
     }
-//    @ApiOperation(value = "查询所有信息", notes = "")
+
+    //    @ApiOperation(value = "查询所有信息", notes = "")
 //    @ApiImplicitParam(name = "params", value = " ", dataType = "JSON")
 //    @RequestMapping(value = "/getallnotice", method = RequestMethod.POST)
 //    public String getAllNotice (@RequestBody Map<String, Object> params) {
@@ -63,7 +64,6 @@ public class NoticeController {
 //        return noticeService.getAllNotice(shopId);
 //
 //    }
-
 }
 
 
