@@ -46,8 +46,8 @@ public class ShopController {
         List<Shop> list = shopService.getShop();
         StringBuffer str = new StringBuffer();
         for(Shop s : list){
-            String shopPosX = s.getPosX();
-            String shopPosY = s.getPosY();
+            Double shopPosX = s.getPosX();
+            Double shopPosY = s.getPosY();
             str = str.append(shopPosX).append(",").append(shopPosY).append("|");
         }
         int length = str.length();
