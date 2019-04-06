@@ -172,6 +172,29 @@ public class ShopServiceImp implements ShopService{
     }
 
     @Override
+    public String getTop5Shops() {
+//        JSONArray shopArray = new JSONArray();
+        JSONObject shopJSON = new JSONObject();
+        JSONObject shopData = new JSONObject();
+        JSONObject dataJson = new JSONObject();
+        JSONArray nameArray = new JSONArray();
+        JSONArray incomeArray = new JSONArray();
+
+        List<Shop> shops = shopDao.getTop5shops();
+        if (shops.size()>0) {
+            for (int i=0; i<5; i++) {
+                nameArray.add(i, shops.get(i).getShopName());
+                incomeArray.add(i, shops.get(i).getSalesVolume());
+            }
+            shopJSON.put("shopName",nameArray);
+            shopJSON.put("shopSalesVolume",incomeArray);
+        }
+        shopData.put("data",shopJSON);
+        dataJson.put("shopData",shopData);
+        return dataJson.toJSONString();
+    }
+
+    @Override
     public String deleteShop(int shopId) {
         JSONObject dataJSON = new JSONObject();
         int result = shopDao.deleteShop(shopId);

@@ -46,6 +46,13 @@ public interface ShopDao extends JpaRepository<Shop,String> {
     List<Shop> queryShopByName(String shopName);
 
     /**
+     * 查询销量前五的工厂
+     * @return
+     */
+    @Query(value = "select * from shop order by sales_volume desc limit 5;",nativeQuery = true)
+    List<Shop> getTop5shops();
+
+    /**
      * 更新库存
      * @param shopId
      * @param newCount

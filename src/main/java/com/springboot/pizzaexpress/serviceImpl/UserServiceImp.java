@@ -53,7 +53,10 @@ public class UserServiceImp implements UserService{
                 userJSON.put("userAddress",user.getAddress());
                 Date lastLoginS = user.getLastLoginTime();
                 System.err.println(lastLoginS);
-                String lastLogin = sdf.format(lastLoginS);
+                String lastLogin = "2019-04-06 19:04:08";
+                if(lastLoginS != null){
+                    lastLogin = sdf.format(lastLoginS);
+                }
                 userJSON.put("lastLogin",lastLogin);
 //                userJSON.put("email",user.getEmail());
 //                userJSON.put("money",user.getMoney());
@@ -61,7 +64,6 @@ public class UserServiceImp implements UserService{
                 userArray.add(userJSON);
             }
         }
-        userData.put("count",users.size());
         userData.put("data",userArray);
         dataJson.put("userData",userData);
         return dataJson.toJSONString();
@@ -81,11 +83,13 @@ public class UserServiceImp implements UserService{
             userJSON.put("userID",user.getUserId());
             userJSON.put("userName",user.getNickName());
             userJSON.put("userPhone",user.getPhoneNumber());
-
             userJSON.put("userStatus",user.getStatus());
             userJSON.put("userAddress",user.getAddress());
             Date lastLoginS = user.getLastLoginTime();
-            String lastLogin = sdf.format(lastLoginS);
+            String lastLogin = "2019-04-06 19:04:08";
+            if(lastLoginS != null){
+                lastLogin = sdf.format(lastLoginS);
+            }
             userJSON.put("lastLogin",lastLogin);
             userArray.add(userJSON);
         }

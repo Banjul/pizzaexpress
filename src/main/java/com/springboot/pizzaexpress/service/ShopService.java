@@ -17,6 +17,8 @@ public interface ShopService {
 
     public String getAllShops();
 
+    public String getTop5Shops();
+
     public String deleteShop(int shopId);
 
     public String insertShop(String shopName,String posString,String picUrl,String account,

@@ -73,6 +73,12 @@ public class ShopController {
         return shopService.getAllShops();
     }
 
+    @ApiOperation(value = "查询销量前五的工厂", notes = "")
+    @RequestMapping(value = "/getTop5shops", method = RequestMethod.POST)
+    public String getTop5Shops() {
+        return shopService.getTop5Shops();
+    }
+
     @ApiOperation(value = "添加商家", notes = "")
     @ApiImplicitParam(name = "params", value = "", dataType = "JSON")
     @RequestMapping(value = "/insertnewshop", method = RequestMethod.POST)
@@ -82,9 +88,9 @@ public class ShopController {
         String picUrl = params.get("picUrl").toString();
         String account = params.get("account").toString();
         String password = params.get("password").toString();
-        String phone = params.get("phone").toString();
-        String startTime = params.get("startTime").toString();
-        String endTime = params.get("endTime").toString();
+        String phone = params.get("shopPhone").toString();
+        String startTime = params.get("shopStartTime").toString();
+        String endTime = params.get("shopEndTime").toString();
 
         return shopService.insertShop(shopName, posString, picUrl,  account, password, phone, startTime,  endTime);
     }
