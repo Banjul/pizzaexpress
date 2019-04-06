@@ -70,12 +70,14 @@ public class Shop {
     @Column(name = "end_time")
     private String endTime;
 
+
     public int getShopId() {
         return shopId;
     }
 
     public void setShopId(int shopId) {
         this.shopId = shopId;
+
     }
 
     public String getShopName() {

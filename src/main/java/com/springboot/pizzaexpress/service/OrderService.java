@@ -1,12 +1,16 @@
 package com.springboot.pizzaexpress.service;
 
+import java.util.Date;
+import java.util.List;
+
 /**
  * Created by sts on 2019/3/2.
  */
+
 import com.springboot.pizzaexpress.bean.PizzaOrder;
 
-import javax.persistence.criteria.Order;
 import java.util.List;
+
 
 public interface OrderService {
     public String getLastTwentyOrders(int shop_id);
@@ -21,5 +25,15 @@ public interface OrderService {
 //
     public String getOrderByDeliver(int shop_id, int deliver_id);
 
+
 //    public String deleteOrderByOrderId(int orderId);
+
+    public int insertToPizzaOrder(int userId, int shopId, String items, Date startTime,String state,
+                                  String fromPosX,String fromPosY,String toPosX,String toPosY,double price);
+
+    public Date findStartTime(int orderId);
+
+    public void modifyStatus(int orderId);
+
+    public List<PizzaOrder> queryOrderByUserId(int userId);
 }

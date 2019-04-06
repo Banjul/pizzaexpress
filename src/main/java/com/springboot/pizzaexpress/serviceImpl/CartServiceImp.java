@@ -16,4 +16,18 @@ public class CartServiceImp implements CartService{
     @Autowired
     private CartDao cartDao;
 
+    @Override
+    public int insertToCart(int userId, int shopId, String items) {
+        return cartDao.insertToCart(userId,shopId,items);
+    }
+
+    @Override
+    public Cart findCartItems(int shopId, int userId) {
+        return cartDao.findCartItems(shopId,userId);
+    }
+
+    @Override
+    public int modifyCart(int userId, int shopId, String items) {
+        return cartDao.modifyCart(userId,shopId,items);
+    }
 }

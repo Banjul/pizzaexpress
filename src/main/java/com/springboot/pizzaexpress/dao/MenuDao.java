@@ -6,6 +6,7 @@ package com.springboot.pizzaexpress.dao;
 
 import com.springboot.pizzaexpress.bean.Menu;
 import org.springframework.data.jpa.repository.JpaRepository;
+
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Component;
@@ -18,8 +19,13 @@ import java.util.List;
 @Repository
 public interface MenuDao extends JpaRepository<Menu,String> {
 
+
     @Query(value = "select * from menu where shop_id = ?1",nativeQuery = true)
     Menu queryMenuByShopId(int shopId);
+
+    @Query(value = "select * from menu where shop_id=?1",nativeQuery = true)
+    Menu findByShopId(int shopId);
+
 
     @Transactional
     @Modifying

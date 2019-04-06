@@ -7,6 +7,7 @@ import com.springboot.pizzaexpress.bean.Item;
 
 import java.util.List;
 public interface ItemService {
+
     public String getAllItems();
 
     public String updateItems(int pizzaId,String pizzaName,String description,String pizzaStatus, double price9, double price12, String picURL);
@@ -16,4 +17,6 @@ public interface ItemService {
     public String getItemByName(String itemName);
 
     public String getItemById(int itemId);
+
+    public Item findByItemId(int itemId);
 }

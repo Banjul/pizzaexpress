@@ -11,6 +11,7 @@ import com.springboot.pizzaexpress.bean.User;
 import com.springboot.pizzaexpress.dao.NoticeDao;
 import com.springboot.pizzaexpress.dao.ShopDao;
 import com.springboot.pizzaexpress.dao.UserDao;
+import com.springboot.pizzaexpress.model.ShopModel;
 import com.springboot.pizzaexpress.service.ShopService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,8 @@ import com.springboot.pizzaexpress.util.HttpClientUtil;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+
 import java.util.List;
 
 @Service
@@ -420,5 +423,20 @@ public class ShopServiceImp implements ShopService{
         return dataJSON.toJSONString();
     }
 
+    @Override
+    public Shop findByShopId(int shopId) {
+        return shopDao.findByShopId(shopId);
+    }
+
+    @Override
+    public ShopModel findByShopIdModel(int shopId) {
+        return shopDao.findByShopIdModel(shopId);
+    }
+
+    @Override
+    public List<Shop> getShop() {
+        List<Shop> list = shopDao.findAll();
+        return list;
+    }
 
 }

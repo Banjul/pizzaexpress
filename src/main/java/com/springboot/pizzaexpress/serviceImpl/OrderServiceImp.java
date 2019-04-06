@@ -19,10 +19,14 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import java.util.Date;
+import java.util.List;
+
 @Service
 public class OrderServiceImp implements OrderService {
     @Autowired
     private OrderDao orderDao;
+
 
     @Autowired
     private ItemDao itemDao;
@@ -361,5 +365,28 @@ public class OrderServiceImp implements OrderService {
 //        orderDao.deleteOrderByOrderId(orderId);
 //        return "删除成功";
 //    }
+
+
+    @Override
+    public int insertToPizzaOrder(int userId, int shopId, String items, Date startTime, String state,
+                                  String fromPosX, String fromPosY, String toPosX, String toPosY,double price){
+    return orderDao.insertToPizzaOrder(userId, shopId, items,startTime,state,fromPosX,fromPosY,toPosX,toPosY,price);
+    }
+
+    @Override
+    public Date findStartTime(int orderId) {
+        return orderDao.findStartTime(orderId);
+    }
+
+    @Override
+    public void modifyStatus(int orderId) {
+        orderDao.modifyStatus(orderId);
+    }
+
+    @Override
+    public List<PizzaOrder> queryOrderByUserId(int userId) {
+        return orderDao.queryOrderByUserId(userId);
+
+    }
 }
 

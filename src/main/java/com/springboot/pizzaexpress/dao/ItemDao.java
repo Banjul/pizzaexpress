@@ -18,6 +18,7 @@ import java.util.List;
 @Repository
 public interface ItemDao extends JpaRepository<Item,String> {
 
+
     /**
      * 查询所有pizza种类
      * @return
@@ -40,4 +41,8 @@ public interface ItemDao extends JpaRepository<Item,String> {
 
     @Query(value = "select * from item where item_name = ?1",nativeQuery = true)
     List<Item> queryItemByName(String itemName);
+
+    @Query(value = "select * from item where item_id = ?1",nativeQuery = true)
+    Item findByItemId(int itemId);
+
 }

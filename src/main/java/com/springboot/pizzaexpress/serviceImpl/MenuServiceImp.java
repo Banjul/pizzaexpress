@@ -184,4 +184,10 @@ public class MenuServiceImp implements MenuService {
         dataJson.put("itemData", menuData);
         return dataJson.toString();
     }
+
+    @Override
+    public Menu findByShopId(int shopId){
+        return menuDao.findByShopId(shopId);
+    }
+
 }

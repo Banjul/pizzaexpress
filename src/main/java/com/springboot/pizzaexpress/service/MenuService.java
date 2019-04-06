@@ -7,6 +7,7 @@ import com.springboot.pizzaexpress.bean.Menu;
 import java.util.List;
 
 public interface MenuService {
+    public Menu findByShopId(int shopId);
 
     public String getMenuByShopId(int shopId);
 

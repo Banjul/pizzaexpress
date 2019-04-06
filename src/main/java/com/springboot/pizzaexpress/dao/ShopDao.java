@@ -5,6 +5,7 @@ package com.springboot.pizzaexpress.dao;
  */
 
 import com.springboot.pizzaexpress.bean.Shop;
+import com.springboot.pizzaexpress.model.ShopModel;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -17,6 +18,7 @@ import java.util.List;
 @Component
 @Repository
 public interface ShopDao extends JpaRepository<Shop,String> {
+
 
     /**
      * 查询用户名和密码以验证登录
@@ -143,4 +145,11 @@ public interface ShopDao extends JpaRepository<Shop,String> {
     @Modifying
     @Query(value = "update shop set flour_quantity = ?2, egg_quantity = ?3, cheese_quantity = ?4,vegetable_quantity = ?5, meat_quantity = ?6 where shop_id = ?1",nativeQuery = true)
     int updateAllFormulaCount(int shopId,int restFlourCount,int restEggCount,int restCheeseCount,int restVegetableCount,int restMeatCount);
+
+    @Query(value = "select * from shop where shop_id=?1",nativeQuery = true)
+    Shop findByShopId(int shopId);
+
+    @Query(value = "select * from shop where shop_id=?1",nativeQuery = true)
+    ShopModel findByShopIdModel(int shopId);
+
 }

@@ -4,9 +4,11 @@ package com.springboot.pizzaexpress.service;
  * Created by sts on 2019/3/2.
  */
 import com.springboot.pizzaexpress.bean.Shop;
+import com.springboot.pizzaexpress.model.ShopModel;
 
 import java.util.List;
 public interface ShopService {
+
     public Shop adminLogin(String adminAccount, String adminPassword);
 
     public int getFormulaCount(int shopId,String formula);
@@ -36,4 +38,10 @@ public interface ShopService {
     public String getAllFormulaByShop(int shopId);
 
     public String getAllShopsWithinDistance(int userId);
+
+
+    public Shop findByShopId(int shopId);
+    public List<Shop> getShop();
+    public ShopModel findByShopIdModel(int shopId);
+
 }
