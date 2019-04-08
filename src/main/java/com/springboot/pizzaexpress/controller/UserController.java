@@ -210,15 +210,16 @@ public class UserController {
         newcode = (int)(Math.random()*9999)+100;  //每次调用生成一位四位数的随机数
     }
 
-    @ApiOperation(value = "用户获取验证码",httpMethod = "GET",notes = "")
+    @ApiOperation(value = "用户获取验证码",httpMethod = "POST",notes = "")
     @RequestMapping(value = "/getMessage")
-    public ResponseModel getMessage() throws ClientException, InterruptedException{
+    public ResponseModel getMessage(@RequestBody Map<String,String> map) throws ClientException, InterruptedException{
+        String telephone = map.get("telephone");
         ResponseModel responseModel = new ResponseModel();
         setNewcode();
         String code = Integer.toString(getNewcode());
         System.out.println("发送的验证码为："+code);
         //发短信
-        SendSmsResponse response =sendSms("15317838616",code); // TODO 填写你需要测试的手机号码
+        SendSmsResponse response =sendSms(telephone,code); // TODO 填写你需要测试的手机号码
         System.out.println("短信接口返回的数据----------------");
         System.out.println("Code=" + response.getCode());
         System.out.println("Message=" + response.getMessage());
@@ -228,10 +229,10 @@ public class UserController {
         //userService.setCode(code,date);
         responseModel.setStatus("200");
         responseModel.setMessage("获取验证码成功！");
-        Map<String,Object> map = new HashMap<>();
-        map.put("code",code);
-        map.put("time",date);
-        responseModel.setModel(map);
+        Map<String,Object> result = new HashMap<>();
+        result.put("code",code);
+        result.put("time",date);
+        responseModel.setModel(result);
         return responseModel;
     }
 

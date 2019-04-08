@@ -44,6 +44,7 @@ public class MenuController {
     @RequestMapping(value = "/showMenu",method = RequestMethod.POST)
     public ResponseModel showMenu(@RequestBody MenuModel menuModel){
         ResponseModel responseModel = new ResponseModel();
+        MenuModel menus = new MenuModel();
         //获取shop_id
         int shopId = menuModel.getShop().getShopId();
         //查找菜单表记录
@@ -55,10 +56,10 @@ public class MenuController {
         JSONArray jsonArray = JSONArray.fromObject(items);
         System.err.println(jsonArray);
         List<ItemWrapModel> list = new ArrayList<>();
-        ItemWrapModel itemWrapModel = new ItemWrapModel();
         ItemBean itemBean;
 
         for(Object o :jsonArray){
+            ItemWrapModel itemWrapModel = new ItemWrapModel();
             System.err.println(o);
             JSONObject obj = JSONObject.fromObject(o);
             itemBean = (ItemBean) JSONObject.toBean(obj,ItemBean.class);
