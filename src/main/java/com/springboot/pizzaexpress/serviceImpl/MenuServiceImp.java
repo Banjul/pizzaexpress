@@ -3,8 +3,6 @@ package com.springboot.pizzaexpress.serviceImpl;
 /**
  * Created by sts on 2019/3/2.
  */
-//import com.alibaba.fastjson.JSONArray;
-//import com.alibaba.fastjson.JSONObject;
 
 import com.springboot.pizzaexpress.bean.Item;
 import com.springboot.pizzaexpress.bean.Menu;
@@ -15,8 +13,6 @@ import com.springboot.pizzaexpress.dao.MenuDao;
 import com.springboot.pizzaexpress.dao.ItemDao;
 import com.springboot.pizzaexpress.dao.ShopDao;
 import com.springboot.pizzaexpress.service.MenuService;
-import io.swagger.models.auth.In;
-import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import net.sf.json.JSONArray;

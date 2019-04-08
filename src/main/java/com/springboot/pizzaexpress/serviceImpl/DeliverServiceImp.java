@@ -128,25 +128,33 @@ public class DeliverServiceImp implements DeliverService{
         orderDao.updateOrderStatus(orderId, newStatus, finishTime);
     }
 
-//    @Override
-//    public String allocateOrderToDeliver(int shopId, int orderId) {
-//        String status = "空闲";
-//        Deliver deliver = deliverDao.getFreeDeliver(shopId,status);
-//        if (deliver != null) {
-//            int deliverId = deliver.getDeliverId();
-//            ExpressOrder expressOrder = expressOrderDao.queryExpressOrderByDeliverAndStatus(deliverId,"未满");
-//            if (expressOrder !=null) {
-//                int expressOrderId = expressOrder.getExpressId();
-//                String orderList = expressOrder.getOrderList();
-//                String newOrderList = orderList + ","+orderId;
-//                expressOrderDao.updateExpressOrderOrderList(expressOrderId,newOrderList);
-//            }
-//            else {
-//                String orderList = orderId +"";
-//                expressOrderDao.insertExpressOrderOrderList(deliverId,orderList);
-//            }
-//        }
-//        return null;
-//    }
+    @Override
+    public int allocateOrderToDeliver(int shopId, int orderId) {
+        String status = "空闲";
+        Deliver deliver = deliverDao.getFreeDeliver(shopId,status);
+        if (deliver != null) {
+            int deliverId = deliver.getDeliverId();
+            ExpressOrder expressOrder = expressOrderDao.queryExpressOrderByDeliverAndStatus(deliverId,"未满");
+            if (expressOrder !=null) {
+                int expressOrderId = expressOrder.getExpressId();
+                String orderList = expressOrder.getOrderList();
+                String newOrderList = orderList + ","+orderId;
+                expressOrderDao.updateExpressOrderOrderList(expressOrderId,newOrderList);
+                String[] orderListArray = newOrderList.split(",");
+                if (orderListArray.length == 3) {
+                    String newStatus = "正在配送";
+                    expressOrderDao.updateExpressStatusById(expressOrderId,newStatus);
+                    deliverDao.updateDeliverStatus(deliverId,newStatus);
+
+                }
+            }
+            else {
+                String orderList = orderId +"";
+                expressOrderDao.insertExpressOrderOrderList(deliverId,orderList);
+            }
+            return deliverId;
+        }
+        else return -1;
+    }
 
 }

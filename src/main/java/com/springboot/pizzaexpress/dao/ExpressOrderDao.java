@@ -18,11 +18,7 @@ import java.util.List;
 @Repository
 public interface ExpressOrderDao extends JpaRepository<ExpressOrder,String> {
 
-    /**
-     * 查询实时数据基表
-     * @param deliverId
-     * @return
-     */
+
     @Query(value = "select * from express_order where deliver_id = ?1 ",nativeQuery = true)
     List<ExpressOrder> queryExpressOrderByDeliver(int deliverId);
 
@@ -39,4 +35,19 @@ public interface ExpressOrderDao extends JpaRepository<ExpressOrder,String> {
     @Modifying
     @Query(value = "insert into express_order(deliver_id,order_list) values(?1,?2)",nativeQuery = true)
     void insertExpressOrderOrderList(int deliverId,String OrderList);
+
+    @Query(value = "select * from express_order where deliver_id =?1 and express_status = ?2 or express_status = ?3",nativeQuery = true)
+    ExpressOrder getExpressContentByDeliverId(int deliverId, String status1, String status2);
+
+    @Transactional
+    @Modifying
+    @Query(value = "update express_order set express_status = ?2 where deliver_id = ?1 and express_status = ?3",nativeQuery = true)
+    void updateExpressStatus(int deliverId,String newExpressStatus,String oldExpressStatus);
+
+    @Transactional
+    @Modifying
+    @Query(value = "update express_order set express_status = ?2 where express_id= ?1",nativeQuery = true)
+    void updateExpressStatusById(int expressOrderId,String newStatus);
+
+
 }

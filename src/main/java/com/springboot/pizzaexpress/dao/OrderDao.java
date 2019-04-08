@@ -115,4 +115,6 @@ public interface OrderDao extends JpaRepository<PizzaOrder,String> {
     @Query(value = "select * from pizza_order where user_id = ?1",nativeQuery = true)
     List<PizzaOrder> queryOrderByUserId(int userId);
 
+    @Query(value = "select max(order_id) from pizza_order",nativeQuery = true)
+    int getMaxOrderNum();
 }

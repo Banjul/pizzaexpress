@@ -8,6 +8,7 @@ package com.springboot.pizzaexpress.controller;
 import com.springboot.pizzaexpress.bean.Shop;
 import com.springboot.pizzaexpress.bean.User;
 import com.springboot.pizzaexpress.bean.PizzaOrder;
+import com.springboot.pizzaexpress.dao.OrderDao;
 import com.springboot.pizzaexpress.service.DeliverService;
 import com.springboot.pizzaexpress.service.OrderService;
 import com.springboot.pizzaexpress.service.UserService;
@@ -139,6 +140,9 @@ public class OrderController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private OrderDao orderDao;
+
     @RequestMapping(value = "/addOrder", method = RequestMethod.POST)
     public ResponseModel addOrder(@RequestBody PizzaOrderModel pizzaOrderModel, HttpSession session) {
         ResponseModel responseModel = new ResponseModel();
@@ -173,14 +177,21 @@ public class OrderController {
                 responseModel.setMessage("余额不足！下单失败");
 
             }else {
+                int orderId = orderDao.getMaxOrderNum();
+                int result = deliverService.allocateOrderToDeliver(shopId,orderId+1);
+                if (result != -1) {
+                    orderService.insertToPizzaOrder(userId, shopId, items, startTime, state, fromPosX, fromPosY, toPosX, toPosY, price);
 
-                orderService.insertToPizzaOrder(userId, shopId, items, startTime, state, fromPosX, fromPosY, toPosX, toPosY, price);
-
-                responseModel.setStatus("200");
-                responseModel.setMessage("下单成功！");
-                responseModel.setModel(pizzaOrderModel);
-                balance = balance -price;
-                userService.modifyBalance(balance,userId);
+                    responseModel.setStatus("200");
+                    responseModel.setMessage("下单成功！");
+                    responseModel.setModel(pizzaOrderModel);
+                    balance = balance - price;
+                    userService.modifyBalance(balance, userId);
+                }
+                else {
+                    responseModel.setStatus("500");
+                    responseModel.setMessage("无空闲配送员可接单！");
+                }
             }
         }
         return responseModel;

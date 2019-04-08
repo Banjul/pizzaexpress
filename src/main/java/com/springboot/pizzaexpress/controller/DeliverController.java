@@ -5,6 +5,7 @@ package com.springboot.pizzaexpress.controller;
  */
 import com.springboot.pizzaexpress.bean.Deliver;
 import com.springboot.pizzaexpress.service.DeliverService;
+import com.springboot.pizzaexpress.service.ExpressOrderService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
@@ -28,6 +29,9 @@ import java.util.Map;
 public class DeliverController {
     @Autowired
     private  DeliverService deliverService;
+
+    @Autowired
+    private ExpressOrderService expressOrderService;
 
     @ApiOperation(value="查询工厂所有配送员")
     @ApiImplicitParam(name = "params", value = "包含shopid的json", dataType = "JSON")
@@ -72,6 +76,7 @@ public class DeliverController {
             resultMap.put("message", "登录成功");
             resultMap.put("account", deliver.getDeliverId());
             resultMap.put("shopID",deliver.getShopId());
+            resultMap.put("deliverId",deliver.getDeliverId());
         }
         else {
             resultMap.put("status", 500);
@@ -80,16 +85,16 @@ public class DeliverController {
         return resultMap;
     }
 
-    @ApiOperation(value = "配送员出发", notes = "")
-    @ApiImplicitParam(name = "params", value = "", dataType = "JSON")
-    @RequestMapping(value = "/deliversetout", method = RequestMethod.POST)
-    public void deliverSetOut (@RequestBody Map<String, Object> params) {
-        String deliverID = params.get("deliverId").toString();
-        int deliverId = Integer.parseInt(deliverID);
-
-        String newStatus = "配送中";
-        deliverService.updateDeliverStatus(deliverId,newStatus);
-    }
+//    @ApiOperation(value = "配送员出发", notes = "")
+//    @ApiImplicitParam(name = "params", value = "", dataType = "JSON")
+//    @RequestMapping(value = "/deliversetout", method = RequestMethod.POST)
+//    public void deliverSetOut (@RequestBody Map<String, Object> params) {
+//        String deliverID = params.get("deliverId").toString();
+//        int deliverId = Integer.parseInt(deliverID);
+//
+//        String newStatus = "正在配送";
+//        deliverService.updateDeliverStatus(deliverId,newStatus);
+//    }
 
     @ApiOperation(value = "配送员全部送达", notes = "")
     @ApiImplicitParam(name = "params", value = "", dataType = "JSON")
@@ -97,17 +102,20 @@ public class DeliverController {
     public void deliverFree (@RequestBody Map<String, Object> params) {
         String deliverID = params.get("deliverId").toString();
         int deliverId = Integer.parseInt(deliverID);
-
+//        String expressID = params.get("expressId").toString();
+//        int expressId = Integer.parseInt(expressID);
         String newStatus = "空闲";
+        String newExpressStatus = "已完成";
+        String oldExpressStatus = "正在配送";
         deliverService.updateDeliverStatus(deliverId,newStatus);
+        expressOrderService.updateExpressStatus(deliverId,newExpressStatus,oldExpressStatus);
     }
 
     @ApiOperation(value = "配送员某一订单送达", notes = "")
     @ApiImplicitParam(name = "params", value = "", dataType = "JSON")
     @RequestMapping(value = "/deliverfinishoneorder", method = RequestMethod.POST)
     public void deliverFinishOneOrder (@RequestBody Map<String, Object> params) {
-//        String deliverID = params.get("deliverId").toString();
-//        int deliverId = Integer.parseInt(deliverID);
+
         String orderID = params.get("pizzaOrderId").toString();
         int orderId = Integer.parseInt(orderID);
 
