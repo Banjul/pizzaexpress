@@ -93,10 +93,10 @@ public class MenuController {
         JSONArray jsonArray = JSONArray.fromObject(items);
         System.err.println(jsonArray);
         List<ItemWrapModel> list = new ArrayList<>();
-        ItemWrapModel itemWrapModel = new ItemWrapModel();
         ItemBean itemBean;
 
         for(Object o :jsonArray){
+            ItemWrapModel itemWrapModel = new ItemWrapModel();
             System.err.println(o);
             JSONObject obj = JSONObject.fromObject(o);
             itemBean = (ItemBean) JSONObject.toBean(obj,ItemBean.class);
