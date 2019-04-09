@@ -8,6 +8,7 @@ package com.springboot.pizzaexpress.controller;
 import com.springboot.pizzaexpress.bean.Shop;
 import com.springboot.pizzaexpress.bean.User;
 import com.springboot.pizzaexpress.bean.PizzaOrder;
+import com.springboot.pizzaexpress.dao.ItemDao;
 import com.springboot.pizzaexpress.dao.OrderDao;
 import com.springboot.pizzaexpress.service.DeliverService;
 import com.springboot.pizzaexpress.service.OrderService;
@@ -143,6 +144,9 @@ public class OrderController {
     @Autowired
     private OrderDao orderDao;
 
+    @Autowired
+    private ItemDao itemDao;
+
     @RequestMapping(value = "/addOrder", method = RequestMethod.POST)
     public ResponseModel addOrder(@RequestBody PizzaOrderModel pizzaOrderModel, HttpSession session) {
         ResponseModel responseModel = new ResponseModel();
@@ -242,6 +246,8 @@ public class OrderController {
                 ShopModel shopModel = new ShopModel();
                 shopModel.setShopName(shop.getShopName());
                 shopModel.setShopId(shopId);
+                shopModel.setPosX(shop.getPosX()+"");
+                shopModel.setPosY(shop.getPosY()+"");
                 String items = pizzaOrder.getItems();
                 JSONArray array = JSONArray.fromObject(items);
                 List<ItemWrapModel> itemWrapModels = new ArrayList<>();
@@ -251,6 +257,7 @@ public class OrderController {
                     JSONObject a = JSONObject.fromObject(object.getString("item"));
                     int b = Integer.parseInt(object.getString("count"));
                     Item item = (Item) JSONObject.toBean(a, Item.class);
+                    item = itemDao.findByItemId(item.getItemId());
                     itemWrapModel.setItem(item);
                     itemWrapModel.setCount(b);
                     itemWrapModels.add(itemWrapModel);
