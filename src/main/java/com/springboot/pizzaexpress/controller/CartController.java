@@ -4,11 +4,14 @@ package com.springboot.pizzaexpress.controller;
  * Created by sts on 2019/3/2.
  */
 import com.springboot.pizzaexpress.bean.Cart;
+import com.springboot.pizzaexpress.bean.Item;
+import com.springboot.pizzaexpress.bean.Shop;
 import com.springboot.pizzaexpress.bean.User;
 import com.springboot.pizzaexpress.model.CartModel;
 import com.springboot.pizzaexpress.model.ItemWrapModel;
 import com.springboot.pizzaexpress.model.ResponseModel;
 import com.springboot.pizzaexpress.service.CartService;
+import com.springboot.pizzaexpress.service.ItemService;
 import io.swagger.annotations.Api;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -26,6 +29,8 @@ public class CartController {
 
     @Autowired
     private CartService cartService;
+    @Autowired
+    private ItemService itemService;
 
     @RequestMapping(value = "/addToCart",method = RequestMethod.POST)
     public ResponseModel addToCart (@RequestBody CartModel cartModel,HttpSession session){
@@ -39,7 +44,14 @@ public class CartController {
         else{
             int userId = u.getUserId();
             int shopId = cartModel.getShop().getShopId();
-            List<ItemWrapModel> itemsList = cartModel.getItems();
+            List<ItemWrapModel> itemsList = new ArrayList<>();
+            for (ItemWrapModel i :cartModel.getItems()){
+                Item item =  i.getItem();
+                int itemId = item.getItemId();
+                item = itemService.findByItemId(itemId);
+                i.setItem(item);
+                itemsList.add(i);
+            }
             JSONArray array = JSONArray.fromObject(itemsList);
             String items = array.toString();
             if(cartService.findCartItems(shopId,userId)!=null){
@@ -51,6 +63,7 @@ public class CartController {
             }
             responseModel.setStatus("200");
             responseModel.setMessage("添加成功！");
+
             responseModel.setModel(cartModel);
         }
         return responseModel;
