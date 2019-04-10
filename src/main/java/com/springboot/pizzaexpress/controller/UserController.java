@@ -3,7 +3,9 @@ package com.springboot.pizzaexpress.controller;
 /**
  * Created by sts on 2019/3/2.
  */
+import com.aliyuncs.utils.StringUtils;
 import com.springboot.pizzaexpress.bean.User;
+import com.springboot.pizzaexpress.dao.UserDao;
 import com.springboot.pizzaexpress.model.ResponseModel;
 import com.springboot.pizzaexpress.model.UserModel;
 import com.springboot.pizzaexpress.service.UserService;
@@ -15,17 +17,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
-import java.util.LinkedHashMap;
+import java.util.*;
 
 import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
-import java.util.Date;
-import java.util.HashMap;
-
-import java.util.List;
-import java.util.Map;
+import javax.websocket.server.PathParam;
 
 import com.aliyuncs.DefaultAcsClient;
 import com.aliyuncs.IAcsClient;
@@ -42,6 +40,10 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+
+    @Autowired
+    private UserDao userDao;
 
 
     @ApiOperation(value="登录",notes = "需要参数：用户id，用户密码,session")
@@ -263,7 +265,7 @@ public class UserController {
 
     @ApiOperation(value = "用户获取验证码",httpMethod = "POST",notes = "")
     @RequestMapping(value = "/getMessage")
-    public ResponseModel getMessage(@RequestBody Map<String,String> map) throws ClientException, InterruptedException{
+    public ResponseModel getMessage(HttpSession session,@RequestBody Map<String,String> map) throws ClientException, InterruptedException{
         String telephone = map.get("telephone");
         ResponseModel responseModel = new ResponseModel();
         setNewcode();
@@ -271,6 +273,7 @@ public class UserController {
         System.out.println("发送的验证码为："+code);
         //发短信
         SendSmsResponse response =sendSms(telephone,code); // TODO 填写你需要测试的手机号码
+        session.setAttribute(telephone, code);
         System.out.println("短信接口返回的数据----------------");
         System.out.println("Code=" + response.getCode());
         System.out.println("Message=" + response.getMessage());
@@ -298,6 +301,14 @@ public class UserController {
     public ResponseModel loginByTelephone(@RequestBody Map<String,String> map,HttpSession session){
         ResponseModel responseModel = new ResponseModel();
         String telephone = map.get("telephone");
+        String code = map.get("code");
+        if (StringUtils.isEmpty(session.getAttribute(telephone).toString()) ||
+                !session.getAttribute(telephone).toString().equals(code)
+            ){
+            responseModel.setStatus("500");
+            responseModel.setMessage("验证码错误");
+            return responseModel;
+        }
         User u =userService.findByTelephone(telephone);
         if(u==null){
             String nickName = setNickName();
@@ -320,7 +331,24 @@ public class UserController {
             session.setAttribute("userInfo",u);
         }
         return responseModel;
+    }
 
+    @ApiOperation(value = "",httpMethod = "PUT",notes = "")
+    @RequestMapping(value = "/{u_id}",  method = RequestMethod.PUT)
+    public User update(HttpSession session, @RequestBody User user, @PathVariable("u_id") Integer uId){
+        Optional<User> userOld = userDao.findById(uId);
+        if (userOld.isPresent() && userOld.get().getUserId() == user.getUserId()){
+            userDao.saveAndFlush(user);
+            return userDao.findById(uId).get();
+        }else {
+            return null;
+        }
+    }
+
+    @ApiOperation(value = "",httpMethod = "GET",notes = "")
+    @RequestMapping(value = "/{u_id}", method = RequestMethod.GET)
+    public User get(HttpSession session, @PathVariable("u_id") Integer uId){
+        return userDao.findById(uId).get();
     }
 }
 
