@@ -4,6 +4,7 @@ package com.springboot.pizzaexpress.controller;
  * Created by sts on 2019/3/2.
  */
 import com.springboot.pizzaexpress.bean.Deliver;
+import com.springboot.pizzaexpress.model.UserModel;
 import com.springboot.pizzaexpress.service.DeliverService;
 import com.springboot.pizzaexpress.service.ExpressOrderService;
 import io.swagger.annotations.Api;
@@ -63,12 +64,21 @@ public class DeliverController {
     }
 
     @ApiOperation(value = "配送员登录", notes = "")
-    @ApiImplicitParam(name = "params", value = "", dataType = "JSON")
+//    @ApiImplicitParam(name = "params", value = "", dataType = "JSON")
     @RequestMapping(value = "/deliverlogin", method = RequestMethod.POST)
-    public Map<String,Object> deliverLogin(int account, String password, HttpSession session) {
-
+    public Map<String,Object> deliverLogin(@RequestBody Deliver deliverModel, HttpSession session) {
         Map<String, Object> resultMap = new LinkedHashMap<String, Object>();
+        System.err.println(deliverModel);
+
+        int account = deliverModel.getDeliverId();
+        String password =deliverModel.getPassword();
+        System.err.println(account);
+        System.err.println(password);
+
+//        int account = Integer.parseInt(Account);
         Deliver deliver = deliverService.deliverLogin(account,password);
+        System.err.println(deliver);
+
         if ( deliver!=null ) {
             session.setAttribute("deliver",deliver);
             System.out.println(session);
