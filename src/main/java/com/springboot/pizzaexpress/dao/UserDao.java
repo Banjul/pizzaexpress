@@ -6,6 +6,7 @@ package com.springboot.pizzaexpress.dao;
 
 
 import com.springboot.pizzaexpress.bean.User;
+import io.swagger.models.auth.In;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -19,7 +20,7 @@ import java.util.Date;
 
 @Component
 @Repository
-public interface UserDao extends JpaRepository<User,String> {
+public interface UserDao extends JpaRepository<User, Integer> {
 
 
     /**
