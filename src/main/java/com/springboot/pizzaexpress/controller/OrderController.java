@@ -8,6 +8,7 @@ package com.springboot.pizzaexpress.controller;
 import com.springboot.pizzaexpress.bean.Shop;
 import com.springboot.pizzaexpress.bean.User;
 import com.springboot.pizzaexpress.bean.PizzaOrder;
+import com.springboot.pizzaexpress.dao.ItemDao;
 import com.springboot.pizzaexpress.dao.OrderDao;
 import com.springboot.pizzaexpress.service.DeliverService;
 import com.springboot.pizzaexpress.service.OrderService;
@@ -147,7 +148,7 @@ public class OrderController {
     private ItemDao itemDao;
 
     @RequestMapping(value = "/addOrder", method = RequestMethod.POST)
-    public ResponseModel addOrder(@RequestBody PizzaOrderModel pizzaOrderModel, HttpSession session) {
+    public ResponseModel addOrder(@RequestBody Map<String,Object> pizzaOrderModel, HttpSession session) {
         ResponseModel responseModel = new ResponseModel();
         User u = (User) session.getAttribute("userInfo");
         if (u == null) {
@@ -157,21 +158,26 @@ public class OrderController {
         } else {
             int userId = u.getUserId();
             // System.err.println(userId);
-            int shopId = pizzaOrderModel.getShop().getShopId();
-            String fromPosX = pizzaOrderModel.getShop().getPosX();
-            String fromPosY = pizzaOrderModel.getShop().getPosY();
-            List<ItemWrapModel> itemsList = pizzaOrderModel.getItems();
-            JSONArray array = JSONArray.fromObject(itemsList);
-            String items = array.toString();
+            Map<String,Object> shop = (Map<String,Object>)pizzaOrderModel.get("shop");
+            int shopId = (int)shop.get("shopId");
+            //int shopId = pizzaOrderModel.getShop().getShopId();
+            String fromPosX = (String)shop.get("fromPosX");
+            String fromPosY = (String)shop.get("fromPosY");
+//            List<ItemWrapModel> itemsList = pizzaOrderModel.getItems();
+            String items = pizzaOrderModel.get("items").toString();
+            System.out.println(items);
+//            JSONArray array = JSONArray.fromObject(itemsList);
+//            String items = array.toString();
             String state = "1";//   订单未支付，状态为1
             //SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
             //df.format(new Date());
 
             Date startTime = new Date();
 
-            String toPosX = pizzaOrderModel.getToPosX();
-            String toPosY = pizzaOrderModel.getToPosY();
-            double price = pizzaOrderModel.getPrice();
+            String toPosX = (String)pizzaOrderModel.get("toPosX");
+            String toPosY = (String)pizzaOrderModel.get("toPosY");
+            double price = Double.parseDouble(pizzaOrderModel.get("price").toString());
+
 
             //获取用户账户余额
             double balance = userService.findBalance(userId);
@@ -258,9 +264,6 @@ public class OrderController {
                     Item item = (Item) JSONObject.toBean(a, Item.class);
                     item = itemDao.findByItemId(item.getItemId());
                     itemWrapModel.setItem(item);
-                    int itemId = item.getItemId();
-                    Item i = itemService.findByItemId(itemId);
-                    itemWrapModel.setItem(i);
                     itemWrapModel.setCount(b);
                     itemWrapModels.add(itemWrapModel);
                 }
