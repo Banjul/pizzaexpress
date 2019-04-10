@@ -184,8 +184,6 @@ public class ShopController {
     }
 
 
-
-
     @RequestMapping(value = "/findShop",method = RequestMethod.POST)
     public ResponseModel findShop (@RequestBody Map<String,String> position){
         //用户经纬度
@@ -242,6 +240,11 @@ public class ShopController {
 
     }
 
+    @ApiOperation(value = "查看所有销量", notes = "")
+    @RequestMapping(value = "/getallsalesvolume", method = RequestMethod.POST)
+    public String getAllSalesVolume () {
+        return shopService.getAllSalesVolume();
+    }
 
 
 }

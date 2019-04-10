@@ -152,4 +152,9 @@ public interface ShopDao extends JpaRepository<Shop,String> {
     @Query(value = "select * from shop where shop_id=?1",nativeQuery = true)
     ShopModel findByShopIdModel(int shopId);
 
+    @Query(value = "select sum(sales_volume) from shop",nativeQuery = true)
+    int getAllSalesVolume();
+
+    @Query(value = "select count(*)from shop",nativeQuery = true)
+    int getShopCount();
 }

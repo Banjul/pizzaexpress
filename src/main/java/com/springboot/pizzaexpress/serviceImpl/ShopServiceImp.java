@@ -434,6 +434,19 @@ public class ShopServiceImp implements ShopService{
     }
 
     @Override
+    public String getAllSalesVolume() {
+        int salesVolume = shopDao.getAllSalesVolume();
+        int userCount = userDao.getUserCount();
+        int shopCount = shopDao.getShopCount();
+
+        JSONObject dataJSON = new JSONObject();
+        dataJSON.put("salesVolume",salesVolume);
+        dataJSON.put("userCount",userCount);
+        dataJSON.put("shopCount",shopCount);
+        return dataJSON.toJSONString();
+    }
+
+    @Override
     public List<Shop> getShop() {
         List<Shop> list = shopDao.findAll();
         return list;

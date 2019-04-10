@@ -26,7 +26,7 @@ public interface PurchaseDao extends JpaRepository<Purchase,String> {
      * @param formula
      * @return
      */
-    @Query(value = "select * from purchase where shop_id = ?1 and purchase_formula =?2",nativeQuery = true)
+    @Query(value = "select * from purchase where shop_id = ?1 and purchase_formula =?2 order by purchase_time desc ",nativeQuery = true)
     List<Purchase> queryPurchaseByFormula(int shop_id,String formula);
 
     @Transactional

@@ -97,4 +97,7 @@ public interface UserDao extends JpaRepository<User,String> {
 
     @Query(value = "select * from user",nativeQuery = true)
     List<User> queryUserInfo();
+
+    @Query(value = "select count(*)from user",nativeQuery = true)
+    int getUserCount();
 }

@@ -44,4 +44,6 @@ public interface ShopService {
     public List<Shop> getShop();
     public ShopModel findByShopIdModel(int shopId);
 
+    public String getAllSalesVolume();
+
 }
