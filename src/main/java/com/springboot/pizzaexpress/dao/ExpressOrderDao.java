@@ -49,5 +49,8 @@ public interface ExpressOrderDao extends JpaRepository<ExpressOrder,String> {
     @Query(value = "update express_order set express_status = ?2 where express_id= ?1",nativeQuery = true)
     void updateExpressStatusById(int expressOrderId,String newStatus);
 
+    @Query(value = "select * from express_order where express_id = ?1",nativeQuery = true)
+    ExpressOrder queryExpressOrderById(int expressId);
+
 
 }

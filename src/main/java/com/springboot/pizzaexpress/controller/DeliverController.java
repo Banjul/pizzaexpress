@@ -106,20 +106,18 @@ public class DeliverController {
 //        deliverService.updateDeliverStatus(deliverId,newStatus);
 //    }
 
-    @ApiOperation(value = "配送员全部送达", notes = "")
-    @ApiImplicitParam(name = "params", value = "", dataType = "JSON")
-    @RequestMapping(value = "/deliverfree", method = RequestMethod.POST)
-    public void deliverFree (@RequestBody Map<String, Object> params) {
-        String deliverID = params.get("deliverId").toString();
-        int deliverId = Integer.parseInt(deliverID);
-//        String expressID = params.get("expressId").toString();
-//        int expressId = Integer.parseInt(expressID);
-        String newStatus = "空闲";
-        String newExpressStatus = "已完成";
-        String oldExpressStatus = "正在配送";
-        deliverService.updateDeliverStatus(deliverId,newStatus);
-        expressOrderService.updateExpressStatus(deliverId,newExpressStatus,oldExpressStatus);
-    }
+//    @ApiOperation(value = "配送员全部送达", notes = "")
+//    @ApiImplicitParam(name = "params", value = "", dataType = "JSON")
+//    @RequestMapping(value = "/deliverfree", method = RequestMethod.POST)
+//    public void deliverFree (@RequestBody Map<String, Object> params) {
+//        String deliverID = params.get("deliverId").toString();
+//        int deliverId = Integer.parseInt(deliverID);
+//        String newStatus = "空闲";
+//        String newExpressStatus = "已完成";
+//        String oldExpressStatus = "正在配送";
+//        deliverService.updateDeliverStatus(deliverId,newStatus);
+//        expressOrderService.updateExpressStatus(deliverId,newExpressStatus,oldExpressStatus);
+//    }
 
     @ApiOperation(value = "配送员某一订单送达", notes = "")
     @ApiImplicitParam(name = "params", value = "", dataType = "JSON")
@@ -127,13 +125,17 @@ public class DeliverController {
     public void deliverFinishOneOrder (@RequestBody Map<String, Object> params) {
 
         String orderID = params.get("pizzaOrderId").toString();
+        String expressID = params.get("expressOrderId").toString();
+        String deliverID = params.get("deliverId").toString();
+        int deliverId = Integer.parseInt(deliverID);
+        int expressId = Integer.parseInt(expressID);
         int orderId = Integer.parseInt(orderID);
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String finishTime = sdf.format(new Date());
         String newStatus = "已送达";
 
-        deliverService.deliverFinishOneOrder(orderId,newStatus,finishTime);
+        deliverService.deliverFinishOneOrder(deliverId,expressId,orderId,newStatus,finishTime);
     }
 
 }

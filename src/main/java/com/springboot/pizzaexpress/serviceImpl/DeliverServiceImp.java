@@ -15,6 +15,7 @@ import com.springboot.pizzaexpress.service.DeliverService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.criteria.Order;
 import java.util.List;
 
 @Service
@@ -124,8 +125,26 @@ public class DeliverServiceImp implements DeliverService{
     }
 
     @Override
-    public void deliverFinishOneOrder( int orderId, String newStatus, String finishTime) {
+    public void deliverFinishOneOrder(int deliverId, int expressId, int orderId, String newStatus, String finishTime) {
         orderDao.updateOrderStatus(orderId, newStatus, finishTime);
+
+        ExpressOrder expressOrder = expressOrderDao.queryExpressOrderById(expressId);
+        String orderList = expressOrder.getOrderList();
+        String[] orderListArray = orderList.split(",");
+        String expressOrdersStatus = "全部送达";
+        for (int i=0;i<orderListArray.length;i++) {
+            String orderID = orderListArray[i];
+            int orderid = Integer.parseInt(orderID);
+            PizzaOrder order = orderDao.queryOrderByOrderId(orderid);
+            if (order.getState().equals("正在配送")) {
+                expressOrdersStatus = "没有全部送达";
+                break;
+            }
+        }
+        if (expressOrdersStatus.equals("全部送达")) {
+            deliverDao.updateDeliverStatus(deliverId,"空闲");
+            expressOrderDao.updateExpressStatusById(expressId,"已完成");
+        }
     }
 
     @Override

@@ -18,7 +18,7 @@ public interface DeliverService {
 
     public void updateDeliverStatus(int deliverId,String newStatus);
 
-    public void deliverFinishOneOrder(int orderId,String newStatus,String finishTime);
+    public void deliverFinishOneOrder(int deliverId,int expressId,int orderId,String newStatus,String finishTime);
 
     public int allocateOrderToDeliver(int shopId,int orderId);
 
