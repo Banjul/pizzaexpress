@@ -76,7 +76,7 @@ public interface UserDao extends JpaRepository<User, Integer> {
 
     @Modifying(clearAutomatically = true)
     @Transactional
-    @Query(value ="update user set status = 'online' , last_login=?1 where user_id=?2",nativeQuery = true)
+    @Query(value ="update user set status = '在线' , last_login_time=?1 where user_id=?2",nativeQuery = true)
     int modifyState(Date time,int userId);
 
     @Query(value = "select money from user where user_id=?1",nativeQuery = true)
