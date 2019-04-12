@@ -51,6 +51,7 @@ public class ExpressOrderServiceImp implements ExpressOrderService{
                 orderContent.put("orderStartTime",pizzaOrder.getStartTime());
                 orderContent.put("orderUserName",user.getNickName());
                 orderContent.put("orderUserPhone",user.getPhoneNumber());
+                orderContent.put("state",pizzaOrder.getState());
 
                 expressOrderArray.add(orderContent);
             }

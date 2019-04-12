@@ -36,7 +36,7 @@ public interface ExpressOrderDao extends JpaRepository<ExpressOrder,String> {
     @Query(value = "insert into express_order(deliver_id,order_list) values(?1,?2)",nativeQuery = true)
     void insertExpressOrderOrderList(int deliverId,String OrderList);
 
-    @Query(value = "select * from express_order where deliver_id =?1 and express_status = ?2 or express_status = ?3",nativeQuery = true)
+    @Query(value = "select * from express_order where deliver_id =?1 and (express_status = ?2 or express_status = ?3)",nativeQuery = true)
     ExpressOrder getExpressContentByDeliverId(int deliverId, String status1, String status2);
 
     @Transactional
