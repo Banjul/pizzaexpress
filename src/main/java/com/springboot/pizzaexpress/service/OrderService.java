@@ -36,4 +36,6 @@ public interface OrderService {
     public void modifyStatus(int orderId);
 
     public List<PizzaOrder> queryOrderByUserId(int userId);
+
+    public PizzaOrder findByOrderId(int orderId);
 }

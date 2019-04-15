@@ -14,4 +14,6 @@ public interface MenuService {
     public String updateMenuByShopId(int shopId, int itemId,int itemCount);
 
     public String getMenuByItemName(int shopId, String itemName);
+
+    public int updateItems(int shopId,String items);
 }

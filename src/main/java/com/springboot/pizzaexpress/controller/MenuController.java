@@ -121,4 +121,46 @@ public class MenuController {
 
         return responseModel;
     }
+
+    @RequestMapping(value = "/search",method = RequestMethod.POST)
+    public ResponseModel showMenu(@RequestBody Map<String,Object> params){
+        ResponseModel responseModel = new ResponseModel();
+        String keywords = params.get("keywords").toString();
+        int shopId = (int)params.get("shopId");
+        Menu menu = menuService.findByShopId(shopId);
+        String items = menu.getItems();
+        JSONArray jsonArray = JSONArray.fromObject(items);
+        System.err.println(jsonArray);
+        List<ItemWrapModel> list = new ArrayList<>();
+        ItemBean itemBean;
+
+        for(Object o :jsonArray){
+            ItemWrapModel itemWrapModel = new ItemWrapModel();
+            System.err.println(o);
+            JSONObject obj = JSONObject.fromObject(o);
+            itemBean = (ItemBean) JSONObject.toBean(obj,ItemBean.class);
+            //获取itemID
+            int itemId = itemBean.getItemId();
+            System.err.println(itemId);
+            int count = itemBean.getCount();
+            System.err.println(count);
+            //查找item具体信息
+            Item i = itemService.findByItemId(itemId);
+            if(i.getItemName().contains(keywords)) {
+                itemWrapModel.setItem(i);
+                itemWrapModel.setCount(count);
+
+                list.add(itemWrapModel);
+            }
+        }
+        if(list.size()==0) {
+            responseModel.setStatus("500");
+            responseModel.setMessage("未查找到相关内容！");
+        }else {
+            responseModel.setStatus("200");
+            responseModel.setMessage("查找成功！");
+            responseModel.setModel(list);
+        }
+        return responseModel;
+    }
 }

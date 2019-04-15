@@ -5,23 +5,17 @@ package com.springboot.pizzaexpress.controller;
  */
 
 
-import com.springboot.pizzaexpress.bean.Shop;
-import com.springboot.pizzaexpress.bean.User;
-import com.springboot.pizzaexpress.bean.PizzaOrder;
+import com.springboot.pizzaexpress.bean.*;
 import com.springboot.pizzaexpress.dao.ItemDao;
 import com.springboot.pizzaexpress.dao.OrderDao;
-import com.springboot.pizzaexpress.service.DeliverService;
-import com.springboot.pizzaexpress.service.OrderService;
-import com.springboot.pizzaexpress.service.UserService;
+import com.springboot.pizzaexpress.service.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
-import com.springboot.pizzaexpress.bean.Item;
 import com.springboot.pizzaexpress.model.ItemWrapModel;
 import com.springboot.pizzaexpress.model.PizzaOrderModel;
 import com.springboot.pizzaexpress.model.ResponseModel;
 import com.springboot.pizzaexpress.model.ShopModel;
-import com.springboot.pizzaexpress.service.ShopService;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
@@ -49,6 +43,12 @@ public class OrderController {
 
     @Autowired
     private DeliverService deliverService;
+
+    @Autowired
+    private CartService cartService;
+
+    @Autowired
+    private MenuService menuService;
 
 
 
@@ -171,13 +171,14 @@ public class OrderController {
             String state = "1";//   订单未支付，状态为1
             //SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
             //df.format(new Date());
-
             Date startTime = new Date();
 
             String toPosX = (String)pizzaOrderModel.get("toPosX");
             String toPosY = (String)pizzaOrderModel.get("toPosY");
             double price = Double.parseDouble(pizzaOrderModel.get("price").toString());
 
+            List<Map<String,Object>> itemMap = (List<Map<String,Object>>) pizzaOrderModel.get("items");
+            System.out.println(itemMap);
 
             //获取用户账户余额
             double balance = userService.findBalance(userId);
@@ -196,6 +197,28 @@ public class OrderController {
                     responseModel.setModel(pizzaOrderModel);
                     balance = balance - price;
                     userService.modifyBalance(balance, userId);
+                    cartService.clearCart(userId,shopId);
+                    Menu menu = menuService.findByShopId(shopId);
+                    String item  = menu.getItems();
+                    JSONArray itemJson = JSONArray.fromObject(item);
+                    List<Map<String,Object>> itemL = (List<Map<String,Object>>) itemJson;
+                    for(Map o:itemL){
+                        int itemId1 = Integer.parseInt(o.get("itemId").toString());
+                        int count1 = Integer.parseInt(o.get("count").toString());
+                        for(Map<String,Object> b:itemMap){
+                            Map<String,Object> m = (Map<String,Object>) b.get("item");
+                            int itemId2 = Integer.parseInt(m.get("itemId").toString());
+                            int count2 = Integer.parseInt(b.get("count").toString());
+                            if(itemId1==itemId2){
+                                count1 = count1-count2;
+                                o.replace("count",count1);
+                            }
+                        }
+                        System.out.println(itemJson);
+                    }
+                    System.out.println(itemJson);
+                    menuService.updateItems(shopId,itemJson.toString());
+
                 }
                 else {
                     responseModel.setStatus("500");
@@ -218,6 +241,12 @@ public class OrderController {
             Date time = new Date();
             System.out.println(time);
             Date startTime = orderService.findStartTime(orderId);
+            PizzaOrder order = orderService.findByOrderId(orderId);
+            int shopId = order.getShopId();
+            String items = order.getItems();
+            JSONArray json = JSONArray.fromObject(items);
+            List<Map<String,Object>> maps = (List<Map<String,Object>>) json;
+            double price = pizzaOrderModel.getPrice();
             long start = time.getTime();
             long end = startTime.getTime();
             int msec = (int) (start - end);
@@ -227,6 +256,29 @@ public class OrderController {
                 responseModel.setMessage("超时，取消失败！");
             } else {
                 orderService.modifyStatus(orderId);
+                double balance = userService.findBalance(u.getUserId());
+                userService.modifyBalance(balance+price,u.getUserId());
+                Menu menu = menuService.findByShopId(shopId);
+                String item  = menu.getItems();
+                JSONArray itemJson = JSONArray.fromObject(item);
+                List<Map<String,Object>> itemL = (List<Map<String,Object>>) itemJson;
+                for(Map o:itemL){
+                    int itemId1 = Integer.parseInt(o.get("itemId").toString());
+                    int count1 = Integer.parseInt(o.get("count").toString());
+                    for(Map<String,Object> b:maps){
+                        Map<String,Object> m = (Map<String,Object>) b.get("item");
+                        int itemId2 = Integer.parseInt(m.get("itemId").toString());
+                        int count2 = Integer.parseInt(b.get("count").toString());
+                        if(itemId1==itemId2){
+                            count1 = count1+count2;
+                            o.replace("count",count1);
+                        }
+                    }
+                    System.out.println(itemJson);
+                }
+                System.out.println(itemJson);
+                menuService.updateItems(shopId,itemJson.toString());
+
                 responseModel.setStatus("200");
                 responseModel.setMessage("取消成功！");
             }

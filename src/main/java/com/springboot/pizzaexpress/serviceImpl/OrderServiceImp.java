@@ -388,5 +388,10 @@ public class OrderServiceImp implements OrderService {
         return orderDao.queryOrderByUserId(userId);
 
     }
+
+    @Override
+    public PizzaOrder findByOrderId(int orderId) {
+        return orderDao.queryOrderByOrderId(orderId);
+    }
 }
 

@@ -14,4 +14,8 @@ public interface CartService {
 
     public int modifyCart(int userId,int shopId,String items);
 
+    public int clearCart(int userId,int shopId);
+
+    public List<Cart> findAllCart(int userId);
+
 }

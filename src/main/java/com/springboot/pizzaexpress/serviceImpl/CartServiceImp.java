@@ -30,4 +30,14 @@ public class CartServiceImp implements CartService{
     public int modifyCart(int userId, int shopId, String items) {
         return cartDao.modifyCart(userId,shopId,items);
     }
+
+    @Override
+    public int clearCart(int userId, int shopId) {
+        return cartDao.clearCart(userId,shopId);
+    }
+
+    @Override
+    public List<Cart> findAllCart(int userId) {
+        return cartDao.findAllCart(userId);
+    }
 }

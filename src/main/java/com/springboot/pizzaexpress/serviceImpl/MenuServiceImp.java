@@ -186,4 +186,8 @@ public class MenuServiceImp implements MenuService {
         return menuDao.findByShopId(shopId);
     }
 
+    @Override
+    public int updateItems(int shopId, String items) {
+        return menuDao.updateMenuByShopId(shopId,items);
+    }
 }
