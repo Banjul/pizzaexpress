@@ -165,6 +165,7 @@ public class OrderController {
             String fromPosY = (String)shop.get("fromPosY");
 //            List<ItemWrapModel> itemsList = pizzaOrderModel.getItems();
             String items = pizzaOrderModel.get("items").toString();
+            String toPosString = pizzaOrderModel.get("toPosString").toString();
             System.out.println(items);
 //            JSONArray array = JSONArray.fromObject(itemsList);
 //            String items = array.toString();
@@ -190,7 +191,7 @@ public class OrderController {
                 int orderId = orderDao.getMaxOrderNum();
                 int result = deliverService.allocateOrderToDeliver(shopId,orderId+1);
                 if (result != -1) {
-                    orderService.insertToPizzaOrder(userId, shopId, items, startTime, state, fromPosX, fromPosY, toPosX, toPosY, price);
+                    orderService.insertToPizzaOrder(userId, shopId, items, startTime, state, fromPosX, fromPosY, toPosX, toPosY,toPosString, price);
 
                     responseModel.setStatus("200");
                     responseModel.setMessage("下单成功！");

@@ -13,6 +13,7 @@ import com.springboot.pizzaexpress.model.ResponseModel;
 import com.springboot.pizzaexpress.model.ShopModel;
 import com.springboot.pizzaexpress.service.CartService;
 import com.springboot.pizzaexpress.service.ItemService;
+import com.springboot.pizzaexpress.service.ShopService;
 import io.swagger.annotations.Api;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -33,6 +34,8 @@ public class CartController {
     private CartService cartService;
     @Autowired
     private ItemService itemService;
+    @Autowired
+    private ShopService shopService;
 
     @RequestMapping(value = "/addToCart", method = RequestMethod.POST)
     public ResponseModel addToCart(@RequestBody CartModel cartModel, HttpSession session) {
@@ -154,7 +157,11 @@ public class CartController {
                 cartModel.setItems(list);
                 cartModel.setCartId(cart.getCartId());
                 ShopModel shopModel = new ShopModel();
+                Shop shop =shopService.findByShopId(cart.getShopId());
+                shopModel.setShopName(shop.getShopName());
+                shopModel.setPicUrl(shop.getPicUrl());
                 shopModel.setShopId(cart.getShopId());
+                shopModel.setPosString(shop.getPosString());
                 cartModel.setShop(shopModel);
                 list1.add(cartModel);
             }
