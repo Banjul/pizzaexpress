@@ -169,7 +169,7 @@ public class OrderController {
             System.out.println(items);
 //            JSONArray array = JSONArray.fromObject(itemsList);
 //            String items = array.toString();
-            String state = "1";//   订单未支付，状态为1
+            //String state = "1";//   订单未支付，状态为1
             //SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
             //df.format(new Date());
             Date startTime = new Date();
@@ -191,6 +191,7 @@ public class OrderController {
                 int orderId = orderDao.getMaxOrderNum();
                 int result = deliverService.allocateOrderToDeliver(shopId,orderId+1);
                 if (result != -1) {
+                    String state = "正在配送";
                     orderService.insertToPizzaOrder(userId, shopId, items, startTime, state, fromPosX, fromPosY, toPosX, toPosY,toPosString, price);
 
                     responseModel.setStatus("200");
