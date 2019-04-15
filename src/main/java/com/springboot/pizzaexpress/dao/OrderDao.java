@@ -108,7 +108,7 @@ public interface OrderDao extends JpaRepository<PizzaOrder,String> {
 
     @Modifying(clearAutomatically = true)
     @Transactional
-    @Query(value ="update pizza_order set state = 2 where order_id = ?1",nativeQuery = true)
+    @Query(value ="update pizza_order set state = '已取消' where order_id = ?1",nativeQuery = true)
     void modifyStatus(int orderId);
 
 
