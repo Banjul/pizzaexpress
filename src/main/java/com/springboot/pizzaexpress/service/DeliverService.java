@@ -20,6 +20,6 @@ public interface DeliverService {
 
     public void deliverFinishOneOrder(int deliverId,int expressId,int orderId,String newStatus,String finishTime);
 
-    public int allocateOrderToDeliver(int shopId,int orderId);
+    public String allocateOrderToDeliver(int shopId,int orderId);
 
 }

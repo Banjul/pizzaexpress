@@ -28,6 +28,7 @@ public class ExpressOrderController {
     @RequestMapping(value = "/getexpresscontent",method = RequestMethod.POST)
     public String getExpressContent(@RequestBody Map<String, Object> params) {
         String deliver = params.get("deliverId").toString();
+        System.err.println(deliver);
         int deliverId = Integer.parseInt(deliver);
 
         return expressOrderService.getExpressContent(deliverId);

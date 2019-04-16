@@ -187,9 +187,13 @@ public class OrderController {
 
             }else {
                 int orderId = orderDao.getMaxOrderNum();
-                int result = deliverService.allocateOrderToDeliver(shopId,orderId+1);
-                if (result != -1) {
-                    orderService.insertToPizzaOrder(userId, shopId, items, startTime, state, fromPosX, fromPosY, toPosX, toPosY, price);
+                String result = deliverService.allocateOrderToDeliver(shopId,orderId+1);
+
+                if (!result.equals("-1")) {
+                    String[] ids = result.split(",");
+                    int deliverId  = Integer.parseInt(ids[0]);
+                    int expressId = Integer.parseInt(ids[1]);
+                    orderService.insertToPizzaOrder(userId, shopId, items, startTime, state, fromPosX, fromPosY, toPosX, toPosY, price,deliverId,expressId);
 
                     responseModel.setStatus("200");
                     responseModel.setMessage("下单成功！");

@@ -29,7 +29,7 @@ public interface OrderService {
 //    public String deleteOrderByOrderId(int orderId);
 
     public int insertToPizzaOrder(int userId, int shopId, String items, Date startTime,String state,
-                                  String fromPosX,String fromPosY,String toPosX,String toPosY,double price);
+                                  String fromPosX,String fromPosY,String toPosX,String toPosY,double price, int deliverId,int expressId);
 
     public Date findStartTime(int orderId);
 

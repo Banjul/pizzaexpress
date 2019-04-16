@@ -148,18 +148,20 @@ public class DeliverServiceImp implements DeliverService{
     }
 
     @Override
-    public int allocateOrderToDeliver(int shopId, int orderId) {
+    public String allocateOrderToDeliver(int shopId, int orderId) {
         String status = "空闲";
         Deliver deliver = deliverDao.getFreeDeliver(shopId,status);
         if (deliver != null) {
             int deliverId = deliver.getDeliverId();
             ExpressOrder expressOrder = expressOrderDao.queryExpressOrderByDeliverAndStatus(deliverId,"未满");
+            int expressOrderId;
             if (expressOrder !=null) {
-                int expressOrderId = expressOrder.getExpressId();
+                expressOrderId = expressOrder.getExpressId();
                 String orderList = expressOrder.getOrderList();
                 String newOrderList = orderList + ","+orderId;
                 expressOrderDao.updateExpressOrderOrderList(expressOrderId,newOrderList);
                 String[] orderListArray = newOrderList.split(",");
+
                 if (orderListArray.length == 3) {
                     String newStatus = "正在配送";
                     expressOrderDao.updateExpressStatusById(expressOrderId,newStatus);
@@ -170,10 +172,13 @@ public class DeliverServiceImp implements DeliverService{
             else {
                 String orderList = orderId +"";
                 expressOrderDao.insertExpressOrderOrderList(deliverId,orderList);
+                ExpressOrder expressOrdernew = expressOrderDao.queryExpressOrderByDeliverAndStatus(deliverId,"未满");
+                expressOrderId = expressOrdernew.getExpressId();
             }
-            return deliverId;
+            String result = deliverId + "," + expressOrderId;
+            return result;
         }
-        else return -1;
+        else return "-1";
     }
 
 }
