@@ -174,7 +174,6 @@ public class OrderController {
                 l.add("{"+"itemId:"+"\""+itemId+"\""+",count:"+"\""+b.toString()+"\""+"}");
             }
             String items = l.toString();
-            String toPosString = pizzaOrderModel.get("toPosString").toString();
             System.out.println(items);
 //            JSONArray array = JSONArray.fromObject(itemsList);
 //            String items = array.toString();
@@ -182,6 +181,7 @@ public class OrderController {
             //SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
             //df.format(new Date());
             Date startTime = new Date();
+            String toPosString = pizzaOrderModel.get("toPosString").toString();
 
             String toPosX = (String)pizzaOrderModel.get("toPosX");
             String toPosY = (String)pizzaOrderModel.get("toPosY");
@@ -323,10 +323,10 @@ public class OrderController {
                 ItemWrapModel itemWrapModel = new ItemWrapModel();
                 for(Object o : array){
                     JSONObject object = JSONObject.fromObject(o);
-                    JSONObject a = JSONObject.fromObject(object.getString("item"));
+                    int a = Integer.parseInt(object.getString("itemId"));
                     int b = Integer.parseInt(object.getString("count"));
-                    Item item = (Item) JSONObject.toBean(a, Item.class);
-                    item = itemDao.findByItemId(item.getItemId());
+                   // Item item = (Item) JSONObject.toBean(a, Item.class);
+                    Item item = itemDao.findByItemId(a);
                     itemWrapModel.setItem(item);
                     itemWrapModel.setCount(b);
                     itemWrapModels.add(itemWrapModel);
