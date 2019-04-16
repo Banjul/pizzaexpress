@@ -26,9 +26,18 @@ public interface CartDao extends JpaRepository<Cart,String> {
     @Query(value = "select * from cart where shop_id=?1 and user_id=?2",nativeQuery = true)
     Cart findCartItems(int shopId,int userId);
 
-    @Modifying
+    @Modifying(clearAutomatically = true)
     @Transactional
     @Query(value = "update cart set items =?3 where user_id=?1 and shop_id =?2",nativeQuery = true)
     int modifyCart(int userId,int shopId,String items);
 
+    @Modifying(clearAutomatically = true)
+    @Transactional
+    @Query(value = "delete from cart where user_id = ?1 and shop_id = ?2",nativeQuery = true)
+    int clearCart(int userId,int shopId);
+
+    @Modifying
+    @Transactional
+    @Query(value = "select * from cart where user_id=?1",nativeQuery = true)
+    List<Cart> findAllCart(int userId);
 }

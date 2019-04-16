@@ -368,9 +368,8 @@ public class OrderServiceImp implements OrderService {
 
 
     @Override
-    public int insertToPizzaOrder(int userId, int shopId, String items, Date startTime, String state,
-                                  String fromPosX, String fromPosY, String toPosX, String toPosY,double price,int deliverId,int expressId){
-    return orderDao.insertToPizzaOrder(userId, shopId, items,startTime,state,fromPosX,fromPosY,toPosX,toPosY,price,deliverId,expressId);
+    public int insertToPizzaOrder(int userId, int shopId, String items, Date startTime, String state, String fromPosX, String fromPosY, String toPosX, String toPosY,double price,int deliverId,int expressId) {
+        return orderDao.insertToPizzaOrder(userId, shopId, items, startTime, state, fromPosX, fromPosY, toPosX, toPosY, price, deliverId, expressId);
     }
 
     @Override
@@ -387,6 +386,11 @@ public class OrderServiceImp implements OrderService {
     public List<PizzaOrder> queryOrderByUserId(int userId) {
         return orderDao.queryOrderByUserId(userId);
 
+    }
+
+    @Override
+    public PizzaOrder findByOrderId(int orderId) {
+        return orderDao.queryOrderByOrderId(orderId);
     }
 }
 

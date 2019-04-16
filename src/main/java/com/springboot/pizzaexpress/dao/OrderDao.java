@@ -103,12 +103,13 @@ public interface OrderDao extends JpaRepository<PizzaOrder,String> {
     int insertToPizzaOrder(int userId, int shopId, String items, Date startTime, String state, String fromPosX, String fromPosY, String toPosX, String toPosY,double price,int deliverId,int expressId);
 
 
+
     @Query(value ="SELECT start_time from pizza_order where order_id = ?1",nativeQuery = true)
     Date findStartTime(int orderId);
 
     @Modifying(clearAutomatically = true)
     @Transactional
-    @Query(value ="update pizza_order set state = 2 where order_id = ?1",nativeQuery = true)
+    @Query(value ="update pizza_order set state = '已取消' where order_id = ?1",nativeQuery = true)
     void modifyStatus(int orderId);
 
 

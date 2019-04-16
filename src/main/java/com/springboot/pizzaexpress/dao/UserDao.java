@@ -71,7 +71,7 @@ public interface UserDao extends JpaRepository<User, Integer> {
 
     @Modifying(clearAutomatically = true)
     @Transactional
-    @Query(value = "update user set address = ?1 where user_id =?2",nativeQuery = true)
+    @Query(value = "update user set address_string = ?1 where user_id =?2",nativeQuery = true)
     int modifyAddress(String address,int userId);
 
     @Modifying(clearAutomatically = true)
