@@ -292,7 +292,7 @@ public class UserController {
 
     //随机生成用户名
     public  String setNickName(){
-        String nickName = "pizzaExpress"+ (int)(Math.random()*9999);  //每次调用生成一位四位数的随机数
+        String nickName = "user"+ (int)(Math.random()*99);  //每次调用生成一位四位数的随机数
         return nickName;
     }
 
