@@ -139,6 +139,12 @@ public class ItemServiceImp implements ItemService {
                     newItemJson.put("count","0");
                     jsonArray.add(newItemJson);
 
+                    int item12Id = newItemId1 +1;
+                    JSONObject newItemJson12 = new JSONObject();
+                    newItemJson.put("itemId",item12Id +"");
+                    newItemJson.put("count","0");
+                    jsonArray.add(newItemJson12);
+
                     String newItem = jsonArray.toString();
                     int shopId = menu.getShopId();
                     result = menuDao.updateMenuByShopId(shopId,newItem);
