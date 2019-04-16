@@ -324,8 +324,8 @@ public class OrderController {
                 String items = pizzaOrder.getItems();
                 JSONArray array = JSONArray.fromObject(items);
                 List<ItemWrapModel> itemWrapModels = new ArrayList<>();
-                ItemWrapModel itemWrapModel = new ItemWrapModel();
                 for(Object o : array){
+                    ItemWrapModel itemWrapModel = new ItemWrapModel();
                     JSONObject object = JSONObject.fromObject(o);
                     int a = Integer.parseInt(object.getString("itemId"));
                     int b = Integer.parseInt(object.getString("count"));
