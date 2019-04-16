@@ -281,8 +281,7 @@ public class OrderController {
                     int itemId1 = Integer.parseInt(o.get("itemId").toString());
                     int count1 = Integer.parseInt(o.get("count").toString());
                     for(Map<String,Object> b:maps){
-                        Map<String,Object> m = (Map<String,Object>) b.get("item");
-                        int itemId2 = Integer.parseInt(m.get("itemId").toString());
+                        int itemId2 = Integer.parseInt(b.get("itemId").toString());
                         int count2 = Integer.parseInt(b.get("count").toString());
                         if(itemId1==itemId2){
                             count1 = count1+count2;
