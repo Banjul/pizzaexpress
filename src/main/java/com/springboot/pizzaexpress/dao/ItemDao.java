@@ -45,4 +45,7 @@ public interface ItemDao extends JpaRepository<Item,String> {
     @Query(value = "select * from item where item_id = ?1",nativeQuery = true)
     Item findByItemId(int itemId);
 
+    @Query(value = "select item_id from item order by item_id desc limit 1",nativeQuery = true)
+    int getNewItemId();
+
 }

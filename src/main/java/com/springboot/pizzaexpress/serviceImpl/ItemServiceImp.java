@@ -8,8 +8,10 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.springboot.pizzaexpress.bean.Formula;
 import com.springboot.pizzaexpress.bean.Item;
+import com.springboot.pizzaexpress.bean.Menu;
 import com.springboot.pizzaexpress.dao.FormulaDao;
 import com.springboot.pizzaexpress.dao.ItemDao;
+import com.springboot.pizzaexpress.dao.MenuDao;
 import com.springboot.pizzaexpress.service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,6 +25,9 @@ public class ItemServiceImp implements ItemService {
 
     @Autowired
     private FormulaDao formulaDao;
+
+    @Autowired
+    private MenuDao menuDao;
 
     @Override
     public String getAllItems() {
@@ -120,11 +125,32 @@ public class ItemServiceImp implements ItemService {
         int pizzaSize9 = 9;
         int pizzaSize12 = 12;
         int result1 = itemDao.insertItems(pizzaName, itemFormula9, price9, picURL, pizzaSize9, description, pizzaStatus);
+        int newItemId1 = itemDao.getNewItemId();
         int result2 = itemDao.insertItems(pizzaName, itemFormula12, price12, picURL, pizzaSize12, description, pizzaStatus);
+        if (result1 == 1 && result2 == 1 ) {
+            List<Menu> menus = menuDao.getAllMenus();
+            if (menus != null) {
+                int result = 1;
+                for (Menu menu : menus) {
+                    String oldItem = menu.getItems();
+                    net.sf.json.JSONArray jsonArray = net.sf.json.JSONArray.fromObject(oldItem);
+                    JSONObject newItemJson = new JSONObject();
+                    newItemJson.put("itemId",newItemId1 +"");
+                    newItemJson.put("count","0");
+                    jsonArray.add(newItemJson);
 
-        if (result1 == 1 && result2 == 1) {
+                    String newItem = jsonArray.toString();
+                    int shopId = menu.getShopId();
+                    result = menuDao.updateMenuByShopId(shopId,newItem);
+                }
+                if (result == 1)
+                    dataJSON.put("status", 200);
+                else dataJSON.put("status", 500);
+            }
             dataJSON.put("status", 200);
-        } else dataJSON.put("status", 500);
+        }
+
+        else dataJSON.put("status", 500);
         return dataJSON.toJSONString();
 
     }

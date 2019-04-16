@@ -32,4 +32,7 @@ public interface MenuDao extends JpaRepository<Menu,String> {
     @Query(value = "update menu set items = ?2 where shop_id = ?1",nativeQuery = true)
     int updateMenuByShopId(int shopId,String newItems);
 
+    @Query(value = "select * from menu",nativeQuery = true)
+    List<Menu> getAllMenus();
+
 }
