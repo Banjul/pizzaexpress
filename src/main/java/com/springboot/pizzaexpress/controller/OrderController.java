@@ -205,7 +205,7 @@ public class OrderController {
                     int deliverId  = Integer.parseInt(ids[0]);
                     int expressId = Integer.parseInt(ids[1]);
                     String state = "正在配送";
-                    orderService.insertToPizzaOrder(userId, shopId, items, startTime, state, fromPosX, fromPosY, toPosX, toPosY, price,deliverId,expressId);
+                    orderService.insertToPizzaOrder(userId, shopId, items, startTime, state, fromPosX, fromPosY, toPosX, toPosY, price,deliverId,expressId,toPosString);
 
                     responseModel.setStatus("200");
                     responseModel.setMessage("下单成功！");

@@ -99,8 +99,8 @@ public interface OrderDao extends JpaRepository<PizzaOrder,String> {
 
     @Modifying
     @Transactional
-    @Query(value = "insert into pizza_order(user_id,shop_id,express_id,items,start_time,state,from_pos_x,from_pos_y,to_pos_x,to_pos_y,price,deliver_id) values(?1, ?2, ?11,?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10,?11)",nativeQuery = true)
-    int insertToPizzaOrder(int userId, int shopId, String items, Date startTime, String state, String fromPosX, String fromPosY, String toPosX, String toPosY,double price,int deliverId,int expressId);
+    @Query(value = "insert into pizza_order(user_id,shop_id,express_id,items,start_time,state,from_pos_x,from_pos_y,to_pos_x,to_pos_y,price,to_pos_string,deliver_id) values(?1, ?2, ?12,?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10,?13,?11)",nativeQuery = true)
+    int insertToPizzaOrder(int userId, int shopId, String items, Date startTime, String state, String fromPosX, String fromPosY, String toPosX, String toPosY,double price,int deliverId,int expressId,String toPosString);
 
 
 
