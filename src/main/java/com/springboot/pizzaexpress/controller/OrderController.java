@@ -164,7 +164,16 @@ public class OrderController {
             String fromPosX = (String)shop.get("fromPosX");
             String fromPosY = (String)shop.get("fromPosY");
 //            List<ItemWrapModel> itemsList = pizzaOrderModel.getItems();
-            String items = pizzaOrderModel.get("items").toString();
+            List<Map<String,Object>> itemsL = (List<Map<String,Object>> )pizzaOrderModel.get("items");
+            List<String> l = new ArrayList<>();
+            for(Map<String,Object> m:itemsL){
+                JSONObject a = JSONObject.fromObject(m.get("item"));
+                String itemId = a.getString("itemId");
+                String b = m.get("count").toString();
+                System.out.println(b);
+                l.add("{"+"itemId:"+"\""+itemId+"\""+",count:"+"\""+b.toString()+"\""+"}");
+            }
+            String items = l.toString();
             String toPosString = pizzaOrderModel.get("toPosString").toString();
             System.out.println(items);
 //            JSONArray array = JSONArray.fromObject(itemsList);
