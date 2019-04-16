@@ -92,7 +92,7 @@ public interface UserDao extends JpaRepository<User, Integer> {
 
     @Modifying
     @Transactional
-    @Query(value = "insert into user(nick_name,phone_number,money,status,last_login) VALUES (?1,?2,'99.00','online',?3)",nativeQuery = true)
+    @Query(value = "insert into user(nick_name,phone_number,money,status,last_login_time,address) VALUES (?1,?2,'9999.00','在线',?3,'{\"name\":\"\",\"phone\":\"\",\"addressStr\":\"\",\"addressStr2\":\"\",\"posX\":\"121.499740\",\"posY\":\"31.239853\"}')",nativeQuery = true)
     int addUser2(String nickName, String telephone, Date time);
 
 

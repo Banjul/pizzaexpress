@@ -368,8 +368,8 @@ public class OrderServiceImp implements OrderService {
 
 
     @Override
-    public int insertToPizzaOrder(int userId, int shopId, String items, Date startTime, String state, String fromPosX, String fromPosY, String toPosX, String toPosY,double price,int deliverId,int expressId) {
-        return orderDao.insertToPizzaOrder(userId, shopId, items, startTime, state, fromPosX, fromPosY, toPosX, toPosY, price, deliverId, expressId);
+    public int insertToPizzaOrder(int userId, int shopId, String items, Date startTime, String state, String fromPosX, String fromPosY, String toPosX, String toPosY,double price,int deliverId,int expressId,String toPosString) {
+        return orderDao.insertToPizzaOrder(userId, shopId, items, startTime, state, fromPosX, fromPosY, toPosX, toPosY, price, deliverId, expressId, toPosString);
     }
 
     @Override

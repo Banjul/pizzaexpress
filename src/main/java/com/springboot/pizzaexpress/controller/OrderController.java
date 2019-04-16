@@ -174,7 +174,6 @@ public class OrderController {
                 l.add("{"+"itemId:"+"\""+itemId+"\""+",count:"+"\""+b.toString()+"\""+"}");
             }
             String items = l.toString();
-            String toPosString = pizzaOrderModel.get("toPosString").toString();
             System.out.println(items);
 //            JSONArray array = JSONArray.fromObject(itemsList);
 //            String items = array.toString();
@@ -182,6 +181,7 @@ public class OrderController {
             //SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
             //df.format(new Date());
             Date startTime = new Date();
+            String toPosString = pizzaOrderModel.get("toPosString").toString();
 
             String toPosX = (String)pizzaOrderModel.get("toPosX");
             String toPosY = (String)pizzaOrderModel.get("toPosY");
@@ -205,7 +205,7 @@ public class OrderController {
                     int deliverId  = Integer.parseInt(ids[0]);
                     int expressId = Integer.parseInt(ids[1]);
                     String state = "正在配送";
-                    orderService.insertToPizzaOrder(userId, shopId, items, startTime, state, fromPosX, fromPosY, toPosX, toPosY, price,deliverId,expressId);
+                    orderService.insertToPizzaOrder(userId, shopId, items, startTime, state, fromPosX, fromPosY, toPosX, toPosY, price,deliverId,expressId,toPosString);
 
                     responseModel.setStatus("200");
                     responseModel.setMessage("下单成功！");
@@ -281,8 +281,7 @@ public class OrderController {
                     int itemId1 = Integer.parseInt(o.get("itemId").toString());
                     int count1 = Integer.parseInt(o.get("count").toString());
                     for(Map<String,Object> b:maps){
-                        Map<String,Object> m = (Map<String,Object>) b.get("item");
-                        int itemId2 = Integer.parseInt(m.get("itemId").toString());
+                        int itemId2 = Integer.parseInt(b.get("itemId").toString());
                         int count2 = Integer.parseInt(b.get("count").toString());
                         if(itemId1==itemId2){
                             count1 = count1+count2;
@@ -324,13 +323,13 @@ public class OrderController {
                 String items = pizzaOrder.getItems();
                 JSONArray array = JSONArray.fromObject(items);
                 List<ItemWrapModel> itemWrapModels = new ArrayList<>();
-                ItemWrapModel itemWrapModel = new ItemWrapModel();
                 for(Object o : array){
+                    ItemWrapModel itemWrapModel = new ItemWrapModel();
                     JSONObject object = JSONObject.fromObject(o);
-                    JSONObject a = JSONObject.fromObject(object.getString("item"));
+                    int a = Integer.parseInt(object.getString("itemId"));
                     int b = Integer.parseInt(object.getString("count"));
-                    Item item = (Item) JSONObject.toBean(a, Item.class);
-                    item = itemDao.findByItemId(item.getItemId());
+                   // Item item = (Item) JSONObject.toBean(a, Item.class);
+                    Item item = itemDao.findByItemId(a);
                     itemWrapModel.setItem(item);
                     itemWrapModel.setCount(b);
                     itemWrapModels.add(itemWrapModel);
