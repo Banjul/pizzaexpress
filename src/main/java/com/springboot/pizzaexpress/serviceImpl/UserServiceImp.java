@@ -59,7 +59,12 @@ public class UserServiceImp implements UserService{
                 userJSON.put("userName",user.getNickName());
                 userJSON.put("userPhone",user.getPhoneNumber());
                 userJSON.put("userStatus",user.getStatus());
-                userJSON.put("userAddress",user.getAddress());
+                String jsonString = user.getAddress();
+                net.sf.json.JSONObject object = net.sf.json.JSONObject.fromObject(jsonString);
+                String userAddress1= object.getString("addressStr");
+                String userAddress2= object.getString("addressStr2");
+                String userAddress = userAddress1 +" "+userAddress2;
+                userJSON.put("userAddress",userAddress);
                 Date lastLoginS = user.getLastLoginTime();
                 System.err.println(lastLoginS);
                 String lastLogin = "2019-04-06 19:04:08";
