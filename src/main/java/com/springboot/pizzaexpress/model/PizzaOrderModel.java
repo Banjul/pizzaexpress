@@ -27,6 +27,8 @@ public class PizzaOrderModel {
 
     private String toPosX;
 
+    private String toPosString;
+
     private double price;
 
     private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -107,6 +109,14 @@ public class PizzaOrderModel {
 
     public void setToPosY(String toPosY) {
         this.toPosY = toPosY;
+    }
+
+    public String getToPosString() {
+        return toPosString;
+    }
+
+    public void setToPosString(String toPosString) {
+        this.toPosString = toPosString;
     }
 
     //    private ExpressModel express;

@@ -307,6 +307,7 @@ public class OrderController {
                 shopModel.setShopId(shopId);
                 shopModel.setPosX(shop.getPosX()+"");
                 shopModel.setPosY(shop.getPosY()+"");
+                shopModel.setPosString(shop.getPosString());
                 String items = pizzaOrder.getItems();
                 JSONArray array = JSONArray.fromObject(items);
                 List<ItemWrapModel> itemWrapModels = new ArrayList<>();
@@ -329,7 +330,9 @@ public class OrderController {
                 pizzaOrderModel.setPrice(pizzaOrder.getPrice());
                 pizzaOrderModel.setToPosX(pizzaOrder.getToPosX());
                 pizzaOrderModel.setToPosY(pizzaOrder.getToPosY());
+                pizzaOrderModel.setToPosString(pizzaOrder.getToPosString());
                 pizzaOrderModel.setShop(shopModel);
+                pizzaOrderModel.setItems(itemWrapModels);
                 pizzaOrderModel.setItems(itemWrapModels);
 
                 // pizzaOrderModel.setItems(pizzaOrder.);
